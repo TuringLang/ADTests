@@ -1,39 +1,13 @@
 module ModelTests
 
+import ADTypes: AbstractADType
 import DifferentiationInterface as DI
-import ForwardDiff
-import ReverseDiff
-import Zygote
+import DynamicPPL: Model, LogDensityFunction, VarInfo
 import LogDensityProblems: logdensity, logdensity_and_gradient
 import LogDensityProblemsAD: ADgradient
-import Mooncake
 import Random: Random, Xoshiro
-import Test: @test, @testset
 
-using ADTypes
-using DynamicPPL
-
-export ADTYPES, ad_ldp, ad_di, Models, test_correctness
-
-"""
-    ADTYPES::Vector{ADTypes.AbstractADType}
-
-List of AD backends to test.
-"""
-ADTYPES = [
-    AutoMooncake(; config=nothing),
-    AutoForwardDiff(),
-    AutoReverseDiff(),
-    AutoZygote(),
-]
-
-"""
-    REFERENCE_ADTYPE::ADTypes.AbstractADType
-
-Reference AD backend to use for comparison. In this case, ForwardDiff.jl, since
-it's the default AD backend used in Turing.jl.
-"""
-REFERENCE_ADTYPE = AutoForwardDiff()
+export make_function, make_params, ad_ldp, ad_di, MODELS
 
 """
     flipped_logdensity(θ, ldf)
@@ -44,8 +18,8 @@ for DifferentiationInterface.jl.
 flipped_logdensity(θ, ldf) = logdensity(ldf, θ)
 
 """
-    ad_ldp(model::DynamicPPL.Model,
-           adtype::ADTypes.AbstractADType,
+    ad_ldp(model::Model,
+           adtype::AbstractADType,
            params::Vector{<:Real})
 
 Calculate the logdensity of `model` and its gradient using the AD backend
@@ -64,14 +38,14 @@ backends which are still handled with custom code in LogDensityProblemsAD.jl
 results compared to `ad_ldp`, and indeed the behaviour of `ad_di` is
 not guaranteed to be consistent with the behaviour of Turing.jl.
 """
-function ad_ldp(model::DynamicPPL.Model, adtype::ADTypes.AbstractADType, params::Vector{<:Real})
-    ldf = DynamicPPL.LogDensityFunction(model)
+function ad_ldp(model::Model, adtype::AbstractADType, params::Vector{<:Real})
+    ldf = LogDensityFunction(model)
     return logdensity_and_gradient(ADgradient(adtype, ldf), params)
 end
 
 """
-    ad_di(model::DynamicPPL.Model,
-          adtype::ADTypes.AbstractADType,
+    ad_di(model::Model,
+          adtype::AbstractADType,
           params::Vector{<:Real})
 
 Calculate the logdensity of `model` and its gradient using the AD backend
@@ -81,62 +55,53 @@ DifferentiationInterface.jl.
 See the notes in `ad_ldp` for more details on the differences between
 `ad_di` and `ad_ldp`.
 """
-function ad_di(model::DynamicPPL.Model, adtype::ADTypes.AbstractADType, params::Vector{<:Real})
-    ldf = DynamicPPL.LogDensityFunction(model)
+function ad_di(model::Model, adtype::AbstractADType, params::Vector{<:Real})
+    ldf = LogDensityFunction(model)
     prep = DI.prepare_gradient(flipped_logdensity, adtype, params, DI.Constant(ldf))
     return DI.value_and_gradient(flipped_logdensity, prep, adtype, params, DI.Constant(ldf))
 end
 
 """
-    test_correctness(
-        ad_function,
-        model::DynamicPPL.Model,
-        adtype::ADTypes.AbstractADType,
-        rng::Random.AbstractRNG=Xoshiro(468),
-        params::Vector{<:Real}=VarInfo(rng, model)[:];
-        value_atol=1e-6,
-        grad_atol=1e-6
-    )
+    make_function(model)
 
-Test the correctness of the AD backend `adtype` for the model `model` using the
-implementation `ad_function`. The test is performed by calculating the logdensity
-and its gradient using both the AD backend `adtype` and the reference AD backend,
-and checking that the results are close to each other.
+Generate the function to be differentiated. Specifically,
+`make_function(model)` returns a function which takes a single argument
+`params` and returns the logdensity of `model` evaluated at `params`.
 
-The parameters can either be passed explicitly using the `params` argument, or can
-be sampled from the prior distribution of the model using the `rng` argument.
+Thus, if you have an AD package that does not have integrations with either
+LogDensityProblemsAD.jl (in which case you can use `ad_ldp`) or
+DifferentiationInterface.jl (in which case you can use `ad_di`), you can 
+test whether your AD package works with Turing.jl models using:
+
+```julia
+f = make_function(model)
+params = make_params(model)
+value, grad = YourADPackage.gradient(f, params)
+```
+
+and compare the results against that obtained from either `ad_ldp` or `ad_di` for
+an existing AD package with support.
+
+See also: `make_params`.
 """
-function test_correctness(
-    ad_function,
-    model::DynamicPPL.Model,
-    adtype::ADTypes.AbstractADType,
-    rng::Random.AbstractRNG=Xoshiro(468),
-    params::Vector{<:Real}=VarInfo(rng, model)[:];
-    value_atol=1e-6,
-    grad_atol=1e-6
-)
-    value, grad = ad_function(model, adtype, params)
-    value_true, grad_true = ad_function(model, REFERENCE_ADTYPE, params)
-    info_str = join([
-        "Testing correctness of $(Symbol(ad_function))",
-        " backend : $(adtype)",
-        "   model : $(model.f)",
-        "  params : $(params)",
-        "  actual : $((value, grad))",
-        "expected : $((value_true, grad_true))",
-    ], "\n")
-    @info info_str
-    @test value ≈ value_true atol=value_atol
-    @test grad ≈ grad_true atol=grad_atol
+function make_function(model::Model)
+    # TODO: Can we simplify this even further by inlining the definition of
+    # logdensity?
+    return Base.Fix1(logdensity, LogDensityFunction(model))
+end
+
+"""
+    make_params(model, rng::Random.AbstractRNG=Xoshiro(468))
+
+Generate a vector of parameters sampled from the prior distribution of `model`.
+This can be used as the input to the function to be differentiated. See
+`make_function` for more details.
+"""
+function make_params(model::Model, rng::Random.AbstractRNG=Xoshiro(468))
+    return VarInfo(rng, model)[:]
 end
 
 include("./models.jl")
-
-@testset "$(model.f)" for model in Models.MODELS
-    @testset for adtype in ADTYPES
-        test_correctness(ad_ldp, model, adtype)
-        test_correctness(ad_di, model, adtype)
-    end
-end
+import .Models: MODELS
 
 end # module ModelTests
