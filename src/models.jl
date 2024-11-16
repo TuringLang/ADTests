@@ -9,4 +9,6 @@ using Distributions
     return (m=m, x=x)
 end
 
+MODELS = [demo_dynamic_constraint()]
+
 end
