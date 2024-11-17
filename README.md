@@ -18,9 +18,11 @@ f (generic function with 2 methods)
 
 Here, `f(2)` would create a model where the value of `y` is observed to be 2.
 
-The _log probability density_ of a model (henceforth shortened to logdensity) is the log probability of all the random variables in the model.
-This depends on all the free variables in the model: in this case, `y` is already fixed, so the logdensity of `f(2)` depends only on `x`.
-For example, if `x` takes the value of 0.5:
+The _log probability density_ of a model, or _log density_, is the log joint probability of all the random variables in the model.
+This depends on all the free parameters in the model.
+In this case, the value of `y` is already fixed, so the logdensity of `f(2)` depends only on `x`.
+
+To give an example, if `x` takes the value of 0.5:
   - the log _prior_ probability is $\log(P(x = 0.5))$, which can be calculated as `logpdf(Normal(0, 1), 0.5) = -1.0439...`.
   - the log _likelihood_ is $\log(P(y = 2 | x = 0.5))$, which can be calculated as `logpdf(Normal(0.5, 1), 2) = -2.0439...`
   - the log _joint_ probability is the sum of the log prior and log likelihood, which is `-3.0878...`. The term 'log density' refers to the log joint probability.
