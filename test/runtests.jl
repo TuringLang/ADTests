@@ -3,6 +3,7 @@ import Random: Random, Xoshiro
 import Test: @test, @testset
 import ModelTests: ad_di, ad_ldp, MODELS, make_function, make_params
 import DifferentiationInterfaceTest: test_differentiation, benchmark_differentiation, Scenario
+import DataFrames: select, subset, ByRow
 using ADTypes
 
 import ForwardDiff
@@ -71,9 +72,9 @@ function test_correctness(
     value_atol=1e-6,
     grad_atol=1e-6
 )
-    value_true, grad_true = ad_function(model, reference_adtype, params)
+    value_true, grad_true = ad_function(model, params, reference_adtype)
     for adtype in adtypes
-        value, grad = ad_function(model, adtype, params)
+        value, grad = ad_function(model, params, adtype)
         info_str = join([
             "Testing correctness",
             " AD function : $(ad_function)",
@@ -89,7 +90,7 @@ function test_correctness(
     end
 end
 
-# Can test the ad_ldp and ad_di functions to ensure coverage of Turing code
+# # Can test the ad_ldp and ad_di functions to ensure coverage of Turing code
 @testset "$(model.f)" for model in MODELS
     test_correctness(ad_ldp, model, ADTYPES, REFERENCE_ADTYPE)
     test_correctness(ad_di, model, ADTYPES, REFERENCE_ADTYPE)
@@ -98,11 +99,28 @@ end
 # Alternatively, we can test these manually with DifferentiationInterfaceTest,
 # and even benchmark them. This is really neat but doesn't reflect the actual
 # code used in Turing.
-scenarios = map(MODELS) do model
+function make_scenario(model)
     f = make_function(model)
     x = make_params(model)
-    true_grad = ad_ldp(model, REFERENCE_ADTYPE, x)[2]
+    true_grad = ad_ldp(model, x, REFERENCE_ADTYPE)[2]
     Scenario{:gradient, :out}(f, x; res1=true_grad)
 end
-test_differentiation(ADTYPES, scenarios)
-benchmark_differentiation(ADTYPES, scenarios)
+function get_scenario_model_function_name(scenario)
+    # Hacky way to extract the model name from the scenario
+    re = r"Model{typeof\(([^.)]+\.)*([^.)]+)\),"
+    String(match(re, string(scenario))[2])
+end
+SCENARIOS = [make_scenario(model) for model in MODELS]
+test_differentiation(ADTYPES, SCENARIOS)
+
+df = benchmark_differentiation(ADTYPES, SCENARIOS)
+# Clean the dataframe a bit, otherwise it's impossible to read
+df = subset(df, :operator => x -> x .== :gradient)
+df = select(
+    df,
+    :scenario => ByRow(get_scenario_model_function_name) => :model,
+    :backend => ByRow(get_adtype_shortname) => :backend,
+    :time => ByRow(x -> x * 1e6) => Symbol("time/μs"),
+    :allocs
+)
+println(df)

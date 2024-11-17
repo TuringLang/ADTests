@@ -66,7 +66,7 @@ ModelTests.jl provides the function `ad_ldp` which essentially does the above:
 ```julia
 julia> using ModelTests
 
-julia> ad_ldp(f(2), AutoReverseDiff(), [0.5])
+julia> ad_ldp(f(2), [0.5], AutoReverseDiff())
 (-3.0878770664093453, [1.0])
 ```
 
@@ -101,7 +101,7 @@ julia> value_and_gradient((x, l) -> logdensity(l, x), prep, AutoReverseDiff(), [
 ModelTests.jl provides the function `ad_di` which wraps the above:
 
 ```julia
-julia> ad_di(f(2), AutoReverseDiff(), [0.5])
+julia> ad_di(f(2), [0.5], AutoReverseDiff())
 (-3.0878770664093453, [1.0])
 ```
 

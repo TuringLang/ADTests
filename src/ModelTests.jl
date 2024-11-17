@@ -18,9 +18,11 @@ for DifferentiationInterface.jl.
 flipped_logdensity(θ, ldf) = logdensity(ldf, θ)
 
 """
-    ad_ldp(model::Model,
-           adtype::AbstractADType,
-           params::Vector{<:Real})
+    ad_ldp(
+        model::Model,
+        params::Vector{<:Real},
+        adtype::AbstractADType
+    )
 
 Calculate the logdensity of `model` and its gradient using the AD backend
 `adtype`, evaluated at the parameters `params`, using the implementation of
@@ -38,15 +40,17 @@ backends which are still handled with custom code in LogDensityProblemsAD.jl
 results compared to `ad_ldp`, and indeed the behaviour of `ad_di` is
 not guaranteed to be consistent with the behaviour of Turing.jl.
 """
-function ad_ldp(model::Model, adtype::AbstractADType, params::Vector{<:Real})
+function ad_ldp(model::Model, params::Vector{<:Real}, adtype::AbstractADType)
     ldf = LogDensityFunction(model)
     return logdensity_and_gradient(ADgradient(adtype, ldf), params)
 end
 
 """
-    ad_di(model::Model,
-          adtype::AbstractADType,
-          params::Vector{<:Real})
+    ad_di(
+        model::Model,
+        params::Vector{<:Real},
+        adtype::AbstractADType
+    )
 
 Calculate the logdensity of `model` and its gradient using the AD backend
 `adtype`, evaluated at the parameters `params`, directly using
@@ -55,7 +59,7 @@ DifferentiationInterface.jl.
 See the notes in `ad_ldp` for more details on the differences between
 `ad_di` and `ad_ldp`.
 """
-function ad_di(model::Model, adtype::AbstractADType, params::Vector{<:Real})
+function ad_di(model::Model, params::Vector{<:Real}, adtype::AbstractADType)
     ldf = LogDensityFunction(model)
     prep = DI.prepare_gradient(flipped_logdensity, adtype, params, DI.Constant(ldf))
     return DI.value_and_gradient(flipped_logdensity, prep, adtype, params, DI.Constant(ldf))
