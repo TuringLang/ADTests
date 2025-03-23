@@ -2,6 +2,7 @@ import DynamicPPL: Model, VarInfo, LogDensityFunction
 import Random: Random, Xoshiro
 import Test: @test, @testset
 import ModelTests: MODELS
+import LogDensityProblems: LogDensityProblems
 using ADTypes
 
 import ForwardDiff
@@ -105,7 +106,6 @@ function test_correctness(
     end
 end
 
-# # Can test the ad_ldp and ad_di functions to ensure coverage of Turing code
 @testset "$(model.f)" for model in MODELS
     test_correctness(model, ADTYPES, REFERENCE_ADTYPE)
 end
