@@ -1,4 +1,4 @@
-import DynamicPPL: Model, VarInfo
+import DynamicPPL: Model, VarInfo, LogDensityFunction
 import Random: Random, Xoshiro
 import Test: @test, @testset
 import ModelTests: MODELS
