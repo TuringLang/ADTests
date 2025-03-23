@@ -77,8 +77,8 @@ function test_correctness(
     info_str = join(
         [
             "Reference backend calculation: $(model.f), $(get_adtype_shortname(reference_adtype))",
-            "      params : $(params)",
-            "   logp,grad : $((value_true, grad_true))",
+            "       params : $(params)",
+            "    logp,grad : $((value_true, grad_true))",
         ],
         "\n",
     )
