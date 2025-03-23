@@ -7,7 +7,7 @@ using ADTypes
 import ForwardDiff
 import ReverseDiff
 import Mooncake
-import Enzyme
+import Enzyme: set_runtime_activity, Forward, Reverse, ForwardMode, ReverseMode
 
 """
     ADTYPES::Vector{ADTypes.AbstractADType}
@@ -40,8 +40,8 @@ get_adtype_shortname(::AutoMooncake) = "Mooncake"
 get_adtype_shortname(::AutoForwardDiff) = "ForwardDiff"
 get_adtype_shortname(::AutoReverseDiff{false}) = "ReverseDiff"
 get_adtype_shortname(::AutoReverseDiff{true}) = "ReverseDiff:compiled"
-get_adtype_shortname(::AutoEnzyme{<:Enzyme.ReverseMode}) = "Enzyme:reverse"
-get_adtype_shortname(::AutoEnzyme{<:Enzyme.ForwardMode}) = "Enzyme:forward"
+get_adtype_shortname(::AutoEnzyme{<:ReverseMode}) = "Enzyme:reverse"
+get_adtype_shortname(::AutoEnzyme{<:ForwardMode}) = "Enzyme:forward"
 
 """
     test_correctness(
