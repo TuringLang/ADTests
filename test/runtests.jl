@@ -40,9 +40,9 @@ for pretty-printing.
 get_adtype_shortname(::AutoMooncake) = "Mooncake"
 get_adtype_shortname(::AutoForwardDiff) = "ForwardDiff"
 get_adtype_shortname(::AutoReverseDiff{false}) = "ReverseDiff"
-get_adtype_shortname(::AutoReverseDiff{true}) = "ReverseDiff:compiled"
-get_adtype_shortname(::AutoEnzyme{<:ReverseMode}) = "Enzyme:reverse"
-get_adtype_shortname(::AutoEnzyme{<:ForwardMode}) = "Enzyme:forward"
+get_adtype_shortname(::AutoReverseDiff{true}) = "ReverseDiff:Compiled"
+get_adtype_shortname(::AutoEnzyme{<:ReverseMode}) = "Enzyme:Reverse"
+get_adtype_shortname(::AutoEnzyme{<:ForwardMode}) = "Enzyme:Forward"
 
 """
     test_correctness(
@@ -76,11 +76,9 @@ function test_correctness(
     value_true, grad_true = LogDensityProblems.logdensity_and_gradient(ldf_reference, params)
     info_str = join(
         [
-            "Reference backend calculation",
-            "   backend : $(get_adtype_shortname(adtype))",
-            "     model : $(model.f)",
-            "    params : $(params)",
-            " logp,grad : $((value_true, grad_true))",
+            "Reference backend calculation: $(model.f), $(get_adtype_shortname(reference_adtype))",
+            "      params : $(params)",
+            "   logp,grad : $((value_true, grad_true))",
         ],
         "\n",
     )
@@ -91,12 +89,10 @@ function test_correctness(
         value, grad = LogDensityProblems.logdensity_and_gradient(ldf, params)
         info_str = join(
             [
-                "Testing correctness",
-                "  backend : $(get_adtype_shortname(adtype))",
-                "    model : $(model.f)",
-                "   params : $(params)",
-                "   actual : $((value, grad))",
-                " expected : $((value_true, grad_true))",
+                "Testing correctness: $(model.f), $(get_adtype_shortname(adtype))",
+                "       params : $(params)",
+                "       actual : $((value, grad))",
+                "     expected : $((value_true, grad_true))",
             ],
             "\n",
         )
