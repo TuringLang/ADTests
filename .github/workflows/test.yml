@@ -5,10 +5,9 @@ on:
     branches:
       - main
 
-# needed to allow julia-actions/cache to delete old caches that it has created
 permissions:
   actions: write
-  contents: read
+  contents: write
 
 jobs:
   test:
@@ -25,4 +24,11 @@ jobs:
 
       - uses: julia-actions/julia-buildpkg@v1
 
-      - run: ./run_all.sh
+      - name: Run AD script
+        run: ./run_all.sh
+
+      - name: Upload results
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
