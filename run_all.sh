@@ -25,3 +25,5 @@ for i in $(seq 1 $NTESTS); do
     fi
     "${SED_CMD[@]}" "/^${i},/s/todo$/${RESULT}/" "${OUTPUT_FILE}"
 done
+
+cat "${OUTPUT_FILE}"
