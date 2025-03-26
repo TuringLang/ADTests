@@ -29,6 +29,8 @@ ADTYPES = [
 
 Get the package name that corresponds to the the AD backend `adtype`. Only used
 for pretty-printing.
+
+NOTE: Make sure that there's no comma in the name!
 """
 get_adtype_shortname(::AutoMooncake) = "Mooncake"
 get_adtype_shortname(::AutoForwardDiff) = "ForwardDiff"
@@ -45,17 +47,25 @@ if ARGS == ["--run-all"] || ARGS == []
             @test isnothing(result.error)
         end
     end
-elseif ARGS == ["--show-total"]
-    # Print the total number of tests. Note that this always goes to
-    # stderr along with all the other Julia output...
-    println(length(MODELS) * length(ADTYPES))
+elseif length(ARGS) == 2 && ARGS[1] == "--setup"
+    output_file = ARGS[2]
+    total = length(MODELS) * length(ADTYPES)
+    open(output_file, "w") do io
+        for i in 1:total
+            cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[i]
+            adtype, model = ADTYPES[cartesian[1]], MODELS[cartesian[2]]
+            println(io, "$(i),$(model.f),$(get_adtype_shortname(adtype)),todo")
+        end
+    end
 elseif length(ARGS) == 2 && ARGS[1] == "--run"
     # Run a single test
-    n = parse(Int, ARGS[2])
-    cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[n]
+    i = parse(Int, ARGS[2])
+    cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[i]
     adtype, model = ADTYPES[cartesian[1]], MODELS[cartesian[2]]
     result = run_ad(model, adtype)
-    @test isnothing(result.error)
-
-    # TODO: Collect results and print into json
+    if isnothing(result.error)
+        println(result.time_vs_primal)
+    else
+        println("err")
+    end
 end
