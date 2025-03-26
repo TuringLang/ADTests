@@ -26,3 +26,5 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
 
       - run: ./run_all.sh
+
+      - run: cat app/ad_results.csv

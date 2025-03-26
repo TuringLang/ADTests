@@ -43,7 +43,7 @@ if ARGS == ["--run-all"] || ARGS == []
     # Run all tests in one process. Dangerous as Enzyme can crash Julia
     @testset verbose = true "$(model.f)" for model in MODELS
         @testset for adtype in ADTYPES
-            result = run_ad(model, adtype)
+            result = run_ad(model, adtype; benchmark=true)
             @test isnothing(result.error)
         end
     end
@@ -62,7 +62,7 @@ elseif length(ARGS) == 2 && ARGS[1] == "--run"
     i = parse(Int, ARGS[2])
     cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[i]
     adtype, model = ADTYPES[cartesian[1]], MODELS[cartesian[2]]
-    result = run_ad(model, adtype)
+    result = run_ad(model, adtype; benchmark=true)
     if isnothing(result.error)
         println(result.time_vs_primal)
     else

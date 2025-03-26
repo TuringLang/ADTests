@@ -1,7 +1,7 @@
 module ModelTests
 
 import ADTypes: AbstractADType, AutoForwardDiff
-# import BenchmarkTools
+import BenchmarkTools: @benchmark, median
 import DifferentiationInterface as DI
 import DynamicPPL: Model, LogDensityFunction, VarInfo, AbstractVarInfo
 import LogDensityProblems: logdensity, logdensity_and_gradient
@@ -123,6 +123,7 @@ prints a message when it runs. To silence it, set `verbose=false`.
 function run_ad(
     model::Model,
     adtype::AbstractADType;
+    benchmark=false,
     value_atol=1e-6,
     grad_atol=1e-6,
     rng::Random.AbstractRNG=Xoshiro(468),
@@ -162,16 +163,17 @@ function run_ad(
             ADIncorrectException()
         end
 
-        # time_vs_primal = if benchmark
-        #     @btime logdensity_and_gradient($ldf, $params)
-        # else
-        #     nothing
-        # end
-
+        time_vs_primal = if benchmark
+            primal_bmark = @benchmark logdensity($ldf, $params)
+            grad_bmark = @benchmark logdensity_and_gradient($ldf, $params)
+            median(grad_bmark).time / median(primal_bmark).time
+        else
+            nothing
+        end
 
         return ADTestResult(
             model, params, adtype, value_atol, grad_atol,
-            value_true, grad_true, value, grad, nothing, maybe_exc
+            value_true, grad_true, value, grad, time_vs_primal, maybe_exc
         )
     catch e
         println("Error: $e")
