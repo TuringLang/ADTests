@@ -1,0 +1,12 @@
+1,demo_dynamic_constraint,ForwardDiff,1.3827740962036297
+2,demo_dynamic_constraint,ReverseDiff,27.099343591191417
+3,demo_dynamic_constraint,ReverseDiff:Compiled,3.186243711639463
+4,demo_dynamic_constraint,Mooncake,12.10690942176997
+5,demo_dynamic_constraint,Enzyme:Forward,2.3860957963558853
+6,demo_dynamic_constraint,Enzyme:Reverse,2.8725130434782606
+7,normal,ForwardDiff,1.5479365979569413
+8,normal,ReverseDiff,23.453637617763217
+9,normal,ReverseDiff:Compiled,3.110502542989174
+10,normal,Mooncake,11.588956693805416
+11,normal,Enzyme:Forward,3.168799814888192
+12,normal,Enzyme:Reverse,err

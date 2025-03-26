@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><title>DynamicPPL AD results</title></head>
+<body>
+<h1>DynamicPPL AD results</h1>
+
+<p><a href="https://turinglang.org/docs">Back to TuringLang docs</a></p>
+<p><a href="https://turinglang.org/DynamicPPL.jl/stable/">Back to DynamicPPL package documentation</a></p>
+
+<h2>Notes</h2>
+
+<ul>
+<li>The definitions of the models and AD types below can be found at TODO LINK.</li>
+<li>Numbers indicate the time taken to calculate the gradient of the log density of the model using the specified AD type, divided by the time taken to calculate the log density itself (in AD speak, the primal).</li>
+<li>A red cross emoji indicates that the gradient calculation errored, or gave a numerically incorrect result.</li>
+</ul>
+
+<h2>Results</h2>
+
+<table border="1">
+<tr>
+<th>Model</th>
+<th>Enzyme:Forward</th>
+<th>Enzyme:Reverse</th>
+<th>ForwardDiff</th>
+<th>Mooncake</th>
+<th>ReverseDiff</th>
+<th>ReverseDiff:Compiled</th>
+<tr><td>demo_dynamic_constraint</td>
+<td>2.386</td>
+<td>2.873</td>
+<td>1.383</td>
+<td>12.107</td>
+<td>27.099</td>
+<td>3.186</td>
+</tr>
+<tr><td>normal</td>
+<td>3.169</td>
+<td>❌</td>
+<td>1.548</td>
+<td>11.589</td>
+<td>23.454</td>
+<td>3.111</td>
+</tr>
+</table></body></html>
