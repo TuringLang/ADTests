@@ -28,8 +28,10 @@ for i in $(seq 1 $NTESTS); do
     "${SED_CMD[@]}" "/^${i},/s/todo$/${RESULT}/" "${OUTPUT_CSV}"
 done
 
+echo ===============================================
 printf "\n\nResults:\n"
 cat "${OUTPUT_CSV}"
+echo ===============================================
 
 # Generate HTML file
 readarray -t MODELS < <(cat "${OUTPUT_CSV}" | cut -d, -f2 | sort | uniq)
@@ -80,3 +82,8 @@ for MODEL in "${MODELS[@]}"; do
 done
 
 echo "</table></body></html>" >> ${OUTPUT_HTML}
+
+echo ===============================================
+printf "\n\nHTML output:\n"
+cat "${OUTPUT_HTML}"
+echo ===============================================
