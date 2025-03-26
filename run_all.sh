@@ -1,6 +1,6 @@
 JULIA_COMMAND="julia --project=app app/output.jl"
-OUTPUT_CSV="output/ad_results.csv"
-OUTPUT_HTML="output/ad_results.html"
+OUTPUT_CSV="output/results.csv"
+OUTPUT_HTML="output/index.html"
 mkdir output
 
 # Create output file
