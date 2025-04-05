@@ -132,6 +132,7 @@ function run_ad(
     reference_adtype::AbstractADType=REFERENCE_ADTYPE,
     expected_value_and_grad::Union{Nothing,Tuple{Real,Vector{<:Real}}}=nothing,
     verbose=true,
+    throw=true,
 )::ADTestResult
     try
         verbose && @info "Running AD on $(model.f) with $(adtype)\n"
@@ -176,6 +177,9 @@ function run_ad(
             value_true, grad_true, value, grad, time_vs_primal, maybe_exc
         )
     catch e
+        # If we want to throw the error, do so
+        throw && throw(e)
+        # otherwise capture and return it
         println("Error: $e")
         return ADTestResult(
             model, params, adtype, value_atol, grad_atol,
