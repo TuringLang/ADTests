@@ -1,11 +1,12 @@
 module ModelTests
 
 import ADTypes: AbstractADType, AutoForwardDiff
-import BenchmarkTools: @benchmark, median
+import Chairmarks: @be
 import DifferentiationInterface as DI
 import DynamicPPL: Model, LogDensityFunction, VarInfo, AbstractVarInfo
 import LogDensityProblems: logdensity, logdensity_and_gradient
 import Random: Random, Xoshiro
+import Statistics: median
 using DocStringExtensions
 
 include("./models.jl")
@@ -165,8 +166,8 @@ function run_ad(
         end
 
         time_vs_primal = if benchmark
-            primal_bmark = @benchmark logdensity($ldf, $params)
-            grad_bmark = @benchmark logdensity_and_gradient($ldf, $params)
+            primal_bmark = @be (ldf, params) logdensity(_[1], _[2])
+            grad_bmark = @be (ldf, params) logdensity_and_gradient(_[1], _[2])
             median(grad_bmark).time / median(primal_bmark).time
         else
             nothing
