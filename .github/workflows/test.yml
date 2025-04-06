@@ -24,14 +24,10 @@ jobs:
 
       - uses: julia-actions/julia-buildpkg@v1
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
       # This step sends model_keys and adtype_keys to GITHUB_OUTPUT
       - name: Setup keys
         working-directory: app
-        run: python ad.py setup
+        run: ./ad.sh
 
   run_models:
     runs-on: ubuntu-latest
