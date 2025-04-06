@@ -74,6 +74,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     if args.subcommand == "setup":
-        setup()
+        print("Setting up model and adtype keys...")
+        # setup()
     elif args.subcommand == "run":
         run_model(args.model)
