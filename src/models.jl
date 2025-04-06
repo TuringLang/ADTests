@@ -2,7 +2,6 @@ module Models
 
 using DynamicPPL
 using Distributions
-using Random
 using LinearAlgebra: I
 
 export MODELS
@@ -11,13 +10,17 @@ export MODELS
 ## a, b, c, ... are assumed variables
 ## x, y, z, ... are observed variables
 
-MODELS = Model[]
+MODELS = Dict{String,DynamicPPL.Model}()
+
+function add_model!(models::Dict{String,DynamicPPL.Model}, model::DynamicPPL.Model)
+    models["$(model.f)"] = model
+end
 
 @model function dynamic_constraint()
     a ~ Normal()
     b ~ truncated(Normal(); lower=a)
 end
-push!(MODELS, dynamic_constraint())
+add_model!(MODELS, dynamic_constraint())
 
 @model function multiple_constraints_same_var(
     ::Type{TV}=Vector{Float64}
@@ -28,41 +31,40 @@ push!(MODELS, dynamic_constraint())
     x[3] ~ truncated(Normal(), -5, 20)
     x[4:5] ~ Dirichlet([1.0, 2.0])
 end
-push!(MODELS, multiple_constraints_same_var())
+add_model!(MODELS, multiple_constraints_same_var())
 
 @model function dot_assume(::Type{TV}=Vector{Float64}) where {TV}
     a = TV(undef, 5)
     a .~ Normal()
 end
-push!(MODELS, dot_assume())
+add_model!(MODELS, dot_assume())
 
-@model function dot_observe(x=randn(5), ::Type{TV}=Vector{Float64}) where {TV}
+@model function dot_observe(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
     a ~ Normal()
     x .~ Normal(a)
 end
-push!(MODELS, dot_observe())
+add_model!(MODELS, dot_observe())
 
-@model function observe_index(x=randn(5), ::Type{TV}=Vector{Float64}) where {TV}
-    a = TV(undef, length(x))
-    a .~ Normal()
+@model function observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
+    a ~ Normal()
     for i in eachindex(x)
         x[i] ~ Normal(a[i])
     end
 end
-push!(MODELS, observe_index())
+add_model!(MODELS, observe_index())
 
-@model function observe_multivariate(x=randn(5), ::Type{TV}=Vector{Float64}) where {TV}
+@model function observe_multivariate(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
     a = TV(undef, length(x))
     a .~ Normal()
     x ~ MvNormal(a, I)
 end
-push!(MODELS, observe_multivariate())
+add_model!(MODELS, observe_multivariate())
 
 @model function observe_literal()
     a ~ Normal()
     1.5 ~ Normal(a)
 end
-push!(MODELS, observe_literal())
+add_model!(MODELS, observe_literal())
 
 @model function inner1()
     return a ~ Normal()
@@ -71,7 +73,7 @@ end
     a ~ to_submodel(inner1())
     x ~ Normal(a)
 end
-push!(MODELS, assume_submodel())
+add_model!(MODELS, assume_submodel())
 
 @model function inner2(x)
     x ~ Normal()
@@ -79,7 +81,18 @@ end
 @model function observe_submodel(x=1.5)
     _ignore ~ to_submodel(inner2(x))
 end
-push!(MODELS, observe_submodel())
+add_model!(MODELS, observe_submodel())
+
+# This one fails with Enzyme ...
+
+@model function dot_assume_observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
+    a = TV(undef, length(x))
+    a .~ Normal()
+    for i in eachindex(x)
+        x[i] ~ Normal(a[i])
+    end
+end
+add_model!(MODELS, dot_assume_observe_index())
 
 # Add models with different distributions
 
@@ -100,7 +113,7 @@ for (name, distribution) in DISTRIBUTIONS
         @model function $name()
             a ~ $distribution
         end
-        push!(MODELS, $name())
+        add_model!(MODELS, $name())
     end
 end
 
@@ -117,7 +130,7 @@ for n in NS
                 a[i] ~ Normal()
             end
         end
-        push!(MODELS, $name())
+        add_model!(MODELS, $name())
     end
 end
 

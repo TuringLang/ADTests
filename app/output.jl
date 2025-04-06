@@ -2,70 +2,47 @@ import Pkg
 Pkg.develop(; path=joinpath(@__DIR__, ".."))
 
 import Test: @test, @testset
-import ModelTests: MODELS, run_ad
+import ModelTests: MODELS, run_ad, ADIncorrectException
 using ADTypes
 
 import ForwardDiff
 import ReverseDiff
 import Mooncake
-import Enzyme: set_runtime_activity, Forward, Reverse, ForwardMode, ReverseMode
+import Enzyme: set_runtime_activity, Forward, Reverse
 
 """
-    ADTYPES::Vector{ADTypes.AbstractADType}
+    ADTYPES::Dict{String, ADTypes.AbstractADType}
 
 List of AD backends to test.
+
+NOTE: Make sure that the names are unique and do not contain commas
 """
-ADTYPES = [
-    AutoForwardDiff(),
-    AutoReverseDiff(; compile=false),
-    AutoReverseDiff(; compile=true),
-    AutoMooncake(; config=nothing),
-    AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
-]
+ADTYPES = Dict(
+    "ForwardDiff" => AutoForwardDiff(),
+    "ReverseDiff" => AutoReverseDiff(; compile=false),
+    "ReverseDiff:Compiled" => AutoReverseDiff(; compile=true),
+    "Mooncake" => AutoMooncake(; config=nothing),
+    "Enzyme:Forward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
+    "Enzyme:Reverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+)
 
-"""
-    get_adtype_shortname(adtype::ADTypes.AbstractADType)
-
-Get the package name that corresponds to the the AD backend `adtype`. Only used
-for pretty-printing.
-
-NOTE: Make sure that there's no comma in the name!
-"""
-get_adtype_shortname(::AutoMooncake) = "Mooncake"
-get_adtype_shortname(::AutoForwardDiff) = "ForwardDiff"
-get_adtype_shortname(::AutoReverseDiff{false}) = "ReverseDiff"
-get_adtype_shortname(::AutoReverseDiff{true}) = "ReverseDiff:Compiled"
-get_adtype_shortname(::AutoEnzyme{<:ReverseMode}) = "Enzyme:Reverse"
-get_adtype_shortname(::AutoEnzyme{<:ForwardMode}) = "Enzyme:Forward"
-
-if ARGS == ["--run-all"] || ARGS == []
-    # Run all tests in one process. Dangerous as Enzyme can crash Julia
-    @testset verbose = true "$(model.f)" for model in MODELS
-        @testset for adtype in ADTYPES
-            result = run_ad(model, adtype; benchmark=true)
-            @test isnothing(result.error)
-        end
-    end
-elseif length(ARGS) == 2 && ARGS[1] == "--setup"
-    output_file = ARGS[2]
-    total = length(MODELS) * length(ADTYPES)
-    open(output_file, "w") do io
-        for i in 1:total
-            cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[i]
-            adtype, model = ADTYPES[cartesian[1]], MODELS[cartesian[2]]
-            println(io, "$(i),$(model.f),$(get_adtype_shortname(adtype)),todo")
-        end
-    end
-elseif length(ARGS) == 2 && ARGS[1] == "--run"
-    # Run a single test
-    i = parse(Int, ARGS[2])
-    cartesian = CartesianIndices((length(ADTYPES), length(MODELS)))[i]
-    adtype, model = ADTYPES[cartesian[1]], MODELS[cartesian[2]]
+if ARGS == ["--list-model-keys"]
+    foreach(println, keys(MODELS))
+elseif ARGS == ["--list-adtype-keys"]
+    foreach(println, keys(ADTYPES))
+elseif length(ARGS) == 3 && ARGS[1] == "--run"
+    model, adtype = MODELS[ARGS[2]], ADTYPES[ARGS[3]]
     result = run_ad(model, adtype; benchmark=true)
     if isnothing(result.error)
         println(result.time_vs_primal)
+    elseif result.error isa ADIncorrectException
+        println("incorrect")
     else
+        # some other error happened
         println("err")
     end
+else
+    println("Usage: julia output.jl --list-model-keys")
+    println("       julia output.jl --list-adtype-keys")
+    println("       julia output.jl --run <model> <adtype>")
 end

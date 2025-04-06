@@ -12,7 +12,7 @@ using DocStringExtensions
 include("./models.jl")
 import .Models: MODELS
 
-export ADTestResult, run_ad, make_function, make_params, MODELS
+export ADTestResult, run_ad, make_function, make_params, MODELS, ADIncorrectException
 
 """
     REFERENCE_ADTYPE
