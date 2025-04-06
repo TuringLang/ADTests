@@ -49,7 +49,7 @@ jobs:
         run: |
           echo Running model: "${{ matrix.model }}"
           echo $ADTYPE_KEYS
-        with:
+        env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
 
       # - uses: actions/checkout@v4
