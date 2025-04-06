@@ -28,12 +28,12 @@ show_output () {
 
 setup () {
     echo "Getting model keys..."
-    readarray -t MODELS < <(${JULIA_COMMAND[@]} --list-model-keys)
+    readarray -t MODELS < <(${JULIA_COMMAND[@]} --list-model-keys 2>/dev/null)
     MODELS_JSON=$(jq -c -n '$ARGS.positional' --args ${MODELS[@]})
     echo "model_keys=${MODELS_JSON}" >> "${GITHUB_OUTPUT}"
 
     echo "Getting adtype keys..."
-    readarray -t ADTYPES < <(${JULIA_COMMAND[@]} --list-adtype-keys)
+    readarray -t ADTYPES < <(${JULIA_COMMAND[@]} --list-adtype-keys 2>/dev/null)
     ADTYPE_JSON=$(jq -c -n '$ARGS.positional' --args ${ADTYPES[@]})
     echo "adtype_keys=${ADTYPE_JSON}" >> "${GITHUB_OUTPUT}"
 
@@ -59,7 +59,7 @@ elif [ "$1" == "run-model" ]; then
     # run the model with the specified key
     for ADTYPE in "${ADTYPES[@]}"; do
         echo -n "Running ${MODEL_KEY} with ${ADTYPE}... "
-        OUTPUT=$(${JULIA_COMMAND[@]} --run "${MODEL_KEY}" "${ADTYPE}" 2>/dev/null)
+        OUTPUT=$(timeout 5m ${JULIA_COMMAND[@]} --run "${MODEL_KEY}" "${ADTYPE}" 2>/dev/null)
         if [ $? -eq 0 ]; then
             RESULT=$(echo "${OUTPUT}" | tail -n 1)
         else
