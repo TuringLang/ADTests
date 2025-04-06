@@ -27,7 +27,7 @@ jobs:
       # This step sends model_keys and adtype_keys to GITHUB_OUTPUT
       - name: Setup keys
         working-directory: app
-        run: ./ad.sh
+        run: ./ad.sh setup
 
   run_models:
     runs-on: ubuntu-latest
