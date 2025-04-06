@@ -33,14 +33,16 @@ jobs:
         working-directory: app
         run: python ad.py setup
 
-  # run_models:
-  #   runs-on: ubuntu-latest
-  #   needs: setup-keys
-  #   strategy:
-  #     matrix:
-  #       model: ${{ fromJSON(needs.setup-keys.outputs.model_keys) }}
-  #
-  #   steps:
+  run_models:
+    runs-on: ubuntu-latest
+    needs: setup-keys
+    strategy:
+      matrix:
+        model: ${{ fromJSON(needs.setup-keys.outputs.model_keys) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
   #     - name: Echo model name
   #       run: echo Running model: "${{ matrix.model }}"
   #
