@@ -41,6 +41,12 @@ jobs:
         model: ${{ fromJSON(needs.setup-keys.outputs.model_keys) }}
 
     steps:
+      - name: Echo model name
+        run: echo "Running model: ${{ matrix.model }}"
+
+      - name: Echo adtype keys
+        run: echo "ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}"
+
       # - uses: actions/checkout@v4
       #
       # - uses: julia-actions/setup-julia@v2
@@ -60,9 +66,3 @@ jobs:
       #   run: python ad.py run ${{ matrix.model }}
       #   with:
       #     ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
-      #
-      - name: Echo model name
-        run: echo "Running model: ${{ matrix.model }}"
-
-      - name: Echo adtype keys
-        run: echo "ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}"
