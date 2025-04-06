@@ -45,7 +45,7 @@ jobs:
         model: ${{ fromJSON(needs.setup-keys.outputs.model_keys) }}
 
     outputs:
-      results: ${{ steps.run-model.outputs.results }}
+      results: ${{ steps.run.outputs.results }}
 
     steps:
       - uses: actions/checkout@v4
@@ -62,6 +62,7 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
 
       - name: Run AD
+        id: run
         working-directory: app
         run: ./ad.sh run-model ${{ matrix.model }}
         env:
