@@ -42,10 +42,10 @@ jobs:
 
     steps:
       - name: Echo model name
-        run: echo "Running model: ${{ matrix.model }}"
+        run: echo Running model: "${{ matrix.model }}"
 
       - name: Echo adtype keys
-        run: echo "ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}"
+        run: echo ADTYPE_KEYS: "${{ needs.setup-keys.outputs.adtype_keys }}"
 
       # - uses: actions/checkout@v4
       #
