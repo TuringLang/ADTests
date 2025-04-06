@@ -20,10 +20,10 @@ NOTE: Make sure that the names are unique and do not contain commas
 ADTYPES = Dict(
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiff:Compiled" => AutoReverseDiff(; compile=true),
-    "Mooncake" => AutoMooncake(; config=nothing),
-    "Enzyme:Forward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "Enzyme:Reverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    # "ReverseDiff:Compiled" => AutoReverseDiff(; compile=true),
+    # "Mooncake" => AutoMooncake(; config=nothing),
+    # "Enzyme:Forward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
+    # "Enzyme:Reverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
 )
 
 if ARGS == ["--list-model-keys"]

@@ -56,6 +56,8 @@ elif [ "$1" == "run-model" ]; then
     fi
     readarray -t ADTYPES < <(echo $ADTYPE_KEYS | jq -r '.[]')
 
+    RESULTS=""
+
     # run the model with the specified key
     for ADTYPE in "${ADTYPES[@]}"; do
         echo -n "Running ${MODEL_KEY} with ${ADTYPE}... "
@@ -66,8 +68,9 @@ elif [ "$1" == "run-model" ]; then
             RESULT="err"
         fi
         echo "${RESULT}"
-        echo "result___${MODEL_KEY}___${ADTYPE}=${RESULT}" >> "${GITHUB_OUTPUT}"
+        RESULTS="${RESULTS};${ADTYPE}=${RESULT} "
     done
+    echo "results=${RESULTS}" >> "${GITHUB_OUTPUT}"
 
     show_output
 else

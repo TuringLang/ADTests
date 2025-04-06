@@ -44,6 +44,9 @@ jobs:
       matrix:
         model: ${{ fromJSON(needs.setup-keys.outputs.model_keys) }}
 
+    outputs:
+      results: ${{ steps.run-model.outputs.results }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -63,3 +66,13 @@ jobs:
         run: ./ad.sh run-model ${{ matrix.model }}
         env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
+
+  collect-results:
+    runs-on: ubuntu-latest
+    needs: run-models
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: |
+          echo ${{ needs.run-models.outputs.results }}
