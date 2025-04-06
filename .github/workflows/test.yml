@@ -26,6 +26,8 @@ jobs:
           version: "1"
 
       - uses: julia-actions/cache@v2
+        with:
+          cache-name: "ad"
 
       - uses: julia-actions/julia-buildpkg@v1
 
@@ -44,6 +46,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+
+      - uses: julia-actions/cache@v2
+        with:
+          cache-name: "ad"
+          include-matrix: false
+
+      - uses: julia-actions/julia-buildpkg@v1
 
       - name: Run AD
         working-directory: app

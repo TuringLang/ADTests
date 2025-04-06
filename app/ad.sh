@@ -59,7 +59,7 @@ elif [ "$1" == "run-model" ]; then
     # run the model with the specified key
     for ADTYPE in "${ADTYPES[@]}"; do
         echo -n "Running ${MODEL_KEY} with ${ADTYPE}... "
-        OUTPUT=$(timeout 5m ${JULIA_COMMAND[@]} --run "${MODEL_KEY}" "${ADTYPE}" 2>/dev/null)
+        OUTPUT=$(timeout 10m ${JULIA_COMMAND[@]} --run "${MODEL_KEY}" "${ADTYPE}" 2>/dev/null)
         if [ $? -eq 0 ]; then
             RESULT=$(echo "${OUTPUT}" | tail -n 1)
         else
