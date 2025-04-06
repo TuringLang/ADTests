@@ -45,29 +45,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Echo model name
-        run: |
-          echo Running model: "${{ matrix.model }}"
-          echo $ADTYPE_KEYS
+      - name: Run AD
+        working-directory: app
+        run: ./ad.sh run-model ${{ matrix.model }}
         env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
-
-      # - uses: actions/checkout@v4
-      #
-      # - uses: julia-actions/setup-julia@v2
-      #   with:
-      #     version: "1"
-      #
-      # - uses: julia-actions/cache@v2
-      #
-      # - uses: julia-actions/julia-buildpkg@v1
-      #
-      # - uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.13'#
-      #
-      # - name: Setup keys
-      #   working-directory: app
-      #   run: python ad.py run ${{ matrix.model }}
-      #   with:
-      #     ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}

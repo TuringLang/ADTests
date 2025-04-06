@@ -16,7 +16,7 @@ fi
 usage () {
     echo "Usage: $0 [setup|run <model_key>]"
     echo "  setup: store available model keys and AD types in GITHUB_OUTPUT"
-    echo "  run <model_key>: Run the model with the specified key"
+    echo "  run-model <model_key>: Run the given model with all AD types"
     exit 1
 }
 
@@ -44,7 +44,7 @@ setup () {
 if [ "$1" == "setup" ]; then
     setup
     exit 0
-elif [ "$1" == "run" ]; then
+elif [ "$1" == "run-model" ]; then
     if [ -z "$2" ]; then
         usage
     fi
