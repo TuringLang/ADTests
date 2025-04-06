@@ -2,7 +2,7 @@ JULIA_COMMAND=("julia" "--project=." "output.jl")
 
 # TODO: cd to the correct directory inside this script
 if [ -f "output.jl" ]; then
-    .
+    :
 else
     echo "This script must be run from the app/ subdirectory"
     exit 1
@@ -28,12 +28,12 @@ show_output () {
 
 setup () {
     echo "Getting model keys..."
-    readarray -t MODELS < <(${JULIA_COMMAND[@]} --list-model-keys 2>/dev/null)
+    readarray -t MODELS < <(${JULIA_COMMAND[@]} --list-model-keys)
     MODELS_JSON=$(jq -c -n '$ARGS.positional' --args ${MODELS[@]})
     echo "model_keys=${MODELS_JSON}" >> "${GITHUB_OUTPUT}"
 
     echo "Getting adtype keys..."
-    readarray -t ADTYPES < <(${JULIA_COMMAND[@]} --list-adtype-keys 2>/dev/null)
+    readarray -t ADTYPES < <(${JULIA_COMMAND[@]} --list-adtype-keys)
     ADTYPE_JSON=$(jq -c -n '$ARGS.positional' --args ${ADTYPES[@]})
     echo "adtype_keys=${ADTYPE_JSON}" >> "${GITHUB_OUTPUT}"
 
