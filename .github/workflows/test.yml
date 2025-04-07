@@ -95,7 +95,7 @@ jobs:
 
       - run: python collate.py
         working-directory: app
-        env:callable
+        env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}
 
       - name: Upload results
