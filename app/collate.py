@@ -7,6 +7,10 @@ results = os.environ.get("RESULTS_JSON", None)
 if results is None:
     print("RESULTS_JSON not set")
     exit(1)
+else:
+    print("-------- $RESULTS_JSON --------")
+    print(results)
+    print("------------- END -------------")
 
 # results is a list of dicts that looks something like this
 # [
