@@ -22,6 +22,16 @@ end
 end
 add_model!(MODELS, dynamic_constraint())
 
+@model function control_flow()
+    a ~ Normal()
+    if a > 0
+        b ~ Normal()
+    else
+        b ~ Beta(2, 2)
+    end
+end
+add_model!(MODELS, control_flow())
+
 @model function multiple_constraints_same_var(
     ::Type{TV}=Vector{Float64}
 ) where {TV}
