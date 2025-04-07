@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html>
+<head><title>DynamicPPL AD results</title></head>
+<body>
+<h1>DynamicPPL AD results</h1>
+
+<p><a href="https://turinglang.org/docs">Back to TuringLang docs</a></p>
+<p><a href="https://turinglang.org/DynamicPPL.jl/stable/">Back to DynamicPPL package documentation</a></p>
+
+<h2>Notes</h2>
+
+<ul>
+<li>The definitions of the models and AD types below can be found at TODO LINK.</li>
+<li>Numbers indicate the time taken to calculate the gradient of the log density of the model using the specified AD type, divided by the time taken to calculate the log density itself (in AD speak, the primal).</li>
+<li><i>incorrect</i> means that AD ran but the result was not correct. If this
+happens you should be very wary!</li>
+<li><i>err</i> means that AD didn't run.</li>
+</ul>
+
+<h2>Results</h2>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model_name</th>
+      <th>ReverseDiff</th>
+      <th>Enzyme:Reverse</th>
+      <th>Mooncake</th>
+      <th>ForwardDiff</th>
+      <th>ReverseDiff:Compiled</th>
+      <th>Enzyme:Forward</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>observe_index</td>
+      <td>64.335</td>
+      <td>2.566</td>
+      <td>10.531</td>
+      <td>1.769</td>
+      <td>6.364</td>
+      <td>2.892</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>observe_multivariate</td>
+      <td>34.850</td>
+      <td>4.609</td>
+      <td>7.337</td>
+      <td>1.407</td>
+      <td>3.408</td>
+      <td>2.701</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>assume_beta</td>
+      <td>16.766</td>
+      <td>err</td>
+      <td>8.174</td>
+      <td>1.778</td>
+      <td>2.015</td>
+      <td>2.715</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>observe_submodel</td>
+      <td>14.580</td>
+      <td>4.481</td>
+      <td>8.679</td>
+      <td>1.289</td>
+      <td>1.453</td>
+      <td>2.903</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>assume_submodel</td>
+      <td>11.230</td>
+      <td>4.217</td>
+      <td>9.285</td>
+      <td>1.192</td>
+      <td>1.185</td>
+      <td>3.114</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>dynamic_constraint</td>
+      <td>26.769</td>
+      <td>2.712</td>
+      <td>9.602</td>
+      <td>1.375</td>
+      <td>3.078</td>
+      <td>2.584</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>assume_wishart</td>
+      <td>33.338</td>
+      <td>err</td>
+      <td>10.604</td>
+      <td>1.136</td>
+      <td>3.059</td>
+      <td>err</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>assume_normal</td>
+      <td>21.843</td>
+      <td>err</td>
+      <td>9.614</td>
+      <td>1.506</td>
+      <td>2.803</td>
+      <td>2.998</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>dot_observe</td>
+      <td>62.505</td>
+      <td>2.519</td>
+      <td>10.621</td>
+      <td>1.783</td>
+      <td>6.918</td>
+      <td>2.718</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>n500</td>
+      <td>36.000</td>
+      <td>2.698</td>
+      <td>4.448</td>
+      <td>68.530</td>
+      <td>3.712</td>
+      <td>199.468</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>assume_mvnormal</td>
+      <td>17.930</td>
+      <td>4.098</td>
+      <td>8.947</td>
+      <td>1.270</td>
+      <td>2.188</td>
+      <td>err</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>n10</td>
+      <td>36.511</td>
+      <td>2.230</td>
+      <td>5.476</td>
+      <td>1.799</td>
+      <td>3.477</td>
+      <td>4.433</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>n50</td>
+      <td>40.611</td>
+      <td>2.713</td>
+      <td>4.333</td>
+      <td>9.175</td>
+      <td>4.520</td>
+      <td>21.055</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>assume_dirichlet</td>
+      <td>27.597</td>
+      <td>err</td>
+      <td>11.668</td>
+      <td>1.509</td>
+      <td>3.245</td>
+      <td>3.203</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>dot_assume_observe_index</td>
+      <td>47.274</td>
+      <td>incorrect</td>
+      <td>7.557</td>
+      <td>1.506</td>
+      <td>4.652</td>
+      <td>incorrect</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>observe_literal</td>
+      <td>36.834</td>
+      <td>3.320</td>
+      <td>9.537</td>
+      <td>1.587</td>
+      <td>4.049</td>
+      <td>3.025</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>n100</td>
+      <td>40.041</td>
+      <td>2.726</td>
+      <td>4.967</td>
+      <td>15.719</td>
+      <td>4.048</td>
+      <td>41.931</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>multiple_constraints_same_var</td>
+      <td>18.745</td>
+      <td>23.326</td>
+      <td>17.408</td>
+      <td>1.235</td>
+      <td>1.984</td>
+      <td>4.489</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>dot_assume</td>
+      <td>31.288</td>
+      <td>2.074</td>
+      <td>5.823</td>
+      <td>1.550</td>
+      <td>3.175</td>
+      <td>3.207</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>assume_lkjcholu</td>
+      <td>30.738</td>
+      <td>err</td>
+      <td>10.846</td>
+      <td>8.852</td>
+      <td>4.994</td>
+      <td>17.140</td>
+    </tr>
+  </tbody>
+</table></body></html>
