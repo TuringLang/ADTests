@@ -61,7 +61,7 @@ happens you should be very wary!</li>
 
 # Create the directory if it doesn't exist
 os.makedirs("html", exist_ok=True)
-with open("html/results.html", "w") as f:
+with open("html/index.html", "w") as f:
     f.write(HTML_HEADER)
     f.write(df.to_html())
     f.write("</body></html>")
