@@ -12,24 +12,27 @@ else:
     print(results)
     print("------------- END -------------")
 
-# results is a list of dicts that looks something like this
+# results is a list of dicts that looks something like this.
+# we just need to flatten the 'results' bit
 # [
 #     {"model_name": "model1",
-#      "results": "{\"AD1\": \"result1\", \"AD2\": \"result2\"}"},
+#      "results": {
+#          "AD1": "result1",
+#          "AD2": "result2"
+#      }
+#     },
 #     {"model_name": "model2",
-#      "results": "{\"AD1\": \"result3\", \"AD2\": \"result4\"}"}
+#      "results": {
+#          "AD1": "result3",
+#          "AD2": "result4"
+#      }
+#     }
 # ]
-
-# json-dicts but encoded as strings :upside_down_face:
-results_rearranged = []
-
-for entry in json.loads(results):
-    entry_flattened = {"model_name": entry["model_name"]}
-    model_results = json.loads(entry["results"])
-    entry_flattened.update(model_results)
-    results_rearranged.append(entry_flattened)
-
-df = pd.DataFrame.from_records(results_rearranged)
+results_flattened = [
+    {"model_name": entry["model_name"], **entry["results"]}
+    for entry in json.loads(results)
+]
+df = pd.DataFrame.from_records(results_flattened)
 
 print(df)
 
