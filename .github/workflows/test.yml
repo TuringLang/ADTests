@@ -88,15 +88,15 @@ jobs:
         with:
           python-version: "3.13"
           cache: "pip"
+        working-directory: app
 
-      - run: pip install pandas
-
-      - run: mkdir -p app/html
+      - run: pip install -r requirements.txt
+        working-directory: app
 
       - run: python collate.py
-        working-directory: app
         env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}
+        working-directory: app
 
       - name: Upload results
         uses: peaceiris/actions-gh-pages@v4
