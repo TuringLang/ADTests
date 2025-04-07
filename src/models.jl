@@ -48,7 +48,7 @@ add_model!(MODELS, dot_observe())
 @model function observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
     a ~ Normal()
     for i in eachindex(x)
-        x[i] ~ Normal(a[i])
+        x[i] ~ Normal(a)
     end
 end
 add_model!(MODELS, observe_index())
@@ -75,11 +75,12 @@ end
 end
 add_model!(MODELS, assume_submodel())
 
-@model function inner2(x)
-    x ~ Normal()
+@model function inner2(x, a)
+    x ~ Normal(a)
 end
 @model function observe_submodel(x=1.5)
-    _ignore ~ to_submodel(inner2(x))
+    a ~ Normal()
+    _ignore ~ to_submodel(inner2(x, a))
 end
 add_model!(MODELS, observe_submodel())
 
