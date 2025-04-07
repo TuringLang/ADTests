@@ -8,15 +8,22 @@ if results is None:
     print("RESULTS_JSON not set")
     exit(1)
 
-# results is a json dict where the keys are model names and the values are
+# results is a list of dicts that looks something like this
+# [
+#     {"model_name": "model1",
+#      "results": "{\"AD1\": \"result1\", \"AD2\": \"result2\"}"},
+#     {"model_name": "model2",
+#      "results": "{\"AD1\": \"result3\", \"AD2\": \"result4\"}"}
+# ]
+
 # json-dicts but encoded as strings :upside_down_face:
 results_rearranged = []
 
-for model_name, model_results in json.loads(results).items():
-    this_entry = {"model_name": model_name}
-    model_results = json.loads(model_results)
-    this_entry.update(model_results)
-    results_rearranged.append(this_entry)
+for entry in json.loads(results):
+    entry_flattened = {"model_name": entry["model_name"]}
+    model_results = json.loads(entry["results"])
+    entry_flattened.update(model_results)
+    results_rearranged.append(entry_flattened)
 
 df = pd.DataFrame.from_records(results_rearranged)
 
