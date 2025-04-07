@@ -56,7 +56,7 @@ elif [ "$1" == "run-model" ]; then
     fi
     readarray -t ADTYPES < <(echo $ADTYPE_KEYS | jq -r '.[]')
 
-    RESULTS=""
+    declare -A RESULTS
 
     # run the model with the specified key
     for ADTYPE in "${ADTYPES[@]}"; do
@@ -68,9 +68,19 @@ elif [ "$1" == "run-model" ]; then
             RESULT="err"
         fi
         echo "${RESULT}"
-        RESULTS="${RESULTS};${ADTYPE}=${RESULT} "
+        RESULTS["${ADTYPE}"]="${RESULT}"
     done
-    echo "results=${RESULTS}" >> "${GITHUB_OUTPUT}"
+
+    # Convert the associative array to JSON representation
+    RESULTS_JSON=$(for i in "${!dict[@]}"
+    do
+        echo "$i" 
+        echo "${dict[$i]}"
+    done |
+        jq -c -n -R 'reduce inputs as $i ({}; . + { ($i): (input) })'
+    )
+
+    echo "results=${RESULTS_JSON}" >> "${GITHUB_OUTPUT}"
 
     show_output
 else
