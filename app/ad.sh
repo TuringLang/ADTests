@@ -72,10 +72,10 @@ elif [ "$1" == "run-model" ]; then
     done
 
     # Convert the associative array to JSON representation
-    RESULTS_JSON=$(for i in "${!dict[@]}"
+    RESULTS_JSON=$(for i in "${!RESULTS[@]}"
     do
         echo "$i" 
-        echo "${dict[$i]}"
+        echo "${RESULTS[$i]}"
     done |
         jq -c -n -R 'reduce inputs as $i ({}; . + { ($i): (input) })'
     )
