@@ -83,16 +83,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
-          cache: "pip"
 
-      - run: pip install -r requirements.txt
-        working-directory: app
-
-      - run: python collate.py
+      - run: |
+          uv python install
+          uv run collate.py
         working-directory: app
         env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}

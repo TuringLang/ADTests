@@ -58,9 +58,6 @@ elif [ "$1" == "run-model" ]; then
 
     declare -A RESULTS
 
-    # Precompile once
-    julia --project=. -e "using Pkg; Pkg.instantiate()"
-
     # run the model with the specified key
     for ADTYPE in "${ADTYPES[@]}"; do
         echo "Running ${MODEL_KEY} with ${ADTYPE}... "
