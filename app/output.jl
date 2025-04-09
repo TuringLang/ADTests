@@ -11,6 +11,7 @@ import ForwardDiff
 import ReverseDiff
 import Mooncake
 import Enzyme: set_runtime_activity, Forward, Reverse
+import Zygote
 
 """
     ADTYPES::Dict{String, ADTypes.AbstractADType}
@@ -26,6 +27,7 @@ ADTYPES = Dict(
     "Mooncake" => AutoMooncake(; config=nothing),
     "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
     "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "Zygote" => AutoZygote(),
 )
 
 if ARGS == ["--list-model-keys"]
