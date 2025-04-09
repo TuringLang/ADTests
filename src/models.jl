@@ -49,13 +49,13 @@ add_model!(MODELS, multiple_constraints_same_var())
 end
 add_model!(MODELS, dot_assume())
 
-@model function dot_observe(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
+@model function dot_observe(x=[1.5, 2.0, 2.5])
     a ~ Normal()
     x .~ Normal(a)
 end
 add_model!(MODELS, dot_observe())
 
-@model function observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
+@model function observe_index(x=[1.5, 2.0, 2.5])
     a ~ Normal()
     for i in eachindex(x)
         x[i] ~ Normal(a)
@@ -133,7 +133,8 @@ end
 NS = [10, 50, 100, 500]
 
 for n in NS
-    name = Symbol("n$n")
+    # pad to make sure they sort correctly alphabetically
+    name = Symbol("n$(lpad(n, 3, "0"))")
     @eval begin
         @model function $name(::Type{TV}=Vector{Float64}) where {TV}
             a = TV(undef, $n)
