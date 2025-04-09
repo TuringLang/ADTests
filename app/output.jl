@@ -3,6 +3,7 @@ Pkg.develop(; path=joinpath(@__DIR__, ".."))
 
 import Test: @test, @testset
 import ModelTests: MODELS, run_ad, ADIncorrectException
+import DynamicPPL as D
 using ADTypes
 using Printf: @printf
 
@@ -21,10 +22,10 @@ NOTE: Make sure that the names are unique and do not contain commas
 ADTYPES = Dict(
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiff:Compiled" => AutoReverseDiff(; compile=true),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
     "Mooncake" => AutoMooncake(; config=nothing),
-    "Enzyme:Forward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "Enzyme:Reverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
+    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
 )
 
 if ARGS == ["--list-model-keys"]
@@ -33,7 +34,17 @@ elseif ARGS == ["--list-adtype-keys"]
     foreach(println, keys(ADTYPES))
 elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model, adtype = MODELS[ARGS[2]], ADTYPES[ARGS[3]]
-    result = run_ad(model, adtype; benchmark=true)
+
+    
+    if ARGS[2] == "control_flow"
+        # https://github.com/penelopeysm/ModelTests.jl/issues/4
+        vi = D.unflatten(D.VarInfo(model), [0.5, -0.5])
+        params = [-0.5, 0.5]
+        result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
+    else
+        result = run_ad(model, adtype; benchmark=true)
+    end
+
     if isnothing(result.error)
         @printf("%.3f", result.time_vs_primal)
     elseif result.error isa ADIncorrectException
