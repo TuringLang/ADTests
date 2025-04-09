@@ -137,24 +137,24 @@ function run_ad(
 )::ADTestResult
     try
         verbose && @info "Running AD on $(model.f) with $(adtype)\n"
-        ldf = LogDensityFunction(model; adtype=adtype)
-        verbose && println("       params : $(params)")
+        ldf = LogDensityFunction(model, varinfo; adtype=adtype)
+        verbose && println(Base.stderr, "       params : $(params)")
 
         # Calculate ground truth to compare against
         value_true, grad_true = if expected_value_and_grad === nothing
-            ldf_reference = LogDensityFunction(model; adtype=reference_adtype)
+            ldf_reference = LogDensityFunction(model, varinfo; adtype=reference_adtype)
             logdensity_and_gradient(ldf_reference, params)
         else
             expected_value_and_grad
         end
-        verbose && println("     expected : $((value_true, grad_true))")
+        verbose && println(Base.stderr, "     expected : $((value_true, grad_true))")
 
         value, grad = logdensity_and_gradient(ldf, params)
         if !(grad isa Vector{Float64})
             # https://github.com/JuliaDiff/DifferentiationInterface.jl/issues/754
             grad = collect(grad)
         end
-        verbose && println("       actual : $((value, grad))")
+        verbose && println(Base.stderr, "       actual : $((value, grad))")
 
         value_is_correct = isapprox(value, value_true; atol=value_atol)
         grad_is_correct = isapprox(grad, grad_true; atol=grad_atol)

@@ -35,7 +35,6 @@ elseif ARGS == ["--list-adtype-keys"]
 elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model, adtype = MODELS[ARGS[2]], ADTYPES[ARGS[3]]
 
-    
     if ARGS[2] == "control_flow"
         # https://github.com/penelopeysm/ModelTests.jl/issues/4
         vi = D.unflatten(D.VarInfo(model), [0.5, -0.5])

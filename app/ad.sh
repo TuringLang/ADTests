@@ -1,4 +1,4 @@
-JULIA_COMMAND=("julia" "--project=." "output.jl")
+JULIA_COMMAND=("julia" "--color=yes" "--project=." "output.jl")
 
 # TODO: cd to the correct directory inside this script
 if [ -f "output.jl" ]; then
