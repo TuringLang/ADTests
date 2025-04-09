@@ -52,7 +52,7 @@ else:
 # ]
 # df = pd.DataFrame.from_records(results_flattened)
 
-adtypes = list(results.values())[0].keys()
+adtypes = sorted(list(results.values())[0].keys())
 models = sorted(results.keys())
 
 # Create the directory if it doesn't exist

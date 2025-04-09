@@ -65,7 +65,7 @@ elif [ "$1" == "run-model" ]; then
         if [ $? -eq 0 ]; then
             RESULT=$(echo "${OUTPUT}" | tail -n 1)
         else
-            RESULT="err"
+            RESULT="error"
         fi
         echo "${RESULT}"
         RESULTS["${ADTYPE}"]="${RESULT}"
