@@ -1,247 +1,54 @@
-
 <!DOCTYPE html>
 <html>
-<head><title>DynamicPPL AD results</title></head>
-<body>
-<h1>DynamicPPL AD results</h1>
+<head><title>Turing AD tests</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body><main>
+<h1>Turing AD tests</h1>
 
-<p><a href="https://turinglang.org/docs">Back to TuringLang docs</a></p>
-<p><a href="https://turinglang.org/DynamicPPL.jl/stable/">Back to DynamicPPL package documentation</a></p>
+<p><a href="https://turinglang.org/docs">Turing.jl documentation</a> | <a href="https://github.com/TuringLang/Turing.jl">Turing.jl GitHub</a> | <a href="https://github.com/penelopeysm/ModelTests.jl">Source code for these tests</a></p>
 
-<h2>Notes</h2>
+<p>This page is intended as a brief overview of how different AD backends
+perform on a variety of Turing.jl models.
+Note that the inclusion of any AD backend here does not imply an endorsement
+from the Turing team; this table is purely for information.
+</p>
 
 <ul>
-<li>The definitions of the models and AD types below can be found at TODO LINK.</li>
-<li>Numbers indicate the time taken to calculate the gradient of the log density of the model using the specified AD type, divided by the time taken to calculate the log density itself (in AD speak, the primal).</li>
-<li><i>incorrect</i> means that AD ran but the result was not correct. If this
-happens you should be very wary!</li>
-<li><i>err</i> means that AD didn't run.</li>
+<li>The definitions of the models and AD types below can be found on <a
+href="https://github.com/penelopeysm/ModelTests.jl" target="_blank">GitHub</a>.</li>
+<li><b>Numbers</b> indicate the time taken to calculate the gradient of the log
+density of the model using the specified AD type, divided by the time taken to
+calculate the log density itself (in AD speak, the primal). Basically:
+<b>smaller means faster.</b></li>
+<li>'<span class="wrong">wrong</span>' means that AD ran but the result was not correct. If this happens
+you should be very wary!</li>
+<li>'<span class="error">error</span>' means that AD didn't run.</li>
+<li>Some of the 'wrong' or 'error' entries have question marks next to them.
+These will link to a GitHub issue or other page that describes the problem.
 </ul>
 
 <h2>Results</h2>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>model_name</th>
-      <th>ReverseDiff</th>
-      <th>ReverseDiffCompiled</th>
-      <th>EnzymeForward</th>
-      <th>Mooncake</th>
-      <th>ForwardDiff</th>
-      <th>EnzymeReverse</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>observe_index</td>
-      <td>63.978</td>
-      <td>6.730</td>
-      <td>3.057</td>
-      <td>10.994</td>
-      <td>1.820</td>
-      <td>2.622</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>observe_multivariate</td>
-      <td>34.315</td>
-      <td>3.360</td>
-      <td>3.093</td>
-      <td>6.938</td>
-      <td>1.402</td>
-      <td>4.824</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>assume_lkjcholu</td>
-      <td>31.004</td>
-      <td>4.966</td>
-      <td>17.447</td>
-      <td>10.538</td>
-      <td>7.279</td>
-      <td>err</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>assume_beta</td>
-      <td>17.143</td>
-      <td>2.010</td>
-      <td>3.648</td>
-      <td>8.153</td>
-      <td>1.741</td>
-      <td>err</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>observe_submodel</td>
-      <td>14.371</td>
-      <td>1.434</td>
-      <td>2.953</td>
-      <td>8.419</td>
-      <td>1.265</td>
-      <td>4.773</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>assume_submodel</td>
-      <td>11.775</td>
-      <td>1.158</td>
-      <td>2.892</td>
-      <td>8.821</td>
-      <td>1.211</td>
-      <td>4.016</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>dynamic_constraint</td>
-      <td>26.853</td>
-      <td>3.081</td>
-      <td>2.674</td>
-      <td>7.009</td>
-      <td>1.338</td>
-      <td>2.668</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>assume_wishart</td>
-      <td>30.119</td>
-      <td>3.204</td>
-      <td>err</td>
-      <td>10.883</td>
-      <td>1.126</td>
-      <td>err</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>assume_normal</td>
-      <td>22.998</td>
-      <td>2.790</td>
-      <td>3.099</td>
-      <td>9.772</td>
-      <td>1.580</td>
-      <td>err</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>dot_observe</td>
-      <td>62.442</td>
-      <td>6.586</td>
-      <td>3.097</td>
-      <td>11.067</td>
-      <td>1.815</td>
-      <td>2.708</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>n500</td>
-      <td>34.780</td>
-      <td>3.741</td>
-      <td>203.761</td>
-      <td>5.132</td>
-      <td>64.041</td>
-      <td>2.766</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>assume_mvnormal</td>
-      <td>17.617</td>
-      <td>1.966</td>
-      <td>err</td>
-      <td>9.246</td>
-      <td>1.276</td>
-      <td>3.902</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>n50</td>
-      <td>41.094</td>
-      <td>4.137</td>
-      <td>19.276</td>
-      <td>5.267</td>
-      <td>9.548</td>
-      <td>3.115</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>n10</td>
-      <td>36.217</td>
-      <td>3.473</td>
-      <td>4.979</td>
-      <td>5.730</td>
-      <td>1.827</td>
-      <td>2.197</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>assume_dirichlet</td>
-      <td>27.902</td>
-      <td>3.198</td>
-      <td>3.259</td>
-      <td>15.924</td>
-      <td>1.504</td>
-      <td>err</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>dot_assume_observe_index</td>
-      <td>46.107</td>
-      <td>4.668</td>
-      <td>incorrect</td>
-      <td>7.727</td>
-      <td>1.503</td>
-      <td>incorrect</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>observe_literal</td>
-      <td>36.813</td>
-      <td>4.108</td>
-      <td>2.875</td>
-      <td>9.614</td>
-      <td>1.655</td>
-      <td>3.051</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>n100</td>
-      <td>40.506</td>
-      <td>4.255</td>
-      <td>40.942</td>
-      <td>4.984</td>
-      <td>16.252</td>
-      <td>2.732</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>multiple_constraints_same_var</td>
-      <td>19.535</td>
-      <td>1.851</td>
-      <td>4.491</td>
-      <td>18.035</td>
-      <td>1.277</td>
-      <td>23.992</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>dot_assume</td>
-      <td>31.564</td>
-      <td>3.179</td>
-      <td>3.133</td>
-      <td>6.216</td>
-      <td>1.379</td>
-      <td>3.028</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>control_flow</td>
-      <td>20.793</td>
-      <td>incorrect</td>
-      <td>2.743</td>
-      <td>9.493</td>
-      <td>1.630</td>
-      <td>3.222</td>
-    </tr>
-  </tbody>
-</table></body></html>
+<table id="results"><thead><tr><th>Model name \ AD type</th><th>Zygote</th><th>ReverseDiff</th><th>ReverseDiffCompiled</th><th>EnzymeForward</th><th>Mooncake</th><th>ForwardDiff</th><th>EnzymeReverse</th></tr></thead><tbody>
+<tr><td>assume_beta</td><td>593.106</td><td>16.935</td><td>1.989</td><td>2.571</td><td>8.300</td><td>1.771</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/2337" target="_blank">(?)</a> <span class="err">err</td></tr>
+<tr><td>assume_dirichlet</td><td>632.411</td><td>28.860</td><td>3.290</td><td>3.266</td><td>11.663</td><td>1.494</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/2337" target="_blank">(?)</a> <span class="err">err</td></tr>
+<tr><td>assume_lkjcholu</td><td><span class="err">err</td><td>30.618</td><td>4.802</td><td>16.971</td><td>11.059</td><td>7.631</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/2337" target="_blank">(?)</a> <span class="err">err</td></tr>
+<tr><td>assume_mvnormal</td><td>520.948</td><td>16.909</td><td>2.003</td><td><span class="err">err</td><td>9.355</td><td>1.274</td><td>4.225</td></tr>
+<tr><td>assume_normal</td><td>842.554</td><td>22.470</td><td>2.672</td><td>2.969</td><td>9.540</td><td>1.636</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/2337" target="_blank">(?)</a> <span class="err">err</td></tr>
+<tr><td>assume_submodel</td><td>517.460</td><td>11.347</td><td>1.170</td><td>2.949</td><td>7.274</td><td>1.216</td><td>3.989</td></tr>
+<tr><td>assume_wishart</td><td>302.304</td><td>29.234</td><td>3.124</td><td><span class="err">err</td><td>10.546</td><td>1.168</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/2337" target="_blank">(?)</a> <span class="err">err</td></tr>
+<tr><td>control_flow</td><td>989.286</td><td>20.218</td><td><span class="wrong">wrong</td><td>2.797</td><td>9.885</td><td>1.605</td><td>3.290</td></tr>
+<tr><td>dot_assume</td><td><span class="err">err</td><td>32.456</td><td>3.105</td><td>3.115</td><td>6.547</td><td>1.401</td><td>2.380</td></tr>
+<tr><td>dot_assume_observe_index</td><td><span class="err">err</td><td>45.765</td><td>4.792</td><td><span class="wrong">wrong</td><td>7.120</td><td>1.445</td><td><span class="wrong">wrong</td></tr>
+<tr><td>dot_observe</td><td><span class="err">err</td><td>64.964</td><td>6.372</td><td>2.930</td><td>10.359</td><td>1.818</td><td>2.493</td></tr>
+<tr><td>dynamic_constraint</td><td>1015.757</td><td>27.220</td><td>3.092</td><td>2.671</td><td>9.482</td><td>1.346</td><td>2.684</td></tr>
+<tr><td>multiple_constraints_same_var</td><td><span class="err">err</td><td>18.726</td><td>1.897</td><td>4.513</td><td>17.898</td><td>1.255</td><td>23.783</td></tr>
+<tr><td>n10</td><td><span class="err">err</td><td>34.832</td><td>3.595</td><td>4.612</td><td>6.085</td><td>1.857</td><td>2.078</td></tr>
+<tr><td>n100</td><td><span class="err">err</td><td>41.826</td><td>4.040</td><td>45.384</td><td>4.890</td><td>17.369</td><td>2.686</td></tr>
+<tr><td>n50</td><td><span class="err">err</td><td>40.634</td><td>4.048</td><td>24.592</td><td>5.044</td><td>9.893</td><td>2.789</td></tr>
+<tr><td>n500</td><td><span class="err">err</td><td>37.217</td><td>3.752</td><td>182.640</td><td>4.636</td><td>67.746</td><td>2.665</td></tr>
+<tr><td>observe_index</td><td><span class="err">err</td><td>64.132</td><td>6.665</td><td>2.871</td><td>10.859</td><td>1.786</td><td>2.526</td></tr>
+<tr><td>observe_literal</td><td>1221.301</td><td>37.309</td><td>4.125</td><td>3.045</td><td>9.723</td><td>1.557</td><td>3.359</td></tr>
+<tr><td>observe_multivariate</td><td><span class="err">err</td><td>33.723</td><td>3.358</td><td>3.003</td><td>7.127</td><td>1.395</td><td>4.704</td></tr>
+<tr><td>observe_submodel</td><td>817.314</td><td>15.006</td><td>1.444</td><td>2.895</td><td>8.158</td><td>1.301</td><td>4.923</td></tr>
+</tbody></table></main></body></html>
