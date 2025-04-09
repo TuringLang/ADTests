@@ -70,7 +70,7 @@ with open("html/index.html", "w") as f:
 <body><main>
 <h1>Turing AD tests</h1>
 
-<p><a href="https://turinglang.org/docs">Turing.jl documentation</a> | <a href="https://github.com/TuringLang/Turing.jl">Turing.jl GitHub</a> | <a href="https://github.com/penelopeysm/ModelTests.jl">Source code for these tests</a></p>
+<p><a href="https://turinglang.org/docs">Turing.jl documentation</a> | <a href="https://github.com/TuringLang/Turing.jl">Turing.jl GitHub</a> | <a href="https://github.com/TuringLang/ADTests">Source code for these tests</a></p>
 
 <p>This page is intended as a brief overview of how different AD backends
 perform on a variety of Turing.jl models.
@@ -80,7 +80,7 @@ from the Turing team; this table is purely for information.
 
 <ul>
 <li>The definitions of the models and AD types below can be found on <a
-href="https://github.com/penelopeysm/ModelTests.jl" target="_blank">GitHub</a>.</li>
+href="https://github.com/TuringLang/ADTests" target="_blank">GitHub</a>.</li>
 <li><b>Numbers</b> indicate the time taken to calculate the gradient of the log
 density of the model using the specified AD type, divided by the time taken to
 calculate the log density itself (in AD speak, the primal). Basically:

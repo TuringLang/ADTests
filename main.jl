@@ -38,7 +38,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model, adtype = MODELS[ARGS[2]], ADTYPES[ARGS[3]]
 
     if ARGS[2] == "control_flow"
-        # https://github.com/penelopeysm/ModelTests.jl/issues/4
+        # https://github.com/TuringLang/ADTests/issues/4
         vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
         params = [-0.5, 0.5]
         result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
