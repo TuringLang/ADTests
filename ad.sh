@@ -1,10 +1,7 @@
-JULIA_COMMAND=("julia" "--color=yes" "--project=." "output.jl")
+JULIA_COMMAND=("julia" "--color=yes" "--project=." "main.jl")
 
-# TODO: cd to the correct directory inside this script
-if [ -f "output.jl" ]; then
-    :
-else
-    echo "This script must be run from the app/ subdirectory"
+if [ ! -f "main.jl" ]; then
+    echo "Could not find main.jl in the current directory. Please run this script from the directory containing main.jl."
     exit 1
 fi
 
