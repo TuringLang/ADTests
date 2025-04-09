@@ -4,13 +4,16 @@ import os
 ## Here you can register known errors that have been reported on GitHub /
 ## have otherwise been documented. They will be turned into links in the table.
 
-TURING_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
+ENZYME_RVS_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
+ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995"
 KNOWN_ERRORS = {
-    ("assume_beta", "EnzymeReverse"): TURING_ONE_PARAM,
-    ("assume_dirichlet", "EnzymeReverse"): TURING_ONE_PARAM,
-    ("assume_lkjcholu", "EnzymeReverse"): TURING_ONE_PARAM,
-    ("assume_normal", "EnzymeReverse"): TURING_ONE_PARAM,
-    ("assume_wishart", "EnzymeReverse"): TURING_ONE_PARAM,
+    ("assume_beta", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
+    ("assume_dirichlet", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
+    ("assume_lkjcholu", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
+    ("assume_normal", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
+    ("assume_wishart", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
+    ("assume_mvnormal", "EnzymeForward"): ENZYME_FWD_BLAS,
+    ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
 }
 
 results = os.environ.get("RESULTS_JSON", None)
