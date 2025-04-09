@@ -29,9 +29,9 @@ ADTYPES = Dict(
 )
 
 if ARGS == ["--list-model-keys"]
-    foreach(println, keys(MODELS))
+    foreach(println, sort(collect(keys(MODELS))))
 elseif ARGS == ["--list-adtype-keys"]
-    foreach(println, keys(ADTYPES))
+    foreach(println, sort(collect(keys(ADTYPES))))
 elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model, adtype = MODELS[ARGS[2]], ADTYPES[ARGS[3]]
 
@@ -47,10 +47,10 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     if isnothing(result.error)
         @printf("%.3f", result.time_vs_primal)
     elseif result.error isa ADIncorrectException
-        println("incorrect")
+        println("wrong")
     else
         # some other error happened
-        println("err")
+        println("error")
     end
 else
     println("Usage: julia output.jl --list-model-keys")
