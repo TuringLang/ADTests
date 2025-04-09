@@ -27,7 +27,7 @@ jobs:
 
       - uses: julia-actions/cache@v2
         with:
-          cache-name: "ad"
+          cache-name: ad-cache;${{ hashFiles('**/Manifest.toml') }}
 
       - uses: julia-actions/julia-buildpkg@v1
 
