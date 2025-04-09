@@ -4,7 +4,7 @@ This repository is used to tabulate the current performance of various automatic
 
 ## Let me see the results!
 
-https://turinglang.github.io/ADTests
+https://turinglang.org/ADTests
 
 ## I want to add more AD backends!
 
