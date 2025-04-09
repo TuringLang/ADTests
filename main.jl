@@ -1,9 +1,5 @@
-import Pkg
-Pkg.develop(; path=joinpath(@__DIR__, ".."))
-
 import Test: @test, @testset
-import ModelTests: MODELS, run_ad, ADIncorrectException
-import DynamicPPL as D
+using DynamicPPL: DynamicPPL, VarInfo
 using ADTypes
 using Printf: @printf
 
@@ -13,13 +9,7 @@ import Mooncake
 import Enzyme: set_runtime_activity, Forward, Reverse
 import Zygote
 
-"""
-    ADTYPES::Dict{String, ADTypes.AbstractADType}
-
-List of AD backends to test.
-
-NOTE: Make sure that the names are unique and do not contain commas
-"""
+# AD backends to test.
 ADTYPES = Dict(
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile=false),
@@ -30,6 +20,16 @@ ADTYPES = Dict(
     "Zygote" => AutoZygote(),
 )
 
+# Models to test.
+include("models.jl")
+using .Models: MODELS
+
+# Benchmarking code is defined here. In time this will be put into DynamicPPL.
+# See https://github.com/TuringLang/DynamicPPL.jl/pull/882
+include("lib.jl")
+using .Lib: run_ad, ADIncorrectException
+
+# The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
     foreach(println, sort(collect(keys(MODELS))))
 elseif ARGS == ["--list-adtype-keys"]
@@ -39,7 +39,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
 
     if ARGS[2] == "control_flow"
         # https://github.com/penelopeysm/ModelTests.jl/issues/4
-        vi = D.unflatten(D.VarInfo(model), [0.5, -0.5])
+        vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
         params = [-0.5, 0.5]
         result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
     else
@@ -55,7 +55,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
         println("error")
     end
 else
-    println("Usage: julia output.jl --list-model-keys")
-    println("       julia output.jl --list-adtype-keys")
-    println("       julia output.jl --run <model> <adtype>")
+    println("Usage: julia main.jl --list-model-keys")
+    println("       julia main.jl --list-adtype-keys")
+    println("       julia main.jl --run <model> <adtype>")
 end

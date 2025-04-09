@@ -34,7 +34,6 @@ jobs:
       # This step sends model_keys and adtype_keys to GITHUB_OUTPUT
       - name: Setup keys
         id: keys
-        working-directory: app
         run: ./ad.sh setup
 
   run-models:
@@ -63,7 +62,6 @@ jobs:
 
       - name: Run AD
         id: run
-        working-directory: app
         run: ./ad.sh run-model ${{ matrix.model }}
         env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
@@ -90,7 +88,6 @@ jobs:
       - run: |
           uv python install
           uv run collate.py
-        working-directory: app
         env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}
 
@@ -98,4 +95,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app/html
+          publish_dir: ./html
