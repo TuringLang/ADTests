@@ -70,3 +70,5 @@ export RESULTS_JSON
 
 Then you can run the Python script locally with `python collate.py`.
 It will generate the HTML file in the `html` directory.
+
+PRs to make this simpler are more than welcome.
