@@ -3,6 +3,7 @@ using DynamicPPL: DynamicPPL, VarInfo
 using ADTypes
 using Printf: @printf
 
+import FiniteDifferences: central_fdm
 import ForwardDiff
 import ReverseDiff
 import Mooncake
@@ -11,6 +12,7 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile=false),
     "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
