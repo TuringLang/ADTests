@@ -147,6 +147,7 @@ body {
 
 main {
     margin: auto;
+    max-width: 1250px;
 }
 
 table#results {
