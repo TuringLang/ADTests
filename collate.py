@@ -85,8 +85,10 @@ href="https://github.com/TuringLang/ADTests" target="_blank">GitHub</a>.</li>
 density of the model using the specified AD type, divided by the time taken to
 calculate the log density itself (in AD speak, the primal). Basically:
 <b>smaller means faster.</b></li>
-<li>'<span class="wrong">wrong</span>' means that AD ran but the result was not correct. If this happens
-you should be very wary!</li>
+<li>'<span class="wrong">wrong</span>' means that AD ran but the result was not
+correct. If this happens you should be very wary! Note that this is done by
+comparing against the result obtained using ForwardDiff, i.e., ForwardDiff is
+by definition always 'correct'.</li>
 <li>'<span class="error">error</span>' means that AD didn't run.</li>
 <li>Some of the 'wrong' or 'error' entries have question marks next to them.
 These will link to a GitHub issue or other page that describes the problem.
