@@ -14,12 +14,11 @@ html {
 body {
     display: flex;
     align-items: center;
-    margin: 50px 0px;
+    margin: 0px 0px 50px 0px;
 }
 
 main {
     margin: auto;
-    max-width: 1000px;
 }
 
 table#results {
