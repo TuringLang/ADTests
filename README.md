@@ -39,8 +39,8 @@ However, because GitHub Actions limits jobs to 6 hours, it is impractical to run
 What we do is to run one job per model.
 This is accomplished by first storing the names of the models and adtypes in the `$GITHUB_OUTPUT` variable, which can then be read by the next job.
 
-The next job is a CI matrix split by model name; each of these invokes `ad.sh` to loop over each adtype.
-The purpose of having a Bash script call Julia is to guard against the Julia process crashing, which can happen especially with Enzyme.
+The next job is a CI matrix split by model name; each of the sub-jobs invokes `ad.sh`, which loops over each adtype and calls the Julia script with the model name and adtype as arguments.
+The purpose of having this Bash -> Julia setup (as opposed to doing the looping inside Julia itself) is to guard against the Julia process crashing, which can happen sporadically with Enzyme.
 If the Julia process successfully finishes, it will print the result which is picked up by the Bash script; if it crashes, we just record the result as 'error'.
 
 Finally, the results are collated and sent to the final job in the workflow, which is a Python script that uses the results to create the HTML page.
@@ -48,6 +48,8 @@ It _could_ be written in Julia (PRs are welcome).
 However, it was much faster for me to prototype in Python.
 (Fun fact: collating these results is also somewhat involved because we can't just write to `$GITHUB_OUTPUT`; it turns out that [output from different jobs in a matrix will override each other](https://github.com/orgs/community/discussions/26639).
 Thankfully, [there is an existing action](https://github.com/beacon-biosignals/matrix-output) which is designed to get around this problem by uploading artefacts.)
+
+Overall, what this means is that the entire table can be generated in around 10 minutes (longer if you need to install + precompile dependencies, but on GitHub Actions dependencies will for the most part have been cached).
 
 ## Can I run this locally?
 
