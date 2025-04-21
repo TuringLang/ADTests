@@ -1,9 +1,10 @@
-name: test
+name: Run AD tests and build website
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   actions: write
