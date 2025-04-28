@@ -26,10 +26,6 @@ Note that the links-to-existing-GitHub-issues in the table are also defined in t
 The workflow is the most complicated part of this repository.
 This section attempts to explain it from the 'bottom up'; if you prefer a 'top down' approach start by looking at the GitHub Action workflow, `.github/workflows/test.yml`.
 
-Firstly, there is library code for running the benchmarks.
-This is in `lib.jl`; it should (in the near future) be put directly into DynamicPPL.jl.
-Until then, it has to live here.
-
 Under the hood, the main thing that actually runs the AD tests / benchmarks is `main.jl`.
 You can run `julia --project=. main.jl` and it will print some usage information.
 However, it is the Python script `ad.py` that controls how this Julia script is called.
