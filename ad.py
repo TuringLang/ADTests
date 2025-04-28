@@ -26,6 +26,7 @@ def run_and_capture(command):
     result = sp.run(command, text=True, check=True, stdout=sp.PIPE)
     return result.stdout.strip()
 
+
 def append_to_github_output(key, value):
     """Append a key-value pair to the file specified by $GITHUB_OUTPUT."""
     pair = f"{key}={json.dumps(value)}"
@@ -37,11 +38,13 @@ def append_to_github_output(key, value):
         print(f"GITHUB_OUTPUT not set")
         print(pair)
 
+
 def get_manifest_dict():
     with open("Manifest.toml", "rb") as f:
         manifest_data = tomllib.load(f)
         package_versions = {k: v[0].get("version", None) for k, v in manifest_data["deps"].items()}
     return package_versions
+
 
 def setup(_args):
     # Model keys
@@ -130,7 +133,11 @@ def html(_args):
         exit(1)
 
     try:
-        manifest = json.loads(os.environ["MANIFEST"])
+        manifest = os.environ["MANIFEST"]
+        print("-------- $MANIFEST --------")
+        print(manifest)
+        print("------------- END -------------")
+        manifest = json.loads(manifest)
     except KeyError as e:
         print("MANIFEST environment variable not set, reading from Manifest.toml")
         manifest = get_manifest_dict()

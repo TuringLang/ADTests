@@ -87,7 +87,7 @@ jobs:
   collect-results:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
-    needs: run-models
+    needs: [setup-keys, run-models]
 
     steps:
       - uses: actions/checkout@v4
