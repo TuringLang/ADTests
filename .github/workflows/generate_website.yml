@@ -19,6 +19,7 @@ jobs:
       # Forward step outputs to job outputs
       model_keys: ${{ steps.keys.outputs.model_keys }}
       adtype_keys: ${{ steps.keys.outputs.adtype_keys }}
+      manifest: ${{ steps.keys.outputs.manifest }}
 
     steps:
       - uses: actions/checkout@v4
@@ -98,6 +99,7 @@ jobs:
       - run: uv run ad.py html
         env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}
+          MANIFEST: ${{ needs.setup-keys.outputs.manifest }}
 
       - name: Upload results
         uses: peaceiris/actions-gh-pages@v4

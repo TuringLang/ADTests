@@ -37,13 +37,23 @@ def append_to_github_output(key, value):
         print(f"GITHUB_OUTPUT not set")
         print(pair)
 
+def get_manifest_dict():
+    with open("Manifest.toml", "rb") as f:
+        manifest_data = tomllib.load(f)
+        package_versions = {k: v[0].get("version", None) for k, v in manifest_data["deps"].items()}
+    return package_versions
+
 def setup(_args):
+    # Model keys
     models = run_and_capture([*JULIA_COMMAND, "--list-model-keys"]).splitlines()
-    adtypes = run_and_capture([*JULIA_COMMAND, "--list-adtype-keys"]).splitlines()
     append_to_github_output("model_keys", models)
+    # Adtype keys
+    adtypes = run_and_capture([*JULIA_COMMAND, "--list-adtype-keys"]).splitlines()
     append_to_github_output("adtype_keys", adtypes)
-    # TODO: Save the Manifest.toml file or at least a mapping of packages ->
-    # versions, see #9
+    # Manifest
+    package_versions = get_manifest_dict()
+    append_to_github_output("manifest", package_versions)
+
 
 def run_ad(args):
     model_key = args.model
@@ -91,12 +101,9 @@ def html(_args):
         ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
     }
 
-    results = os.environ.get("RESULTS_JSON", None)
 
-    if results is None:
-        print("RESULTS_JSON not set")
-        exit(1)
-    else:
+    try:
+        results = os.environ["RESULTS_JSON"]
         print("-------- $RESULTS_JSON --------")
         print(results)
         print("------------- END -------------")
@@ -118,6 +125,15 @@ def html(_args):
         # We do some processing to turn it into a dict of dicts
         results = json.loads(results)
         results = {entry["model_name"]: entry["results"] for entry in results}
+    except KeyError as e:
+        print("RESULTS_JSON environment variable not set")
+        exit(1)
+
+    try:
+        manifest = json.loads(os.environ["MANIFEST"])
+    except KeyError as e:
+        print("MANIFEST environment variable not set, reading from Manifest.toml")
+        manifest = get_manifest_dict()
 
     # You can also process this with pandas. I don't do that here because
     # (1) extra dependency
@@ -175,9 +191,9 @@ These will link to a GitHub issue or other page that describes the problem.
         # Table header
         f.write('<table id="results"><thead>')
         f.write("<tr>")
-        f.write("<th>Model name \\ AD type</th>")
+        f.write('<th class="right">Model name \\ AD type</th>')
         for adtype in adtypes:
-            f.write(f"<th>{adtype}</th>")
+            f.write(f'<th class="right">{adtype}</th>')
         f.write("</tr></thead><tbody>")
         # Table body
         for model_name in models:
@@ -197,7 +213,14 @@ These will link to a GitHub issue or other page that describes the problem.
                         span = f'<a class="issue" href="{error_url}" target="_blank">(?)</a> {span}'
                     f.write(f'<td>{span}</td>')
             f.write("</tr>")
-        f.write("\n</tbody></table></main></body></html>")
+        f.write("\n</tbody></table>")
+        f.write("<h2>Manifest</h2><p>The tests above were run with the following package versions:</p>")
+        f.write("<table id='manifest'><thead><tr><th>Package</th><th>Version</th>")
+        for package, version in manifest.items():
+            version_string = "" if version is None else f"v{version}"
+            f.write(f"<tr><td>{package}</td><td>{version_string}</td></tr>")
+        f.write("</table>")
+        f.write("</main></body></html>")
 
     with open("html/main.css", "w") as f:
         f.write(
@@ -225,10 +248,13 @@ main {
     max-width: 1250px;
 }
 
-table#results {
-    text-align: right;
+table {
     border: 1px solid black;
     border-collapse: collapse;
+}
+
+table#results {
+    text-align: right;
 }
 
 td, th {
@@ -238,6 +264,10 @@ td, th {
 
 th {
     background-color: #ececec;
+    text-align: left;
+}
+
+th.right {
     text-align: right;
 }
 
