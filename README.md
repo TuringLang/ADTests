@@ -59,7 +59,7 @@ The easiest thing to do is to run one specific combination of model and adtype.
 This doesn't require any environment variables: you can run `julia --project=. main.jl --run <model> <adtype>`.
 
 However, if you want to run the Python script locally, you will need to set the `RESULTS_JSON` environment variable.
-The easiest way to do this is to go to the GitHub Actions log for the `collate.py` job, where the value of `RESULTS_JSON` is printed.
+The easiest way to do this is to go to the GitHub Actions log for the collate job, where the value of `RESULTS_JSON` is printed.
 It is a multiline string (it's JSON), so you will need to do something like this:
 
 ```bash
