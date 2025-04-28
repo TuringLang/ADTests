@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -32,10 +33,13 @@ jobs:
 
       - uses: julia-actions/julia-buildpkg@v1
 
-      # This step sends model_keys and adtype_keys to GITHUB_OUTPUT
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+
       - name: Setup keys
         id: keys
-        run: ./ad.sh setup
+        run: uv run ad.py setup
 
   run-models:
     runs-on: ubuntu-latest
@@ -61,9 +65,13 @@ jobs:
 
       - uses: julia-actions/julia-buildpkg@v1
 
-      - name: Run AD
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+
+      - name: Run given model with all adtypes
         id: run
-        run: ./ad.sh run-model ${{ matrix.model }}
+        run: uv run ad.py run --model ${{ matrix.model }}
         env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
 
@@ -77,6 +85,7 @@ jobs:
 
   collect-results:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     needs: run-models
 
     steps:
@@ -86,9 +95,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - run: |
-          uv python install
-          uv run collate.py
+      - run: uv run ad.py html
         env:
           RESULTS_JSON: ${{ needs.run-models.outputs.json }}
 
