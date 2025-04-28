@@ -22,10 +22,13 @@ main {
     max-width: 1250px;
 }
 
-table#results {
-    text-align: right;
+table {
     border: 1px solid black;
     border-collapse: collapse;
+}
+
+table#results {
+    text-align: right;
 }
 
 td, th {
@@ -35,6 +38,10 @@ td, th {
 
 th {
     background-color: #ececec;
+    text-align: left;
+}
+
+th.right {
     text-align: right;
 }
 
