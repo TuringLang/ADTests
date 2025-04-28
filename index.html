@@ -32,25 +32,25 @@ These will link to a GitHub issue or other page that describes the problem.
 
 <h2>Results</h2>
 <table id="results"><thead><tr><th>Model name \ AD type</th><th>EnzymeForward</th><th>EnzymeReverse</th><th>FiniteDifferences</th><th>ForwardDiff</th><th>Mooncake</th><th>ReverseDiff</th><th>ReverseDiffCompiled</th><th>Zygote</th></tr></thead><tbody>
-<tr><td>assume_beta</td><td>2.561</td><td>3.141</td><td>26.825</td><td>1.743</td><td>8.412</td><td>16.829</td><td>2.012</td><td>557.772</td></tr>
-<tr><td>assume_dirichlet</td><td>3.226</td><td>4.693</td><td><span class="wrong">wrong</td><td>1.510</td><td>11.593</td><td>25.420</td><td>3.201</td><td>641.747</td></tr>
-<tr><td>assume_lkjcholu</td><td>16.147</td><td>7.244</td><td><span class="wrong">wrong</td><td>7.705</td><td>10.720</td><td>31.101</td><td>4.779</td><td><span class="error">error</td></tr>
-<tr><td>assume_mvnormal</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/1995" target="_blank">(?)</a> <span class="error">error</td><td>3.769</td><td>43.069</td><td>1.260</td><td>9.039</td><td>18.162</td><td>2.029</td><td>538.942</td></tr>
-<tr><td>assume_normal</td><td>2.997</td><td>3.543</td><td>30.657</td><td>1.522</td><td>9.928</td><td>22.724</td><td>2.786</td><td>868.779</td></tr>
-<tr><td>assume_submodel</td><td>2.968</td><td>3.936</td><td>33.229</td><td>1.203</td><td>8.373</td><td>11.334</td><td>1.132</td><td>732.376</td></tr>
-<tr><td>assume_wishart</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/1995" target="_blank">(?)</a> <span class="error">error</td><td>17.139</td><td><span class="error">error</td><td>1.116</td><td>10.356</td><td>28.523</td><td>3.291</td><td>308.453</td></tr>
-<tr><td>control_flow</td><td>2.686</td><td>3.277</td><td>40.395</td><td>1.523</td><td>9.346</td><td>20.734</td><td><span class="wrong">wrong</td><td>927.488</td></tr>
-<tr><td>dot_assume</td><td>3.205</td><td>2.448</td><td>89.587</td><td>1.400</td><td>6.165</td><td>30.220</td><td>3.214</td><td><span class="error">error</td></tr>
-<tr><td>dot_assume_observe_index</td><td><span class="wrong">wrong</td><td><span class="wrong">wrong</td><td>58.165</td><td>1.508</td><td>7.210</td><td>46.169</td><td>4.830</td><td><span class="error">error</td></tr>
-<tr><td>dot_observe</td><td>2.943</td><td>2.601</td><td>30.779</td><td>1.826</td><td>10.956</td><td>63.651</td><td>6.385</td><td><span class="error">error</td></tr>
-<tr><td>dynamic_constraint</td><td>2.617</td><td>3.029</td><td>39.474</td><td>1.354</td><td>9.087</td><td>26.989</td><td>3.101</td><td>1008.316</td></tr>
-<tr><td>multiple_constraints_same_var</td><td>4.387</td><td>23.594</td><td><span class="wrong">wrong</td><td>1.289</td><td>17.007</td><td>19.020</td><td>1.884</td><td><span class="error">error</td></tr>
-<tr><td>n010</td><td>5.020</td><td>2.239</td><td>0.043</td><td>1.772</td><td>5.849</td><td>34.368</td><td>3.585</td><td><span class="error">error</td></tr>
-<tr><td>n050</td><td>21.008</td><td>2.865</td><td>649.418</td><td>13.204</td><td>5.544</td><td>38.256</td><td>3.923</td><td><span class="error">error</td></tr>
-<tr><td>n100</td><td>42.104</td><td>2.659</td><td>847.933</td><td>16.626</td><td>5.278</td><td>40.048</td><td>4.111</td><td><span class="error">error</td></tr>
-<tr><td>n500</td><td>207.238</td><td>2.702</td><td>6705.620</td><td>63.576</td><td>5.030</td><td>38.262</td><td>3.464</td><td><span class="error">error</td></tr>
-<tr><td>observe_index</td><td>2.963</td><td>2.598</td><td>31.236</td><td>1.804</td><td>11.128</td><td>63.801</td><td>6.545</td><td><span class="error">error</td></tr>
-<tr><td>observe_literal</td><td>3.023</td><td>3.253</td><td>29.475</td><td>1.571</td><td>9.462</td><td>37.978</td><td>3.899</td><td>1244.948</td></tr>
-<tr><td>observe_multivariate</td><td>3.096</td><td>4.497</td><td>55.752</td><td>1.362</td><td>7.056</td><td>32.754</td><td>3.541</td><td><span class="error">error</td></tr>
-<tr><td>observe_submodel</td><td>2.866</td><td>4.566</td><td>18.853</td><td>1.402</td><td>8.529</td><td>13.588</td><td>1.493</td><td>860.454</td></tr>
+<tr><td>assume_beta</td><td>2.503</td><td>4.577</td><td>25.549</td><td>1.731</td><td>8.588</td><td>17.242</td><td>2.025</td><td>615.991</td></tr>
+<tr><td>assume_dirichlet</td><td>3.244</td><td>4.121</td><td><span class="wrong">wrong</td><td>1.457</td><td>11.846</td><td>28.516</td><td>3.288</td><td>650.937</td></tr>
+<tr><td>assume_lkjcholu</td><td>16.405</td><td>7.958</td><td><span class="wrong">wrong</td><td>7.096</td><td>10.770</td><td>29.995</td><td>4.768</td><td><span class="error">error</td></tr>
+<tr><td>assume_mvnormal</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/1995" target="_blank">(?)</a> <span class="error">error</td><td>4.003</td><td>39.915</td><td>1.323</td><td>8.478</td><td>17.867</td><td>2.049</td><td>515.399</td></tr>
+<tr><td>assume_normal</td><td>3.064</td><td>3.290</td><td>30.141</td><td>1.525</td><td>9.495</td><td>22.625</td><td>2.825</td><td>825.499</td></tr>
+<tr><td>assume_submodel</td><td>2.898</td><td>3.964</td><td>33.083</td><td>1.216</td><td>8.706</td><td>11.610</td><td>1.129</td><td>713.783</td></tr>
+<tr><td>assume_wishart</td><td><a class="issue" href="https://github.com/EnzymeAD/Enzyme.jl/issues/1995" target="_blank">(?)</a> <span class="error">error</td><td>17.327</td><td><span class="error">error</td><td>1.139</td><td>10.269</td><td>28.024</td><td>3.044</td><td>326.701</td></tr>
+<tr><td>control_flow</td><td>2.672</td><td>3.235</td><td>40.485</td><td>1.427</td><td>8.891</td><td>21.227</td><td><span class="wrong">wrong</td><td>938.109</td></tr>
+<tr><td>dot_assume</td><td>3.129</td><td>2.351</td><td>86.461</td><td>1.423</td><td>5.963</td><td>32.640</td><td>3.211</td><td><span class="error">error</td></tr>
+<tr><td>dot_assume_observe_index</td><td><span class="wrong">wrong</td><td><span class="wrong">wrong</td><td>39.612</td><td>1.489</td><td>7.341</td><td>46.153</td><td>4.710</td><td><span class="error">error</td></tr>
+<tr><td>dot_observe</td><td>3.017</td><td>2.705</td><td>32.215</td><td>1.828</td><td>10.940</td><td>62.013</td><td>6.839</td><td><span class="error">error</td></tr>
+<tr><td>dynamic_constraint</td><td>2.566</td><td>2.735</td><td>40.057</td><td>1.380</td><td>8.822</td><td>26.613</td><td>3.158</td><td>987.166</td></tr>
+<tr><td>multiple_constraints_same_var</td><td>4.409</td><td>22.210</td><td><span class="wrong">wrong</td><td>1.254</td><td>16.615</td><td>19.466</td><td>1.946</td><td><span class="error">error</td></tr>
+<tr><td>n010</td><td>4.446</td><td>2.239</td><td>148.796</td><td>1.937</td><td>5.615</td><td>33.805</td><td>3.472</td><td><span class="error">error</td></tr>
+<tr><td>n050</td><td>21.161</td><td>2.776</td><td>648.959</td><td>9.466</td><td>5.127</td><td>33.704</td><td>3.859</td><td><span class="error">error</td></tr>
+<tr><td>n100</td><td>41.406</td><td>2.856</td><td>1262.668</td><td>16.719</td><td>5.092</td><td>40.427</td><td>3.782</td><td><span class="error">error</td></tr>
+<tr><td>n500</td><td>208.248</td><td>2.665</td><td>6685.666</td><td>64.793</td><td>4.870</td><td>34.709</td><td>3.609</td><td><span class="error">error</td></tr>
+<tr><td>observe_index</td><td>2.898</td><td>2.490</td><td>31.645</td><td>1.766</td><td>10.038</td><td>64.757</td><td>6.717</td><td><span class="error">error</td></tr>
+<tr><td>observe_literal</td><td>2.934</td><td>3.216</td><td>28.466</td><td>1.606</td><td>9.160</td><td>37.823</td><td>4.084</td><td>1214.457</td></tr>
+<tr><td>observe_multivariate</td><td>3.011</td><td>4.668</td><td>55.634</td><td>1.430</td><td>7.358</td><td>33.394</td><td>3.272</td><td><span class="error">error</td></tr>
+<tr><td>observe_submodel</td><td>2.790</td><td>4.652</td><td>19.464</td><td>1.303</td><td>8.116</td><td>14.318</td><td>1.511</td><td>850.629</td></tr>
 </tbody></table></main></body></html>
