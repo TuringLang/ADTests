@@ -47,7 +47,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
         # If reached here - nothing went wrong
         @printf("%.3f", result.time_vs_primal)
     catch e
-        if result.error isa ADIncorrectException
+        if e isa ADIncorrectException
             # First check for completely incorrect ones
             for (a, b) in zip(result.grad_expected, result.grad_actual)
                 if !isnan(a) && !isnan(b) && abs(a - b) > 1e-6
