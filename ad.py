@@ -70,11 +70,16 @@ def run_ad(args):
 
     results = {}
 
+    if model_key == "multithreaded":
+        RUN_JULIA_COMMAND = ["julia", "--threads=2", *JULIA_COMMAND[1:]]
+    else:
+        RUN_JULIA_COMMAND = JULIA_COMMAND
+
     # Run tests
     for adtype in adtypes:
         print(f"Running {model_key} with {adtype}...")
         try:
-            output = run_and_capture([*JULIA_COMMAND, "--run", model_key, adtype])
+            output = run_and_capture([*RUN_JULIA_COMMAND, "--run", model_key, adtype])
             result = output.splitlines()[-1]
         except sp.CalledProcessError as e:
             result = "error"

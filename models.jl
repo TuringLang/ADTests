@@ -146,4 +146,11 @@ for n in NS
     end
 end
 
+@model function multithreaded(x)
+    Threads.@threads for i in eachindex(x)
+        x[i] ~ Normal(x, 1)
+    end
+end
+add_model!(MODELS, multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5]))
+
 end # module Models
