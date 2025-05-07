@@ -147,8 +147,9 @@ for n in NS
 end
 
 @model function multithreaded(x)
+    a ~ Normal()
     Threads.@threads for i in eachindex(x)
-        x[i] ~ Normal(x, 1)
+        x[i] ~ Normal(a)
     end
 end
 add_model!(MODELS, multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5]))
