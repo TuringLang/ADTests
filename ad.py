@@ -122,14 +122,11 @@ def html(_args):
 
     ENZYME_RVS_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
     ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995"
+    MOONCAKE_THREADED = "https://github.com/chalk-lab/Mooncake.jl/issues/570"
     KNOWN_ERRORS = {
-        ("assume_beta", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_dirichlet", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_lkjcholu", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_normal", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_wishart", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
         ("assume_mvnormal", "EnzymeForward"): ENZYME_FWD_BLAS,
         ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
+        ("multithreaded", "Mooncake"): MOONCAKE_THREADED,
     }
 
 
@@ -221,6 +218,8 @@ These will link to a GitHub issue or other page that describes the problem.
 </ul>
 
 <h2>Results</h2>
+
+<p>(New: You can also hover over the model names to see their definitions.)</p>
 """)
 
         # Table header
