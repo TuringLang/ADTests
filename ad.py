@@ -317,6 +317,14 @@ tr > td:first-child {
     position: relative;
 }
 
+tr > td:first-child:hover {
+    background-color: #f6f6f6;
+}
+
+tr > td:first-child:hover > div.model-definition {
+    display: block;
+}
+
 tr > th:first-child {
     font-family: "Fira Sans", sans-serif;
     font-weight: 700;
@@ -359,14 +367,6 @@ div.model-definition {
     left: 100%;
     top: 0;
     display: none;
-}
-
-td:hover {
-    background-color: #f6f6f6;
-}
-
-td:hover > div.model-definition {
-    display: block;
 }
 """)
 
