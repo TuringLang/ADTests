@@ -2,7 +2,7 @@ module Models
 
 using DynamicPPL
 using Distributions
-using LinearAlgebra: I
+using LinearAlgebra:I
 
 export MODELS
 
@@ -94,8 +94,6 @@ end
 end
 add_model!(MODELS, observe_submodel())
 
-# This one fails with Enzyme ...
-
 @model function dot_assume_observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}
     a = TV(undef, length(x))
     a .~ Normal()
@@ -105,46 +103,67 @@ add_model!(MODELS, observe_submodel())
 end
 add_model!(MODELS, dot_assume_observe_index())
 
-# Add models with different distributions
+@model function assume_normal()
+    a ~ Normal()
+end
+add_model!(MODELS, assume_normal())
 
-DISTRIBUTIONS = Dict(
-    # Univariate
-    :assume_normal => Normal(),
-    :assume_beta => Beta(2, 2),
-    # Multivariate
-    :assume_mvnormal => MvNormal([0.0, 0.0], [1.0 0.5; 0.5 1.0]),
-    :assume_dirichlet => Dirichlet([1.0, 5.0]),
-    # Matrixvariate
-    :assume_wishart => Wishart(7, [1.0 0.5; 0.5 1.0]),
-    :assume_lkjcholu => LKJCholesky(5, 1.0, 'U'),
-)
+@model function assume_beta()
+    a ~ Beta(2, 2)
+end
+add_model!(MODELS, assume_beta())
 
-for (name, distribution) in DISTRIBUTIONS
-    @eval begin
-        @model function $name()
-            a ~ $distribution
-        end
-        add_model!(MODELS, $name())
+@model function assume_mvnormal()
+    a ~ MvNormal([0.0, 0.0], [1.0 0.5; 0.5 1.0])
+end
+add_model!(MODELS, assume_mvnormal())
+
+@model function assume_dirichlet()
+    a ~ Dirichlet([1.0, 5.0])
+end
+add_model!(MODELS, assume_dirichlet())
+
+@model function assume_wishart()
+    a ~ Wishart(7, [1.0 0.5; 0.5 1.0])
+end
+add_model!(MODELS, assume_wishart())
+
+@model function assume_lkjcholu()
+    a ~ LKJCholesky(5, 1.0, 'U')
+end
+add_model!(MODELS, assume_lkjcholu())
+
+@model function n010(::Type{TV}=Vector{Float64}) where {TV}
+    a = TV(undef, 10)
+    for i in eachindex(a)
+        a[i] ~ Normal()
     end
 end
+add_model!(MODELS, n010())
 
-# Add models with different sizes
-
-NS = [10, 50, 100, 500]
-
-for n in NS
-    # pad to make sure they sort correctly alphabetically
-    name = Symbol("n$(lpad(n, 3, "0"))")
-    @eval begin
-        @model function $name(::Type{TV}=Vector{Float64}) where {TV}
-            a = TV(undef, $n)
-            for i in eachindex(a)
-                a[i] ~ Normal()
-            end
-        end
-        add_model!(MODELS, $name())
+@model function n050(::Type{TV}=Vector{Float64}) where {TV}
+    a = TV(undef, 50)
+    for i in eachindex(a)
+        a[i] ~ Normal()
     end
 end
+add_model!(MODELS, n050())
+
+@model function n100(::Type{TV}=Vector{Float64}) where {TV}
+    a = TV(undef, 100)
+    for i in eachindex(a)
+        a[i] ~ Normal()
+    end
+end
+add_model!(MODELS, n100())
+
+@model function n500(::Type{TV}=Vector{Float64}) where {TV}
+    a = TV(undef, 500)
+    for i in eachindex(a)
+        a[i] ~ Normal()
+    end
+end
+add_model!(MODELS, n500())
 
 @model function multithreaded(x)
     a ~ Normal()

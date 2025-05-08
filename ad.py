@@ -93,20 +93,40 @@ def run_ad(args):
     append_to_github_output("results", results)
 
 
+def get_model_definition(model_key):
+    """Get the model definition from the Julia script."""
+    lines = []
+    submodels = []
+    record = False
+    with open("models.jl", "r") as file:
+        for line in file:
+            line = line.rstrip()
+            if line.startswith(f"@model function {model_key}"):
+                record = True
+            if record:
+                lines.append(line)
+
+                if "to_submodel" in line:
+                    submodel_name = line.split("to_submodel(")[1].split("(")[0]
+                    submodels.append(submodel_name)
+                if line == "end":
+                    break
+    for submodel in submodels:
+        lines = [get_model_definition(submodel), *lines]
+    return "<br>".join(lines)
+
+
 def html(_args):
     ## Here you can register known errors that have been reported on GitHub /
     ## have otherwise been documented. They will be turned into links in the table.
 
     ENZYME_RVS_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
     ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995"
+    MOONCAKE_THREADED = "https://github.com/chalk-lab/Mooncake.jl/issues/570"
     KNOWN_ERRORS = {
-        ("assume_beta", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_dirichlet", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_lkjcholu", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_normal", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
-        ("assume_wishart", "EnzymeReverse"): ENZYME_RVS_ONE_PARAM,
         ("assume_mvnormal", "EnzymeForward"): ENZYME_FWD_BLAS,
         ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
+        ("multithreaded", "Mooncake"): MOONCAKE_THREADED,
     }
 
 
@@ -198,6 +218,8 @@ These will link to a GitHub issue or other page that describes the problem.
 </ul>
 
 <h2>Results</h2>
+
+<p>(New: You can also hover over the model names to see their definitions.)</p>
 """)
 
         # Table header
@@ -211,7 +233,7 @@ These will link to a GitHub issue or other page that describes the problem.
         for model_name in models:
             ad_results = results[model_name]
             f.write("\n<tr>")
-            f.write(f"<td>{model_name}</td>")
+            f.write(f'<td>{model_name}<div class="model-definition"><pre>{get_model_definition(model_name)}</pre></div></td>')
             for adtype in adtypes:
                 ad_result = ad_results[adtype]
                 try:
@@ -272,6 +294,7 @@ table#results {
 td, th {
     border: 1px solid black;
     padding: 0px 10px;
+    white-space: nowrap;
 }
 
 th {
@@ -291,6 +314,7 @@ tr > td:first-child {
     font-family: "Fira Sans", sans-serif;
     font-weight: 700;
     background-color: #ececec;
+    position: relative;
 }
 
 tr > th:first-child {
@@ -320,6 +344,29 @@ a.issue:hover {
 
 a.issue:visited {
     color: #880000;
+}
+
+div.model-definition {
+    background-color: #f6f6f6;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0 10px;
+    z-index: 5;
+    font-size: 0.9em;
+    text-align: left;
+    font-weight: normal;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    display: none;
+}
+
+td:hover {
+    background-color: #f6f6f6;
+}
+
+td:hover > div.model-definition {
+    display: block;
 }
 """)
 
