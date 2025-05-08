@@ -294,6 +294,7 @@ table#results {
 td, th {
     border: 1px solid black;
     padding: 0px 10px;
+    white-space: nowrap;
 }
 
 th {
@@ -358,6 +359,10 @@ div.model-definition {
     left: 100%;
     top: 0;
     display: none;
+}
+
+td:hover {
+    background-color: #f6f6f6;
 }
 
 td:hover > div.model-definition {
