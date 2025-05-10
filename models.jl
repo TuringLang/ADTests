@@ -173,4 +173,32 @@ add_model!(MODELS, n500())
 end
 add_model!(MODELS, multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5]))
 
+# PosteriorDB
+
+es_J = 8
+es_y = [28, 8, -3, 7, -1, 1, 18, 12]
+es_sigma = [15, 10, 16, 11, 9, 11, 10, 18]
+@model function pdb_eight_schools_centered(J, y, sigma)
+    mu ~ Normal(0, 5)
+    tau ~ truncated(Cauchy(0, 5); lower=0)
+    theta = Vector{Float64}(undef, J)
+    for i in 1:J
+        theta[i] ~ Normal(mu, tau)
+        y[i] ~ Normal(theta[i], sigma[i])
+    end
+end
+add_model!(MODELS, pdb_eight_schools_centered(es_J, es_y, es_sigma))
+
+@model function pdb_eight_schools_noncentered(J, y, sigma)
+    mu ~ Normal(0, 5)
+    tau ~ truncated(Cauchy(0, 5); lower=0)
+    theta_trans = Vector{Float64}(undef, J)
+    for i in 1:J
+        theta_trans[i] ~ Normal(0, 1)
+        theta = theta_trans[i] * tau + mu;
+        y[i] ~ Normal(theta, sigma[i])
+    end
+end
+add_model!(MODELS, pdb_eight_schools_noncentered(es_J, es_y, es_sigma))
+
 end # module Models
