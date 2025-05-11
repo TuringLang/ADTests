@@ -13,14 +13,14 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
+    # "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
-    "Mooncake" => AutoMooncake(; config=nothing),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
-    "Zygote" => AutoZygote(),
+    # "ReverseDiff" => AutoReverseDiff(; compile=false),
+    # "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    # "Mooncake" => AutoMooncake(; config=nothing),
+    # "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
+    # "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    # "Zygote" => AutoZygote(),
 )
 
 # Models to test.

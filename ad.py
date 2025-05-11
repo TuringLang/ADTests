@@ -113,53 +113,48 @@ def get_model_definition(model_key):
                     break
     for submodel in submodels:
         lines = [get_model_definition(submodel), *lines]
-    return "<br>".join(lines)
+    return "\n".join(lines)
+
+
+def try_float(value):
+    try:
+        return float(value)
+    except ValueError:
+        return value
 
 
 def html(_args):
-    ## Here you can register known errors that have been reported on GitHub /
-    ## have otherwise been documented. They will be turned into links in the table.
+    results = os.environ["RESULTS_JSON"]
+    print("-------- $RESULTS_JSON --------")
+    print(results)
+    print("------------- END -------------")
+    # results is a list of dicts that looks something like this.
+    # [
+    #     {"model_name": "model1",
+    #      "results": {
+    #          "AD1": "result1",
+    #          "AD2": "result2"
+    #      }
+    #     },
+    #     {"model_name": "model2",
+    #      "results": {
+    #          "AD1": "result3",
+    #          "AD2": "result4"
+    #      }
+    #     }
+    # ]
+    # We do some processing to turn it into a dict of dicts, then dump it
+    # to the website
+    results = json.loads(results)
+    new_data = {}
+    for entry in results:
+        model_name = entry["model_name"]
+        results = {k: try_float(v) for k, v in entry["results"].items()}
+        new_data[model_name] = results
+    with open("web/src/data/adtests.json", "w") as f:
+        json.dump(new_data, f, indent=2)
 
-    ENZYME_RVS_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
-    ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995"
-    MOONCAKE_THREADED = "https://github.com/chalk-lab/Mooncake.jl/issues/570"
-    ENZYME_DEMO_INCORRECT = "https://github.com/EnzymeAD/Enzyme.jl/issues/2387"
-    KNOWN_ERRORS = {
-        ("assume_mvnormal", "EnzymeForward"): ENZYME_FWD_BLAS,
-        ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
-        ("multithreaded", "Mooncake"): MOONCAKE_THREADED,
-        ("dot_assume_observe_index", "EnzymeForward"): ENZYME_DEMO_INCORRECT,
-        ("dot_assume_observe_index", "EnzymeReverse"): ENZYME_DEMO_INCORRECT,
-    }
-
-
-    try:
-        results = os.environ["RESULTS_JSON"]
-        print("-------- $RESULTS_JSON --------")
-        print(results)
-        print("------------- END -------------")
-        # results is a list of dicts that looks something like this.
-        # [
-        #     {"model_name": "model1",
-        #      "results": {
-        #          "AD1": "result1",
-        #          "AD2": "result2"
-        #      }
-        #     },
-        #     {"model_name": "model2",
-        #      "results": {
-        #          "AD1": "result3",
-        #          "AD2": "result4"
-        #      }
-        #     }
-        # ]
-        # We do some processing to turn it into a dict of dicts
-        results = json.loads(results)
-        results = {entry["model_name"]: entry["results"] for entry in results}
-    except KeyError as e:
-        print("RESULTS_JSON environment variable not set")
-        exit(1)
-
+    # Process Manifest
     try:
         manifest = os.environ["MANIFEST"]
         print("-------- $MANIFEST --------")
@@ -169,209 +164,18 @@ def html(_args):
     except KeyError as e:
         print("MANIFEST environment variable not set, reading from Manifest.toml")
         manifest = get_manifest_dict()
+    with open("web/src/data/manifest.json", "w") as f:
+        json.dump(manifest, f, indent=2)
 
-    # You can also process this with pandas. I don't do that here because
-    # (1) extra dependency
-    # (2) df.to_html() doesn't have enough customisation for our purposes.
-    #
-    # import pandas as pd
-    # results_flattened = [
-    #     {"model_name": entry["model_name"], **entry["results"]}
-    #     for entry in json.loads(results)
-    # ]
-    # df = pd.DataFrame.from_records(results_flattened)
-
-    adtypes = sorted(list(results.values())[0].keys())
-    models = sorted(results.keys())
-
-    # Create the directory if it doesn't exist
-    os.makedirs("html", exist_ok=True)
-    with open("html/index.html", "w") as f:
-        f.write(
-"""<!DOCTYPE html>
-<html>
-<head><title>Turing AD tests</title>
-<link rel="stylesheet" type="text/css" href="main.css">
-</head>
-<body><main>
-<h1>Turing AD tests</h1>
-
-<p><a href="https://turinglang.org/docs">Turing.jl documentation</a> | <a href="https://github.com/TuringLang/Turing.jl">Turing.jl GitHub</a> | <a href="https://github.com/TuringLang/ADTests">Source code for these tests</a></p>
-
-<p>This page is intended as a brief overview of how different AD backends
-perform on a variety of Turing.jl models.
-Note that the inclusion of any AD backend here does not imply an endorsement
-from the Turing team; this table is purely for information.
-</p>
-
-<ul>
-<li>The definitions of the models and AD types below can be found on <a
-href="https://github.com/TuringLang/ADTests" target="_blank">GitHub</a>.</li>
-<li><b>Numbers</b> indicate the time taken to calculate the gradient of the log
-density of the model using the specified AD type, divided by the time taken to
-calculate the log density itself (in AD speak, the primal). Basically:
-<b>smaller means faster.</b></li>
-<li>'<span class="wrong">wrong</span>' means that AD ran but the result was not
-correct. If this happens you should be very wary! Note that this is done by
-comparing against the result obtained using ForwardDiff, i.e., ForwardDiff is
-by definition always 'correct'.</li>
-<li>'<span class="error">error</span>' means that AD didn't run.</li>
-<li>Some of the 'wrong' or 'error' entries have question marks next to them.
-These will link to a GitHub issue or other page that describes the problem.
-</ul>
-
-<h2>Results</h2>
-
-<p>(New: You can also hover over the model names to see their definitions.)</p>
-""")
-
-        # Table header
-        f.write('<table id="results"><thead>')
-        f.write("<tr>")
-        f.write('<th class="right">Model name \\ AD type</th>')
-        for adtype in adtypes:
-            f.write(f'<th class="right">{adtype}</th>')
-        f.write("</tr></thead><tbody>")
-        # Table body
-        for model_name in models:
-            ad_results = results[model_name]
-            f.write("\n<tr>")
-            f.write(f'<td>{model_name}<div class="model-definition"><pre>{get_model_definition(model_name)}</pre></div></td>')
-            for adtype in adtypes:
-                ad_result = ad_results[adtype]
-                try:
-                    float(ad_result)
-                    f.write(f'<td>{ad_result}</td>')
-                except ValueError:
-                    # Not a float, embed the class into the html
-                    error_url = KNOWN_ERRORS.get((model_name, adtype), None)
-                    span = f'<span class="{ad_result}">{ad_result}'
-                    if error_url is not None:
-                        span = f'<a class="issue" href="{error_url}" target="_blank">(?)</a> {span}'
-                    f.write(f'<td>{span}</td>')
-            f.write("</tr>")
-        f.write("\n</tbody></table>")
-        f.write("<h2>Manifest</h2><p>The tests above were run with the following package versions:</p>")
-        f.write("<table id='manifest'><thead><tr><th>Package</th><th>Version</th>")
-        for package, version in manifest.items():
-            version_string = "" if version is None else f"v{version}"
-            f.write(f"<tr><td>{package}</td><td>{version_string}</td></tr>")
-        f.write("</table>")
-        f.write("</main></body></html>")
-
-    with open("html/main.css", "w") as f:
-        f.write(
-"""
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-html {
-    font-family: "Fira Sans", sans-serif;
-    box-sizing: border-box;
-    font-size: 16px;
-    line-height: 1.6;
-    background-color: #f1f2e3;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-body {
-    display: flex;
-    align-items: center;
-    margin: 0px 0px 50px 0px;
-}
-
-main {
-    margin: auto;
-    max-width: 1250px;
-}
-
-table {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-table#results {
-    text-align: right;
-}
-
-td, th {
-    border: 1px solid black;
-    padding: 0px 10px;
-    white-space: nowrap;
-}
-
-th {
-    background-color: #ececec;
-    text-align: left;
-}
-
-th.right {
-    text-align: right;
-}
-
-td {
-    font-family: "Fira Code", monospace;
-}
-
-tr > td:first-child {
-    font-family: "Fira Sans", sans-serif;
-    font-weight: 700;
-    background-color: #ececec;
-    position: relative;
-}
-
-tr > td:first-child:hover {
-    background-color: #f6f6f6;
-}
-
-tr > td:first-child:hover > div.model-definition {
-    display: block;
-}
-
-tr > th:first-child {
-    font-family: "Fira Sans", sans-serif;
-    font-weight: 700;
-    background-color: #d1d1d1;
-}
-
-span.err, span.error {
-    color: #ff0000;
-}
-
-span.incorrect, span.wrong {
-    color: #ff0000;
-    background-color: #ffcccc;
-}
-
-a.issue {
-    color: #880000;
-    text-decoration: none;
-}
-
-a.issue:hover {
-    background-color: #ffcccc;
-    transition: background-color 0.3s ease;
-}
-
-a.issue:visited {
-    color: #880000;
-}
-
-div.model-definition {
-    background-color: #f6f6f6;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 0 10px;
-    z-index: 5;
-    font-size: 0.9em;
-    text-align: left;
-    font-weight: normal;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    display: none;
-}
-""")
+    # Process model definitions
+    model_keys = list(new_data.keys())
+    # technically we can also get it this way
+    # model_keys = run_and_capture([*JULIA_COMMAND, "--list-model-keys"]).splitlines()
+    model_definitions = {}
+    for model_key in model_keys:
+        model_definitions[model_key] = get_model_definition(model_key)
+    with open("web/src/data/model_definitions.json", "w") as f:
+        json.dump(model_definitions, f, indent=2)
 
 
 def parse_arguments():
