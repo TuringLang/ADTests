@@ -124,6 +124,9 @@ def try_float(value):
 
 
 def html(_args):
+    web_dir = Path(__file__).parent / "web"
+    json_output_dirs = [web_dir / "src" / "data", web_dir / "public"]
+
     results = os.environ["RESULTS_JSON"]
     print("-------- $RESULTS_JSON --------")
     print(results)
@@ -151,8 +154,9 @@ def html(_args):
         model_name = entry["model_name"]
         results = {k: try_float(v) for k, v in entry["results"].items()}
         new_data[model_name] = results
-    with open("web/src/data/adtests.json", "w") as f:
-        json.dump(new_data, f, indent=2)
+    for dir in json_output_dirs:
+        with open(dir / "adtests.json", "w") as f:
+            json.dump(new_data, f, indent=2)
 
     # Process Manifest
     try:
@@ -164,8 +168,9 @@ def html(_args):
     except KeyError as e:
         print("MANIFEST environment variable not set, reading from Manifest.toml")
         manifest = get_manifest_dict()
-    with open("web/src/data/manifest.json", "w") as f:
-        json.dump(manifest, f, indent=2)
+    for dir in json_output_dirs:
+        with open(dir / "manifest.json", "w") as f:
+            json.dump(new_data, f, indent=2)
 
     # Process model definitions
     model_keys = list(new_data.keys())
@@ -174,8 +179,9 @@ def html(_args):
     model_definitions = {}
     for model_key in model_keys:
         model_definitions[model_key] = get_model_definition(model_key)
-    with open("web/src/data/model_definitions.json", "w") as f:
-        json.dump(model_definitions, f, indent=2)
+    for dir in json_output_dirs:
+        with open(dir / "model_definitions.json", "w") as f:
+            json.dump(new_data, f, indent=2)
 
 
 def parse_arguments():
