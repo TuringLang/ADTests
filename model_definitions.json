@@ -1,74 +1,26 @@
 {
-  "assume_beta": {
-    "ForwardDiff": 1.666
-  },
-  "assume_dirichlet": {
-    "ForwardDiff": 1.316
-  },
-  "dot_observe": {
-    "ForwardDiff": 1.675
-  },
-  "dynamic_constraint": {
-    "ForwardDiff": 1.282
-  },
-  "multiple_constraints_same_var": {
-    "ForwardDiff": 1.202
-  },
-  "multithreaded": {
-    "ForwardDiff": 1.044
-  },
-  "n010": {
-    "ForwardDiff": 1.674
-  },
-  "n050": {
-    "ForwardDiff": 8.593
-  },
-  "n100": {
-    "ForwardDiff": 14.02
-  },
-  "n500": {
-    "ForwardDiff": 73.414
-  },
-  "observe_index": {
-    "ForwardDiff": 1.67
-  },
-  "observe_literal": {
-    "ForwardDiff": 1.52
-  },
-  "assume_lkjcholu": {
-    "ForwardDiff": 2.016
-  },
-  "observe_multivariate": {
-    "ForwardDiff": 1.308
-  },
-  "observe_submodel": {
-    "ForwardDiff": 1.425
-  },
-  "pdb_eight_schools_centered": {
-    "ForwardDiff": 1.739
-  },
-  "pdb_eight_schools_noncentered": {
-    "ForwardDiff": 1.831
-  },
-  "assume_mvnormal": {
-    "ForwardDiff": 1.177
-  },
-  "assume_normal": {
-    "ForwardDiff": 1.384
-  },
-  "assume_submodel": {
-    "ForwardDiff": 1.251
-  },
-  "assume_wishart": {
-    "ForwardDiff": 1.066
-  },
-  "control_flow": {
-    "ForwardDiff": 1.492
-  },
-  "dot_assume": {
-    "ForwardDiff": 1.422
-  },
-  "dot_assume_observe_index": {
-    "ForwardDiff": 1.386
-  }
+  "assume_beta": "@model function assume_beta()\n    a ~ Beta(2, 2)\nend",
+  "assume_dirichlet": "@model function assume_dirichlet()\n    a ~ Dirichlet([1.0, 5.0])\nend",
+  "dot_observe": "@model function dot_observe(x=[1.5, 2.0, 2.5])\n    a ~ Normal()\n    x .~ Normal(a)\nend",
+  "dynamic_constraint": "@model function dynamic_constraint()\n    a ~ Normal()\n    b ~ truncated(Normal(); lower=a)\nend",
+  "multiple_constraints_same_var": "@model function multiple_constraints_same_var(\n    ::Type{TV}=Vector{Float64}\n) where {TV}\n    x = TV(undef, 5)\n    x[1] ~ Normal()\n    x[2] ~ InverseGamma(2, 3)\n    x[3] ~ truncated(Normal(), -5, 20)\n    x[4:5] ~ Dirichlet([1.0, 2.0])\nend",
+  "multithreaded": "@model function multithreaded(x)\n    a ~ Normal()\n    Threads.@threads for i in eachindex(x)\n        x[i] ~ Normal(a)\n    end\nend",
+  "n010": "@model function n010(::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, 10)\n    for i in eachindex(a)\n        a[i] ~ Normal()\n    end\nend",
+  "n050": "@model function n050(::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, 50)\n    for i in eachindex(a)\n        a[i] ~ Normal()\n    end\nend",
+  "n100": "@model function n100(::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, 100)\n    for i in eachindex(a)\n        a[i] ~ Normal()\n    end\nend",
+  "n500": "@model function n500(::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, 500)\n    for i in eachindex(a)\n        a[i] ~ Normal()\n    end\nend",
+  "observe_index": "@model function observe_index(x=[1.5, 2.0, 2.5])\n    a ~ Normal()\n    for i in eachindex(x)\n        x[i] ~ Normal(a)\n    end\nend",
+  "observe_literal": "@model function observe_literal()\n    a ~ Normal()\n    1.5 ~ Normal(a)\nend",
+  "assume_lkjcholu": "@model function assume_lkjcholu()\n    a ~ LKJCholesky(5, 1.0, 'U')\nend",
+  "observe_multivariate": "@model function observe_multivariate(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, length(x))\n    a .~ Normal()\n    x ~ MvNormal(a, I)\nend",
+  "observe_submodel": "@model function inner2(x, a)\n    x ~ Normal(a)\nend\n@model function observe_submodel(x=1.5)\n    a ~ Normal()\n    _ignore ~ to_submodel(inner2(x, a))\nend",
+  "pdb_eight_schools_centered": "@model function pdb_eight_schools_centered(J, y, sigma)\n    mu ~ Normal(0, 5)\n    tau ~ truncated(Cauchy(0, 5); lower=0)\n    theta = Vector{Float64}(undef, J)\n    for i in 1:J\n        theta[i] ~ Normal(mu, tau)\n        y[i] ~ Normal(theta[i], sigma[i])\n    end\nend",
+  "pdb_eight_schools_noncentered": "@model function pdb_eight_schools_noncentered(J, y, sigma)\n    mu ~ Normal(0, 5)\n    tau ~ truncated(Cauchy(0, 5); lower=0)\n    theta_trans = Vector{Float64}(undef, J)\n    for i in 1:J\n        theta_trans[i] ~ Normal(0, 1)\n        theta = theta_trans[i] * tau + mu;\n        y[i] ~ Normal(theta, sigma[i])\n    end\nend",
+  "assume_mvnormal": "@model function assume_mvnormal()\n    a ~ MvNormal([0.0, 0.0], [1.0 0.5; 0.5 1.0])\nend",
+  "assume_normal": "@model function assume_normal()\n    a ~ Normal()\nend",
+  "assume_submodel": "@model function inner1()\n    return a ~ Normal()\nend\n@model function assume_submodel()\n    a ~ to_submodel(inner1())\n    x ~ Normal(a)\nend",
+  "assume_wishart": "@model function assume_wishart()\n    a ~ Wishart(7, [1.0 0.5; 0.5 1.0])\nend",
+  "control_flow": "@model function control_flow()\n    a ~ Normal()\n    if a > 0\n        b ~ Normal()\n    else\n        b ~ Beta(2, 2)\n    end\nend",
+  "dot_assume": "@model function dot_assume(::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, 5)\n    a .~ Normal()\nend",
+  "dot_assume_observe_index": "@model function dot_assume_observe_index(x=[1.5, 2.0, 2.5], ::Type{TV}=Vector{Float64}) where {TV}\n    a = TV(undef, length(x))\n    a .~ Normal()\n    for i in eachindex(x)\n        x[i] ~ Normal(a[i])\n    end\nend"
 }
