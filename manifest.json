@@ -1,0 +1,74 @@
+{
+  "assume_beta": {
+    "ForwardDiff": 1.666
+  },
+  "assume_dirichlet": {
+    "ForwardDiff": 1.316
+  },
+  "dot_observe": {
+    "ForwardDiff": 1.675
+  },
+  "dynamic_constraint": {
+    "ForwardDiff": 1.282
+  },
+  "multiple_constraints_same_var": {
+    "ForwardDiff": 1.202
+  },
+  "multithreaded": {
+    "ForwardDiff": 1.044
+  },
+  "n010": {
+    "ForwardDiff": 1.674
+  },
+  "n050": {
+    "ForwardDiff": 8.593
+  },
+  "n100": {
+    "ForwardDiff": 14.02
+  },
+  "n500": {
+    "ForwardDiff": 73.414
+  },
+  "observe_index": {
+    "ForwardDiff": 1.67
+  },
+  "observe_literal": {
+    "ForwardDiff": 1.52
+  },
+  "assume_lkjcholu": {
+    "ForwardDiff": 2.016
+  },
+  "observe_multivariate": {
+    "ForwardDiff": 1.308
+  },
+  "observe_submodel": {
+    "ForwardDiff": 1.425
+  },
+  "pdb_eight_schools_centered": {
+    "ForwardDiff": 1.739
+  },
+  "pdb_eight_schools_noncentered": {
+    "ForwardDiff": 1.831
+  },
+  "assume_mvnormal": {
+    "ForwardDiff": 1.177
+  },
+  "assume_normal": {
+    "ForwardDiff": 1.384
+  },
+  "assume_submodel": {
+    "ForwardDiff": 1.251
+  },
+  "assume_wishart": {
+    "ForwardDiff": 1.066
+  },
+  "control_flow": {
+    "ForwardDiff": 1.492
+  },
+  "dot_assume": {
+    "ForwardDiff": 1.422
+  },
+  "dot_assume_observe_index": {
+    "ForwardDiff": 1.386
+  }
+}
