@@ -170,7 +170,7 @@ def html(_args):
         manifest = get_manifest_dict()
     for dir in json_output_dirs:
         with open(dir / "manifest.json", "w") as f:
-            json.dump(new_data, f, indent=2)
+            json.dump(manifest, f, indent=2)
 
     # Process model definitions
     model_keys = list(new_data.keys())
@@ -181,7 +181,7 @@ def html(_args):
         model_definitions[model_key] = get_model_definition(model_key)
     for dir in json_output_dirs:
         with open(dir / "model_definitions.json", "w") as f:
-            json.dump(new_data, f, indent=2)
+            json.dump(model_definitions, f, indent=2)
 
 
 def parse_arguments():
