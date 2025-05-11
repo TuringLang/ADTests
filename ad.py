@@ -123,10 +123,13 @@ def html(_args):
     ENZYME_RVS_ONE_PARAM = "https://github.com/EnzymeAD/Enzyme.jl/issues/2337"
     ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995"
     MOONCAKE_THREADED = "https://github.com/chalk-lab/Mooncake.jl/issues/570"
+    ENZYME_DEMO_INCORRECT = "https://github.com/EnzymeAD/Enzyme.jl/issues/2387"
     KNOWN_ERRORS = {
         ("assume_mvnormal", "EnzymeForward"): ENZYME_FWD_BLAS,
         ("assume_wishart", "EnzymeForward"): ENZYME_FWD_BLAS,
         ("multithreaded", "Mooncake"): MOONCAKE_THREADED,
+        ("dot_assume_observe_index", "EnzymeForward"): ENZYME_DEMO_INCORRECT,
+        ("dot_assume_observe_index", "EnzymeReverse"): ENZYME_DEMO_INCORRECT,
     }
 
 
