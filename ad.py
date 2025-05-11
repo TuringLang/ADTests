@@ -21,6 +21,14 @@ from warnings import warn
 
 JULIA_COMMAND = ["julia", "--color=yes", "--project=.", "main.jl"]
 
+
+def try_float(value):
+    try:
+        return float(value)
+    except ValueError:
+        return value
+
+
 def run_and_capture(command):
     """Run a command and capture its output."""
     result = sp.run(command, text=True, check=True, stdout=sp.PIPE)
@@ -80,7 +88,7 @@ def run_ad(args):
         print(f"Running {model_key} with {adtype}...")
         try:
             output = run_and_capture([*RUN_JULIA_COMMAND, "--run", model_key, adtype])
-            result = output.splitlines()[-1]
+            result = try_float(output.splitlines()[-1])
         except sp.CalledProcessError as e:
             result = "error"
 
@@ -116,13 +124,6 @@ def get_model_definition(model_key):
     return "\n".join(lines)
 
 
-def try_float(value):
-    try:
-        return float(value)
-    except ValueError:
-        return value
-
-
 def html(_args):
     web_dir = Path(__file__).parent / "web"
     json_output_dirs = [web_dir / "src" / "data", web_dir / "public"]
@@ -149,11 +150,7 @@ def html(_args):
     # We do some processing to turn it into a dict of dicts, then dump it
     # to the website
     results = json.loads(results)
-    new_data = {}
-    for entry in results:
-        model_name = entry["model_name"]
-        results = {k: try_float(v) for k, v in entry["results"].items()}
-        new_data[model_name] = results
+    new_data = {entry["model_name"]: entry["results"] for entry in results}
     for dir in json_output_dirs:
         with open(dir / "adtests.json", "w") as f:
             json.dump(new_data, f, indent=2)
