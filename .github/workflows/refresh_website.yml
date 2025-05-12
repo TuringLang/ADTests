@@ -1,7 +1,20 @@
 name: Build website using results from gh-pages
 
 on:
-  # TODO: Figure out how to run this workflow when only the web files are modified
+  push:
+    branches:
+      - main
+    # If _all_ the modified files match this filter, it won't trigger this
+    # workflow
+    paths-ignore:
+      - '*.jl'
+      - '*.toml'
+      - 'ad.py'
+  pull_request:
+    paths:
+      - '*.jl'
+      - '*.toml'
+      - 'ad.py'
   workflow_dispatch:
 
 permissions:
