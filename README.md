@@ -17,7 +17,7 @@ You can modify the list of models in `models.jl`.
 Note that if you want the model definition to be shown on the website, your model definitions must be of the 'standard' form `@model function name() ... end`.
 This means that:
 - One-liner function definitions like `@model f(x) = ...`will not work.
-- Fancy metaprogramming tricks to generate a family of models at one go (like [this](https://github.com/TuringLang/ADTests/blob/266d7ab85fea2e01e7e05af6cee179d7f6200b0f/models.jl#L108-L129)) will not work.
+- Fancy metaprogramming tricks to generate a family of models at one go (like [this old code](https://github.com/TuringLang/ADTests/blob/266d7ab85fea2e01e7e05af6cee179d7f6200b0f/models.jl#L108-L129)) will not work.
 
 To understand why, see the `get_model_definition` function in `ad.py`.
 
