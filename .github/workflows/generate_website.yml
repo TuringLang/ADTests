@@ -129,3 +129,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./web/dist
           destination_dir: ${{ github.event_name == 'pull_request' && 'pr' || '' }}
+          keep_files: true
