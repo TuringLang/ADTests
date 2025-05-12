@@ -90,7 +90,7 @@
         <h2>Results</h2>
 
         <p>
-            <a href="/adtests.json" target="_blank" download
+            <a href="adtests.json" target="_blank" download
                 >Download the raw data (JSON)</a
             >
         </p>
