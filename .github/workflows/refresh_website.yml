@@ -1,0 +1,50 @@
+name: Build website using results from gh-pages
+
+on:
+  # TODO: Figure out how to run this workflow when only the web files are modified
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  refresh-website:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download results to web/src/data
+        run: |
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/adtests.json
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/manifest.json
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/model_definitions.json
+        working-directory: web/src/data
+
+      # This isn't needed to build the website, it's just there so that the
+      # JSON is easily accessible on the gh-pages branch
+      - name: Copy results to web/public
+        run: |
+          cp ../src/data/*.json .
+        working-directory: web/public
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: web
+
+      - name: Build website
+        run: pnpm build --base /ADTests
+        working-directory: web
+
+      - name: Upload results
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/dist
+          destination_dir: ''
