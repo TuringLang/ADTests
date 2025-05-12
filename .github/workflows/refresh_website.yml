@@ -17,9 +17,9 @@ jobs:
 
       - name: Download results to web/src/data
         run: |
-          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/adtests.json
-          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/manifest.json
-          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/model_definitions.json
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/adtests.json -o adtests.json
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/manifest.json -o manifest.json
+          curl https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/model_definitions.json -o model_definitions.json
         working-directory: web/src/data
 
       # This isn't needed to build the website, it's just there so that the
