@@ -90,6 +90,7 @@ def run_ad(args):
             output = run_and_capture([*RUN_JULIA_COMMAND, "--run", model_key, adtype])
             result = try_float(output.splitlines()[-1])
         except sp.CalledProcessError as e:
+            print(f"Error running {model_key} with {adtype}. Output: {e.output}")
             result = "error"
 
         print(f" ... {model_key} with {adtype} ==> {result}")
