@@ -106,8 +106,8 @@ def get_model_definition(model_key):
     try:
         return Path(f"models/{model_key}.jl").read_text().strip()
     except FileNotFoundError:
-        return (f"Model definition not found for `{model_key}`;
-                f" if you see this error, please open an issue.")
+        return (f"# Model definition not found for `{model_key}`.\n"
+                f"#  If you see this error, please open an issue.")
 
 
 def html(_args):
