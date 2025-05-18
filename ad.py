@@ -102,26 +102,8 @@ def run_ad(args):
 
 
 def get_model_definition(model_key):
-    """Get the model definition from the Julia script."""
-    lines = []
-    submodels = []
-    record = False
-    with open("models.jl", "r") as file:
-        for line in file:
-            line = line.rstrip()
-            if line.startswith(f"@model function {model_key}"):
-                record = True
-            if record:
-                lines.append(line)
-
-                if "to_submodel" in line:
-                    submodel_name = line.split("to_submodel(")[1].split("(")[0]
-                    submodels.append(submodel_name)
-                if line == "end":
-                    break
-    for submodel in submodels:
-        lines = [get_model_definition(submodel), *lines]
-    return "\n".join(lines)
+    """Get the model definition from the file that contains it."""
+    return Path(f"models/{model_key}.jl").read_text().strip()
 
 
 def html(_args):

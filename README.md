@@ -12,14 +12,11 @@ You can modify the list of AD types in `main.jl`.
 
 ## I want to add more models!
 
-You can modify the list of models in `models.jl`.
+You can modify the list of models by adding a new file inside the `models` directory.
+This file should contain the model definition, and call the `@register` macro to register the model with the `ADTests` package.
+See the existing files in that directory for examples.
 
-Note that if you want the model definition to be shown on the website, your model definitions must be of the 'standard' form `@model function name() ... end`.
-This means that:
-- One-liner function definitions like `@model f(x) = ...`will not work.
-- Fancy metaprogramming tricks to generate a family of models at one go (like [this old code](https://github.com/TuringLang/ADTests/blob/266d7ab85fea2e01e7e05af6cee179d7f6200b0f/models.jl#L108-L129)) will not work.
-
-To understand why, see the `get_model_definition` function in `ad.py`.
+To make sure that the definition is included in the final website, you will have to make sure that the filename is the same as the model name (i.e. a model `@model function f()` is in `models/f.jl`).
 
 ## I want to edit the website!
 

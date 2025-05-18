@@ -23,9 +23,44 @@ ADTYPES = Dict(
     "Zygote" => AutoZygote(),
 )
 
-# Models to test.
-include("models.jl")
-using .Models: MODELS
+# Models to test. The convention is that:
+#    a, b, c, ... are assumed variables
+#    x, y, z, ... are observed variables
+# although it's hardly a big deal.
+MODELS = Dict{String,DynamicPPL.Model}()
+macro register(model)
+    :(MODELS[string($(esc(model)).f)] = $(esc(model)))
+end
+
+# These imports tend to get used a lot in models
+using DynamicPPL: @model
+using Distributions
+using LinearAlgebra: I
+
+include("models/assume_dirichlet.jl")
+include("models/assume_lkjcholu.jl")
+include("models/assume_mvnormal.jl")
+include("models/assume_normal.jl")
+include("models/assume_submodel.jl")
+include("models/assume_wishart.jl")
+include("models/control_flow.jl")
+include("models/dot_assume_observe_index.jl")
+include("models/dot_assume.jl")
+include("models/dot_observe.jl")
+include("models/dynamic_constraint.jl")
+include("models/models.jl")
+include("models/multiple_constraints_same_var.jl")
+include("models/multithreaded.jl")
+include("models/n010.jl")
+include("models/n050.jl")
+include("models/n100.jl")
+include("models/n500.jl")
+include("models/observe_index.jl")
+include("models/observe_literal.jl")
+include("models/observe_multivariate.jl")
+include("models/observe_submodel.jl")
+include("models/pdb_eight_schools_centered.jl")
+include("models/pdb_eight_schools_noncentered.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
