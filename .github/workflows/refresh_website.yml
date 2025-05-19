@@ -10,11 +10,13 @@ on:
       - '**/*.jl'
       - '*.toml'
       - 'ad.py'
+      - '.github/workflows/refresh_website.yml'
   pull_request:
     paths:
       - '**/*.jl'
       - '*.toml'
       - 'ad.py'
+      - '.github/workflows/refresh_website.yml'
   workflow_dispatch:
 
 permissions:
