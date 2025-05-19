@@ -7,12 +7,12 @@ on:
     # If _any_ of the modified files match this filter, it will trigger this
     # workflow
     paths:
-      - '*.jl'
+      - '**/*.jl'
       - '*.toml'
       - 'ad.py'
   pull_request:
     paths:
-      - '*.jl'
+      - '**/*.jl'
       - '*.toml'
       - 'ad.py'
   workflow_dispatch:
