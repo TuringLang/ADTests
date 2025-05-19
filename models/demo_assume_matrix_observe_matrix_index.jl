@@ -9,8 +9,6 @@
     m ~ MvNormal(zeros(n), Diagonal(s_vec))
 
     x[:, 1] ~ MvNormal(m, Diagonal(s_vec))
-
-    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_assume_matrix_observe_matrix_index()

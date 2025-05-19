@@ -10,8 +10,6 @@
     for i in eachindex(x)
         x[i] ~ Normal(m[i], sqrt(s[i]))
     end
-
-    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_dot_assume_observe_index()

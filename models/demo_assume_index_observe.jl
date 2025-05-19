@@ -12,8 +12,6 @@
         m[i] ~ Normal(0, sqrt(s[i]))
     end
     x ~ MvNormal(m, Diagonal(s))
-
-    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_assume_index_observe()

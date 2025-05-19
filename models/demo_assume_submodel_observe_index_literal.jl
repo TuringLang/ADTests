@@ -12,8 +12,6 @@ end
     s, m = priors
     1.5 ~ Normal(m[1], sqrt(s[1]))
     2.0 ~ Normal(m[2], sqrt(s[2]))
-
-    return (; s = s, m = m, x = [1.5, 2.0], logp = getlogp(__varinfo__))
 end
 
 @register demo_assume_submodel_observe_index_literal()

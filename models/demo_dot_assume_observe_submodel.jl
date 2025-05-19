@@ -15,8 +15,6 @@ end
     # With to_submodel, we have to have a left-hand side variable to
     # capture the result, so we just use a dummy variable
     _ignore ~ to_submodel(_likelihood_multivariate_observe(s, m, x))
-
-    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_dot_assume_observe_submodel()

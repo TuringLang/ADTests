@@ -35,7 +35,7 @@ end
 # These imports tend to get used a lot in models
 using DynamicPPL: @model, to_submodel
 using Distributions
-using LinearAlgebra: I
+using LinearAlgebra
 
 include("models/assume_dirichlet.jl")
 include("models/assume_lkjcholu.jl")
