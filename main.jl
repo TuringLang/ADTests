@@ -37,6 +37,7 @@ using DynamicPPL: @model, to_submodel
 using Distributions
 using LinearAlgebra
 
+include("models/assume_beta.jl")
 include("models/assume_dirichlet.jl")
 include("models/assume_lkjcholu.jl")
 include("models/assume_mvnormal.jl")
@@ -50,9 +51,8 @@ include("models/demo_assume_index_observe.jl")
 include("models/demo_assume_matrix_observe_matrix_index.jl")
 include("models/demo_assume_multivariate_observe.jl")
 include("models/demo_assume_multivariate_observe_literal.jl")
-# include("models/demo_assume_observe_literal.jl")
-# include("models/demo_assume_submodel_observe_index_literal.jl")
-# include("models/demo_dot_assume_observe.jl")
+include("models/demo_assume_observe_literal.jl")
+include("models/demo_assume_submodel_observe_index_literal.jl")
 # include("models/demo_dot_assume_observe.jl")
 # include("models/demo_dot_assume_observe_index.jl")
 # include("models/demo_dot_assume_observe_index_literal.jl")
