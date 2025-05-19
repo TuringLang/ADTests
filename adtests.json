@@ -1,232 +1,242 @@
 {
   "assume_dirichlet": {
-    "EnzymeForward": 2.514,
-    "EnzymeReverse": 3.151,
-    "FiniteDifferences": 22.682,
-    "ForwardDiff": 0.847,
-    "Mooncake": 8.462,
-    "ReverseDiff": 13.567,
-    "ReverseDiffCompiled": 2.544,
-    "Zygote": 496.123
+    "EnzymeForward": 2.56,
+    "EnzymeReverse": 3.24,
+    "FiniteDifferences": 22.287,
+    "ForwardDiff": 1.304,
+    "Mooncake": 8.828,
+    "ReverseDiff": 10.845,
+    "ReverseDiffCompiled": 2.537,
+    "Zygote": 509.577
   },
   "assume_lkjcholu": {
-    "EnzymeForward": 4.672,
-    "EnzymeReverse": 12.564,
-    "FiniteDifferences": 151.62,
-    "ForwardDiff": 2.527,
-    "Mooncake": 6.351,
-    "ReverseDiff": 50.137,
-    "ReverseDiffCompiled": 6.293,
-    "Zygote": "error"
-  },
-  "dynamic_constraint": {
-    "EnzymeForward": 2.431,
-    "EnzymeReverse": 2.572,
-    "FiniteDifferences": 36.676,
-    "ForwardDiff": 1.337,
-    "Mooncake": 8.094,
-    "ReverseDiff": 30.712,
-    "ReverseDiffCompiled": 2.729,
-    "Zygote": 1119.616
-  },
-  "multiple_constraints_same_var": {
-    "EnzymeForward": 4.851,
-    "EnzymeReverse": 26.482,
-    "FiniteDifferences": 58.615,
-    "ForwardDiff": 1.238,
-    "Mooncake": 14.061,
-    "ReverseDiff": 20.502,
-    "ReverseDiffCompiled": 2.29,
-    "Zygote": "error"
-  },
-  "multithreaded": {
-    "EnzymeForward": 2.864,
-    "EnzymeReverse": 11.745,
-    "FiniteDifferences": 16.113,
-    "ForwardDiff": 1.107,
-    "Mooncake": "error",
-    "ReverseDiff": "wrong",
-    "ReverseDiffCompiled": 0.388,
-    "Zygote": "error"
-  },
-  "n010": {
-    "EnzymeForward": 4.431,
-    "EnzymeReverse": 1.955,
-    "FiniteDifferences": 141.842,
-    "ForwardDiff": 1.713,
-    "Mooncake": 4.738,
-    "ReverseDiff": 24.913,
-    "ReverseDiffCompiled": 2.382,
-    "Zygote": "error"
-  },
-  "n050": {
-    "EnzymeForward": 18.687,
-    "EnzymeReverse": 2.276,
-    "FiniteDifferences": 631.271,
-    "ForwardDiff": 9.127,
-    "Mooncake": 3.947,
-    "ReverseDiff": 25.503,
-    "ReverseDiffCompiled": 2.431,
-    "Zygote": "error"
-  },
-  "n100": {
-    "EnzymeForward": 38.508,
-    "EnzymeReverse": 2.068,
-    "FiniteDifferences": 1238.363,
-    "ForwardDiff": 14.939,
-    "Mooncake": 3.904,
-    "ReverseDiff": 26.407,
-    "ReverseDiffCompiled": 2.503,
-    "Zygote": "error"
-  },
-  "n500": {
-    "EnzymeForward": 203.926,
-    "EnzymeReverse": 2.243,
-    "FiniteDifferences": 6619.453,
-    "ForwardDiff": 64.435,
-    "Mooncake": 3.777,
-    "ReverseDiff": 24.018,
-    "ReverseDiffCompiled": 2.519,
-    "Zygote": "error"
-  },
-  "observe_index": {
-    "EnzymeForward": 2.597,
-    "EnzymeReverse": 2.623,
-    "FiniteDifferences": 28.246,
-    "ForwardDiff": 1.686,
-    "Mooncake": 9.641,
-    "ReverseDiff": 57.658,
-    "ReverseDiffCompiled": 5.839,
-    "Zygote": "error"
-  },
-  "observe_literal": {
-    "EnzymeForward": 2.862,
-    "EnzymeReverse": 3.078,
-    "FiniteDifferences": 27.374,
-    "ForwardDiff": 1.608,
-    "Mooncake": 9.05,
-    "ReverseDiff": 34.349,
-    "ReverseDiffCompiled": 3.73,
-    "Zygote": 1506.12
-  },
-  "observe_multivariate": {
-    "EnzymeForward": 2.732,
-    "EnzymeReverse": 4.143,
-    "FiniteDifferences": 54.493,
-    "ForwardDiff": 1.32,
-    "Mooncake": 6.135,
-    "ReverseDiff": 28.349,
-    "ReverseDiffCompiled": 2.668,
-    "Zygote": "error"
-  },
-  "assume_mvnormal": {
-    "EnzymeForward": "error",
-    "EnzymeReverse": 5.495,
-    "FiniteDifferences": 38.544,
-    "ForwardDiff": 1.217,
-    "Mooncake": 10.208,
-    "ReverseDiff": 12.002,
-    "ReverseDiffCompiled": 1.286,
-    "Zygote": 487.246
-  },
-  "observe_submodel": {
-    "EnzymeForward": 2.531,
-    "EnzymeReverse": 2.402,
-    "FiniteDifferences": 24.85,
-    "ForwardDiff": 1.408,
-    "Mooncake": 7.314,
-    "ReverseDiff": 27.252,
-    "ReverseDiffCompiled": 1.355,
-    "Zygote": 2286.39
-  },
-  "pdb_eight_schools_centered": {
-    "EnzymeForward": 4.348,
-    "EnzymeReverse": 2.289,
-    "FiniteDifferences": 136.655,
-    "ForwardDiff": 1.676,
-    "Mooncake": 5.873,
-    "ReverseDiff": 32.218,
-    "ReverseDiffCompiled": 3.008,
-    "Zygote": "error"
-  },
-  "pdb_eight_schools_noncentered": {
-    "EnzymeForward": 3.019,
-    "EnzymeReverse": 2.386,
-    "FiniteDifferences": 134.868,
-    "ForwardDiff": 1.732,
-    "Mooncake": 5.707,
-    "ReverseDiff": 33.321,
-    "ReverseDiffCompiled": 3.054,
-    "Zygote": "error"
-  },
-  "assume_normal": {
-    "EnzymeForward": 2.815,
-    "EnzymeReverse": 3.298,
-    "FiniteDifferences": 28.321,
-    "ForwardDiff": 0.915,
-    "Mooncake": 9.069,
-    "ReverseDiff": 20.249,
-    "ReverseDiffCompiled": 2.473,
-    "Zygote": 1180.563
-  },
-  "assume_submodel": {
-    "EnzymeForward": 2.125,
-    "EnzymeReverse": 2.19,
-    "FiniteDifferences": 34.971,
-    "ForwardDiff": 1.236,
-    "Mooncake": 6.794,
-    "ReverseDiff": 14.303,
-    "ReverseDiffCompiled": 1.427,
-    "Zygote": 1189.304
-  },
-  "assume_wishart": {
-    "EnzymeForward": "error",
-    "EnzymeReverse": 12.303,
-    "FiniteDifferences": 44.031,
-    "ForwardDiff": 1.032,
-    "Mooncake": 10.983,
-    "ReverseDiff": 17,
-    "ReverseDiffCompiled": 3.511,
-    "Zygote": "error"
-  },
-  "control_flow": {
-    "EnzymeForward": 2.714,
-    "EnzymeReverse": 3.25,
-    "FiniteDifferences": 39.581,
-    "ForwardDiff": 2.09,
-    "Mooncake": 9.09,
-    "ReverseDiff": 20.263,
-    "ReverseDiffCompiled": "wrong",
-    "Zygote": 1132.773
-  },
-  "dot_assume": {
-    "EnzymeForward": 3.13,
-    "EnzymeReverse": 2.349,
-    "FiniteDifferences": 78.986,
-    "ForwardDiff": 1.369,
-    "Mooncake": 5.304,
-    "ReverseDiff": 23.578,
-    "ReverseDiffCompiled": 2.292,
-    "Zygote": "error"
-  },
-  "dot_assume_observe_index": {
-    "EnzymeForward": 2.725,
-    "EnzymeReverse": 2.989,
-    "FiniteDifferences": 52.648,
-    "ForwardDiff": 1.357,
-    "Mooncake": 6.255,
-    "ReverseDiff": 36.769,
-    "ReverseDiffCompiled": 3.77,
+    "EnzymeForward": 8.345,
+    "EnzymeReverse": 12.287,
+    "FiniteDifferences": 147.104,
+    "ForwardDiff": 2.323,
+    "Mooncake": 6.597,
+    "ReverseDiff": 54.787,
+    "ReverseDiffCompiled": 6.561,
     "Zygote": "error"
   },
   "dot_observe": {
-    "EnzymeForward": 2.543,
-    "EnzymeReverse": 2.408,
-    "FiniteDifferences": 28.368,
-    "ForwardDiff": 1.655,
-    "Mooncake": 10.182,
-    "ReverseDiff": 59.592,
-    "ReverseDiffCompiled": 6.194,
+    "EnzymeForward": 2.675,
+    "EnzymeReverse": 2.967,
+    "FiniteDifferences": 28.509,
+    "ForwardDiff": 1.658,
+    "Mooncake": 9.993,
+    "ReverseDiff": 58.29,
+    "ReverseDiffCompiled": 5.637,
+    "Zygote": "error"
+  },
+  "dynamic_constraint": {
+    "EnzymeForward": 2.463,
+    "EnzymeReverse": 2.513,
+    "FiniteDifferences": 35.87,
+    "ForwardDiff": 1.28,
+    "Mooncake": 8.024,
+    "ReverseDiff": 33.626,
+    "ReverseDiffCompiled": 2.804,
+    "Zygote": 1208.718
+  },
+  "multiple_constraints_same_var": {
+    "EnzymeForward": 5.636,
+    "EnzymeReverse": 25.938,
+    "FiniteDifferences": 59.235,
+    "ForwardDiff": 1.22,
+    "Mooncake": 12.63,
+    "ReverseDiff": 20.439,
+    "ReverseDiffCompiled": 2.195,
+    "Zygote": "error"
+  },
+  "multithreaded": {
+    "EnzymeForward": 2.778,
+    "EnzymeReverse": 11.588,
+    "FiniteDifferences": 12.91,
+    "ForwardDiff": 1.113,
+    "Mooncake": "error",
+    "ReverseDiff": "wrong",
+    "ReverseDiffCompiled": 0.408,
+    "Zygote": "error"
+  },
+  "n010": {
+    "EnzymeForward": 4.202,
+    "EnzymeReverse": 2.066,
+    "FiniteDifferences": 140.887,
+    "ForwardDiff": 1.772,
+    "Mooncake": 4.652,
+    "ReverseDiff": 25.089,
+    "ReverseDiffCompiled": 2.343,
+    "Zygote": "error"
+  },
+  "n050": {
+    "EnzymeForward": 20.64,
+    "EnzymeReverse": 2.337,
+    "FiniteDifferences": 635.021,
+    "ForwardDiff": 10.413,
+    "Mooncake": 5.061,
+    "ReverseDiff": 25.676,
+    "ReverseDiffCompiled": 1.799,
+    "Zygote": "error"
+  },
+  "n100": {
+    "EnzymeForward": 38.855,
+    "EnzymeReverse": 2.188,
+    "FiniteDifferences": 1235.589,
+    "ForwardDiff": 16.382,
+    "Mooncake": 4.027,
+    "ReverseDiff": 26.154,
+    "ReverseDiffCompiled": 1.911,
+    "Zygote": "error"
+  },
+  "n500": {
+    "EnzymeForward": 179.144,
+    "EnzymeReverse": 2.474,
+    "FiniteDifferences": 6599.411,
+    "ForwardDiff": 59.577,
+    "Mooncake": 4.053,
+    "ReverseDiff": 26.152,
+    "ReverseDiffCompiled": 2.426,
+    "Zygote": "error"
+  },
+  "observe_index": {
+    "EnzymeForward": 2.83,
+    "EnzymeReverse": 2.495,
+    "FiniteDifferences": 28.339,
+    "ForwardDiff": 1.669,
+    "Mooncake": 9.805,
+    "ReverseDiff": 53.065,
+    "ReverseDiffCompiled": 6.26,
+    "Zygote": "error"
+  },
+  "observe_literal": {
+    "EnzymeForward": 2.801,
+    "EnzymeReverse": 3.073,
+    "FiniteDifferences": 28.015,
+    "ForwardDiff": 1.485,
+    "Mooncake": 9.144,
+    "ReverseDiff": 32.715,
+    "ReverseDiffCompiled": 3.664,
+    "Zygote": 1542.405
+  },
+  "assume_mvnormal": {
+    "EnzymeForward": "error",
+    "EnzymeReverse": 5.308,
+    "FiniteDifferences": 37.905,
+    "ForwardDiff": 1.19,
+    "Mooncake": 10.643,
+    "ReverseDiff": 12.032,
+    "ReverseDiffCompiled": 1.281,
+    "Zygote": 516.291
+  },
+  "observe_multivariate": {
+    "EnzymeForward": 2.839,
+    "EnzymeReverse": 4.179,
+    "FiniteDifferences": 52.407,
+    "ForwardDiff": 1.335,
+    "Mooncake": 6.603,
+    "ReverseDiff": 27.414,
+    "ReverseDiffCompiled": 2.728,
+    "Zygote": "error"
+  },
+  "observe_submodel": {
+    "EnzymeForward": 2.415,
+    "EnzymeReverse": 2.379,
+    "FiniteDifferences": 24.689,
+    "ForwardDiff": 1.503,
+    "Mooncake": 7.736,
+    "ReverseDiff": 25.853,
+    "ReverseDiffCompiled": 2.824,
+    "Zygote": 2256.058
+  },
+  "pdb_eight_schools_centered": {
+    "EnzymeForward": 4.264,
+    "EnzymeReverse": 2.416,
+    "FiniteDifferences": 136.035,
+    "ForwardDiff": 1.726,
+    "Mooncake": 6.52,
+    "ReverseDiff": 31.742,
+    "ReverseDiffCompiled": 3.884,
+    "Zygote": "error"
+  },
+  "pdb_eight_schools_noncentered": {
+    "EnzymeForward": 4.24,
+    "EnzymeReverse": 2.436,
+    "FiniteDifferences": 130.928,
+    "ForwardDiff": 1.838,
+    "Mooncake": 6.015,
+    "ReverseDiff": 33.088,
+    "ReverseDiffCompiled": 2.966,
+    "Zygote": "error"
+  },
+  "assume_normal": {
+    "EnzymeForward": 2.776,
+    "EnzymeReverse": 3.333,
+    "FiniteDifferences": 9.359,
+    "ForwardDiff": 1.515,
+    "Mooncake": 8.8,
+    "ReverseDiff": 20.624,
+    "ReverseDiffCompiled": 2.455,
+    "Zygote": 1184.78
+  },
+  "assume_submodel": {
+    "EnzymeForward": 2.309,
+    "EnzymeReverse": 2.144,
+    "FiniteDifferences": 35.057,
+    "ForwardDiff": 1.268,
+    "Mooncake": 6.744,
+    "ReverseDiff": 14.276,
+    "ReverseDiffCompiled": 1.368,
+    "Zygote": 1212.769
+  },
+  "assume_wishart": {
+    "EnzymeForward": "error",
+    "EnzymeReverse": 12.129,
+    "FiniteDifferences": 44.117,
+    "ForwardDiff": 1.067,
+    "Mooncake": 11.907,
+    "ReverseDiff": 18.14,
+    "ReverseDiffCompiled": 3.489,
+    "Zygote": "error"
+  },
+  "control_flow": {
+    "EnzymeForward": 2.81,
+    "EnzymeReverse": 2.984,
+    "FiniteDifferences": 41.745,
+    "ForwardDiff": 1.574,
+    "Mooncake": 9.576,
+    "ReverseDiff": 21.71,
+    "ReverseDiffCompiled": "wrong",
+    "Zygote": 1089.187
+  },
+  "demo_dot_assume_observe": {
+    "EnzymeForward": "error",
+    "EnzymeReverse": "error",
+    "FiniteDifferences": "error",
+    "ForwardDiff": "error",
+    "Mooncake": "error",
+    "ReverseDiff": "error",
+    "ReverseDiffCompiled": "error",
+    "Zygote": "error"
+  },
+  "demo_dot_assume_observe_index": {
+    "EnzymeForward": "error",
+    "EnzymeReverse": "error",
+    "FiniteDifferences": "error",
+    "ForwardDiff": "error",
+    "Mooncake": "error",
+    "ReverseDiff": "error",
+    "ReverseDiffCompiled": "error",
+    "Zygote": "error"
+  },
+  "dot_assume": {
+    "EnzymeForward": 2.908,
+    "EnzymeReverse": 2.127,
+    "FiniteDifferences": 77.027,
+    "ForwardDiff": 1.392,
+    "Mooncake": 5.327,
+    "ReverseDiff": 22.823,
+    "ReverseDiffCompiled": 2.334,
     "Zygote": "error"
   }
 }
