@@ -7,16 +7,14 @@ on:
     # If _any_ of the modified files match this filter, it will trigger this
     # workflow
     paths:
-      - '**/*.jl'
+      - '*.jl'
       - '*.toml'
       - 'ad.py'
-      - '.github/workflows/generate_website.yml'
   pull_request:
     paths:
-      - '**/*.jl'
+      - '*.jl'
       - '*.toml'
       - 'ad.py'
-      - '.github/workflows/generate_website.yml'
   workflow_dispatch:
 
 permissions:

@@ -13,13 +13,13 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile = false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
-    "Mooncake" => AutoMooncake(; config = nothing),
-    "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
+    "ReverseDiff" => AutoReverseDiff(; compile=false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    "Mooncake" => AutoMooncake(; config=nothing),
+    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
+    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
     "Zygote" => AutoZygote(),
 )
 
@@ -35,7 +35,7 @@ end
 # These imports tend to get used a lot in models
 using DynamicPPL: @model, to_submodel
 using Distributions
-using LinearAlgebra
+using LinearAlgebra: I
 
 include("models/assume_dirichlet.jl")
 include("models/assume_lkjcholu.jl")
@@ -44,21 +44,8 @@ include("models/assume_normal.jl")
 include("models/assume_submodel.jl")
 include("models/assume_wishart.jl")
 include("models/control_flow.jl")
-include("models/demo_assume_dot_observe_literal.jl")
-include("models/demo_assume_dot_observe.jl")
-include("models/demo_assume_index_observe.jl")
-include("models/demo_assume_matrix_observe_matrix_index.jl")
-include("models/demo_assume_multivariate_observe_literal.jl")
-include("models/demo_assume_multivariate_observe.jl")
-include("models/demo_assume_observe_literal.jl")
-include("models/demo_assume_submodel_observe_index_literal.jl")
-include("models/demo_dot_assume_observe_index_literal.jl")
-include("models/demo_dot_assume_observe_index.jl")
-include("models/demo_dot_assume_observe_matrix_index.jl")
-include("models/demo_dot_assume_observe_submodel.jl")
-include("models/demo_dot_assume_observe.jl")
+include("models/dot_assume_observe_index.jl")
 include("models/dot_assume.jl")
-include("models/demo_dot_assume_observe.jl")
 include("models/dot_observe.jl")
 include("models/dynamic_constraint.jl")
 include("models/multiple_constraints_same_var.jl")
@@ -87,9 +74,9 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo = vi, params = params, benchmark = true)
+            result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
         else
-            result = run_ad(model, adtype; benchmark = true)
+            result = run_ad(model, adtype; benchmark=true)
         end
         # If reached here - nothing went wrong
         @printf("%.3f", result.time_vs_primal)

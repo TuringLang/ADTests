@@ -1,4 +1,6 @@
-@model function multiple_constraints_same_var(::Type{TV} = Vector{Float64}) where {TV}
+@model function multiple_constraints_same_var(
+    ::Type{TV}=Vector{Float64}
+) where {TV}
     x = TV(undef, 5)
     x[1] ~ Normal()
     x[2] ~ InverseGamma(2, 3)
