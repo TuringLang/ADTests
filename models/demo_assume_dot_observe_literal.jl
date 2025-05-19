@@ -7,4 +7,4 @@
     return (; s = s, m = m, x = [1.5, 2.0], logp = getlogp(__varinfo__))
 end
 
-@model demo_assume_dot_observe_literal()
+@register demo_assume_dot_observe_literal()
