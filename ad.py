@@ -89,8 +89,12 @@ def run_ad(args):
         try:
             output = run_and_capture([*RUN_JULIA_COMMAND, "--run", model_key, adtype])
             result = try_float(output.splitlines()[-1])
+            if not isinstance(result, float):
+                print(f"Output: {output}")
         except sp.CalledProcessError as e:
-            print(f"Error running {model_key} with {adtype}. Output: {e.output}")
+            # Julia crashed
+            print(f"Julia crashed when running {model_key} with {adtype}.")
+            print(f"To reproduce, run: `julia --project=. main.jl --run {model_key} {adtype}`")
             result = "error"
 
         print(f" ... {model_key} with {adtype} ==> {result}")

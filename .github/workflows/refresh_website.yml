@@ -7,14 +7,16 @@ on:
     # If _all_ the modified files match this filter, it won't trigger this
     # workflow
     paths-ignore:
-      - '*.jl'
+      - '**/*.jl'
       - '*.toml'
       - 'ad.py'
+      - '.github/workflows/refresh_website.yml'
   pull_request:
     paths:
-      - '*.jl'
+      - '**/*.jl'
       - '*.toml'
       - 'ad.py'
+      - '.github/workflows/refresh_website.yml'
   workflow_dispatch:
 
 permissions:
