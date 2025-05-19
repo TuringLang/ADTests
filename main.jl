@@ -13,13 +13,13 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
-    "Mooncake" => AutoMooncake(; config=nothing),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "ReverseDiff" => AutoReverseDiff(; compile = false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
+    "Mooncake" => AutoMooncake(; config = nothing),
+    "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
+    "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
     "Zygote" => AutoZygote(),
 )
 
@@ -75,9 +75,9 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
+            result = run_ad(model, adtype; varinfo = vi, params = params, benchmark = true)
         else
-            result = run_ad(model, adtype; benchmark=true)
+            result = run_ad(model, adtype; benchmark = true)
         end
         # If reached here - nothing went wrong
         @printf("%.3f", result.time_vs_primal)

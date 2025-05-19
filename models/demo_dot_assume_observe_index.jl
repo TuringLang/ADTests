@@ -1,5 +1,6 @@
 @model function demo_dot_assume_observe_index(
-    x=[1.5, 2.0], ::Type{TV}=Vector{Float64}
+    x = [1.5, 2.0],
+    ::Type{TV} = Vector{Float64},
 ) where {TV}
     # `dot_assume` and `observe` with indexing
     s = TV(undef, length(x))
@@ -10,7 +11,7 @@
         x[i] ~ Normal(m[i], sqrt(s[i]))
     end
 
-    return (; s=s, m=m, x=x, logp=getlogp(__varinfo__))
+    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_dot_assume_observe_index()

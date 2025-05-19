@@ -3,7 +3,8 @@
 end
 
 @model function demo_dot_assume_observe_submodel(
-    x=[1.5, 2.0], ::Type{TV}=Vector{Float64}
+    x = [1.5, 2.0],
+    ::Type{TV} = Vector{Float64},
 ) where {TV}
     s = TV(undef, length(x))
     s .~ InverseGamma(2, 3)
@@ -15,7 +16,7 @@ end
     # capture the result, so we just use a dummy variable
     _ignore ~ to_submodel(_likelihood_multivariate_observe(s, m, x))
 
-    return (; s=s, m=m, x=x, logp=getlogp(__varinfo__))
+    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_dot_assume_observe_submodel()

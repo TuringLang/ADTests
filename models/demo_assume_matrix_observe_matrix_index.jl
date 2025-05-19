@@ -1,5 +1,6 @@
 @model function demo_assume_matrix_observe_matrix_index(
-    x=transpose([1.5 2.0;]), ::Type{TV}=Array{Float64}
+    x = transpose([1.5 2.0;]),
+    ::Type{TV} = Array{Float64},
 ) where {TV}
     n = length(x)
     d = n ÷ 2
@@ -9,7 +10,7 @@
 
     x[:, 1] ~ MvNormal(m, Diagonal(s_vec))
 
-    return (; s=s, m=m, x=x, logp=getlogp(__varinfo__))
+    return (; s = s, m = m, x = x, logp = getlogp(__varinfo__))
 end
 
 @register demo_assume_matrix_observe_matrix_index()
