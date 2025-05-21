@@ -122,7 +122,7 @@ jobs:
         working-directory: web
 
       - name: Build website
-        run: pnpm build --base /ADTests
+        run: pnpm build --base ${{ github.event_name == 'pull_request' && '/ADTests/pr' || '/ADTests' }}
         working-directory: web
 
       - name: Upload results
