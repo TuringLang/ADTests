@@ -92,7 +92,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             result = run_ad(model, adtype; benchmark = true)
         end
         # If reached here - nothing went wrong
-        @printf("%.3f", result.time_vs_primal)
+        println(result.time_vs_primal)
     catch e
         @show e
         if e isa ADIncorrectException
