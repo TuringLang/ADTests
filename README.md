@@ -65,8 +65,8 @@ If the Julia process successfully finishes, it will print the result which is pi
 
 Finally, the results are collated and sent to the final job in the workflow, which is `python ad.py html`.
 This bit of the Python script is responsible for generating the three JSON files which the web app uses.
-(Fun fact: collating these results is also somewhat involved because we can't just write to `$GITHUB_OUTPUT`; it turns out that [output from different jobs in a matrix will override each other](https://github.com/orgs/community/discussions/26639).
-Thankfully, [there is an existing action](https://github.com/beacon-biosignals/matrix-output) which is designed to get around this problem by uploading artefacts.)
+(Fun fact: collating these results is also somewhat involved because we can't just write to `$GITHUB_OUTPUT`; it turns out that [output from different jobs in a matrix will override each other](https://github.com/orgs/community/discussions/26639), so the output can't share the same key, and there's [no way to dynamically specify the output key](https://github.com/actions/runner/pull/2477).
+Thankfully, [there is an existing action](https://github.com/beacon-biosignals/matrix-output) which is designed to get around this problem by uploading artefacts instead of using `$GITHUB_OUTPUT`.)
 
 Overall, what this means is that the entire table can be generated in around 10 minutes (longer if you need to install + precompile dependencies, but on GitHub Actions dependencies will for the most part have been cached).
 
