@@ -115,7 +115,7 @@
                         >
                         {#each getSortedEntries(results) as [adtype, result]}
                             {#if typeof result === "number"}
-                                <td>{result}</td>
+                                <td>{result.toFixed(3)}</td>
                             {:else}
                                 <td>
                                     {#if KNOWN_ERRORS[`${model_name}__${adtype}`]}
