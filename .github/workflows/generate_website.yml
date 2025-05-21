@@ -53,6 +53,8 @@ jobs:
       - name: Setup keys
         id: keys
         run: uv run ad.py setup
+        env:
+          DATADEPS_ALWAYS_ACCEPT: "true"
 
   run-models:
     runs-on: ubuntu-latest
