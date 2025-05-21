@@ -35,6 +35,7 @@ end
 # These imports tend to get used a lot in models
 using DynamicPPL: @model, to_submodel
 using Distributions
+using DistributionsAD: filldist, arraydist
 using LinearAlgebra
 
 include("models/assume_beta.jl")
@@ -73,6 +74,10 @@ include("models/observe_multivariate.jl")
 include("models/observe_submodel.jl")
 include("models/pdb_eight_schools_centered.jl")
 include("models/pdb_eight_schools_noncentered.jl")
+
+include("models/dppl_gauss_unknown.jl")
+include("models/dppl_high_dim_gauss.jl")
+include("models/dppl_naive_bayes.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]

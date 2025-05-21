@@ -87,6 +87,7 @@ jobs:
         run: uv run ad.py run --model ${{ matrix.model }}
         env:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
+          DATADEPS_ALWAYS_ACCEPT: "true"
 
       - name: Output matrix values
         id: output-matrix
