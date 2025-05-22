@@ -28,6 +28,16 @@
             the Turing team; this table is purely for information.
         </p>
 
+        <p>
+            The scope of this table is limited to Turing models. It does not
+            purport to show which AD backend is better for tasks that do not
+            involve Turing models. If you are interested in more general
+            comparisons of AD backends, you may wish to check out something like <a
+                href="https://github.com/gradbench/gradbench"
+                target="_blank">GradBench</a
+            >.
+        </p>
+
         <ul class="notes">
             <li>
                 You can hover over the model names to see their definitions.
