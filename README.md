@@ -15,6 +15,7 @@ You can modify the list of AD types in `main.jl`.
 You can modify the list of models by adding a new file inside the `models` directory.
 This file should contain the model definition, and call the `@register` macro to register the model with the `ADTests` package.
 See the existing files in that directory for examples.
+Then, make sure to `include` the new source file in `main.jl`.
 
 To make sure that the definition is included in the final website, you will have to make sure that the filename is the same as the model name (i.e. a model `@model function f()` is in `models/f.jl`).
 
