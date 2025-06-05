@@ -76,6 +76,7 @@ include("models/observe_multivariate.jl")
 include("models/observe_submodel.jl")
 include("models/pdb_eight_schools_centered.jl")
 include("models/pdb_eight_schools_noncentered.jl")
+include("models/von_mises.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
