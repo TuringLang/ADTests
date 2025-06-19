@@ -35,6 +35,7 @@ end
 # These imports tend to get used a lot in models
 using DynamicPPL: @model, to_submodel
 using Distributions
+using DistributionsAD: filldist, arraydist
 using LinearAlgebra
 
 include("models/assume_beta.jl")
@@ -77,6 +78,16 @@ include("models/observe_submodel.jl")
 include("models/pdb_eight_schools_centered.jl")
 include("models/pdb_eight_schools_noncentered.jl")
 include("models/von_mises.jl")
+
+include("models/dppl_gauss_unknown.jl")
+include("models/dppl_high_dim_gauss.jl")
+# Disabled because of https://github.com/TuringLang/ADTests/issues/24
+# include("models/dppl_naive_bayes.jl")
+include("models/dppl_logistic_regression.jl")
+include("models/dppl_hier_poisson.jl")
+include("models/dppl_sto_volatility.jl")
+include("models/dppl_hmm_semisup.jl")
+include("models/dppl_lda.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
