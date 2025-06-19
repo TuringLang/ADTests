@@ -77,7 +77,10 @@ include("models/pdb_eight_schools_noncentered.jl")
 
 include("models/dppl_gauss_unknown.jl")
 include("models/dppl_high_dim_gauss.jl")
-include("models/dppl_naive_bayes.jl")
+# Disabled because of https://github.com/TuringLang/ADTests/issues/24
+# include("models/dppl_naive_bayes.jl")
+include("models/dppl_logistic_regression.jl")
+include("models/dppl_hier_poisson.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
