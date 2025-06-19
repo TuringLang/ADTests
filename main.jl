@@ -102,7 +102,10 @@ end
 @include_model "dot_observe"
 @include_model "dppl_gauss_unknown.jl"
 @include_model "dppl_high_dim_gauss.jl"
-@include_model "dppl_naive_bayes.jl"
+# Disabled because of https://github.com/TuringLang/ADTests/issues/24
+# @include_model "dppl_naive_bayes"
+@include_model "dppl_logistic_regression"
+@include_model "dppl_hier_poisson"
 @include_model "dynamic_constraint"
 @include_model "multiple_constraints_same_var"
 @include_model "multithreaded"
