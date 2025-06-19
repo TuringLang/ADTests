@@ -34,7 +34,7 @@ jobs:
         run: |
           curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}adtests.json
           curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}manifest.json
-          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}model_definition.json
+          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}model_definitions.json
         working-directory: web/src/data
 
       # This isn't needed to build the website, it's just there so that the
