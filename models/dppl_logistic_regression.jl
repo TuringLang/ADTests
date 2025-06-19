@@ -12,7 +12,7 @@ end
 
 lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
 
-@model dppl_logistic_regression(Xt, y) = begin
+@model function dppl_logistic_regression(Xt, y)
     N, D = size(Xt)
     w ~ filldist(Normal(), D)
     y ~ arraydist(lazyarray(x -> Bernoulli(safelogistic(x)), Xt * w))
