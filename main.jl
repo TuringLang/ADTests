@@ -86,6 +86,8 @@ include("models/dppl_high_dim_gauss.jl")
 include("models/dppl_logistic_regression.jl")
 include("models/dppl_hier_poisson.jl")
 include("models/dppl_sto_volatility.jl")
+include("models/dppl_hmm_semisup.jl")
+include("models/dppl_lda.jl")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
