@@ -19,7 +19,7 @@ image_subset = image[:, 1:N]'
 image_vec = vec(image_subset[:, :])
 labels = labels[1:N]
 
-@model dppl_naive_bayes(image_vec, labels, C, D) = begin
+@model function dppl_naive_bayes(image_vec, labels, C, D)
     m ~ filldist(Normal(0, 10), C, D)
     image_vec ~ MvNormal(vec(m[labels, :]), I)
 end
