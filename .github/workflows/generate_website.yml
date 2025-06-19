@@ -23,6 +23,11 @@ permissions:
   actions: write
   contents: write
 
+# Cancel existing tests on the same PR if a new commit is added to a pull request
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   setup-keys:
     runs-on: ubuntu-latest
