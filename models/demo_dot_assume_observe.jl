@@ -1,3 +1,5 @@
+using LinearAlgebra: Diagonal
+
 @model function demo_dot_assume_observe(
     x = [1.5, 2.0],
     ::Type{TV} = Vector{Float64},
@@ -10,4 +12,4 @@
     x ~ MvNormal(m, Diagonal(s))
 end
 
-@register demo_dot_assume_observe()
+model = demo_dot_assume_observe()

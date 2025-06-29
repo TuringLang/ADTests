@@ -5,4 +5,4 @@
     [1.5, 2.0] .~ Normal(m, sqrt(s))
 end
 
-@register demo_assume_dot_observe_literal()
+model = demo_assume_dot_observe_literal()

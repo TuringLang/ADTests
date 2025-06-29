@@ -3,4 +3,4 @@
     x .~ Normal(a)
 end
 
-@register dot_observe()
+model = dot_observe()

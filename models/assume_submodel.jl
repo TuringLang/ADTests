@@ -6,4 +6,4 @@ end
     x ~ Normal(a)
 end
 
-@register assume_submodel()
+model = assume_submodel()

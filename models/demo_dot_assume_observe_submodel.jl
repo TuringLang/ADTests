@@ -1,3 +1,5 @@
+using LinearAlgebra: Diagonal
+
 @model function _likelihood_multivariate_observe(s, m, x)
     return x ~ MvNormal(m, Diagonal(s))
 end
@@ -17,4 +19,4 @@ end
     _ignore ~ to_submodel(_likelihood_multivariate_observe(s, m, x))
 end
 
-@register demo_dot_assume_observe_submodel()
+model = demo_dot_assume_observe_submodel()

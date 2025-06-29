@@ -13,4 +13,4 @@ sigma = [15, 10, 16, 11, 9, 11, 10, 18]
     end
 end
 
-@register pdb_eight_schools_noncentered(J, y, sigma)
+model = pdb_eight_schools_noncentered(J, y, sigma)

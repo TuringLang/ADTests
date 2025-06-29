@@ -5,4 +5,4 @@
     end
 end
 
-@register n010()
+model = n010()

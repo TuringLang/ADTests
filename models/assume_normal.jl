@@ -2,4 +2,4 @@
     a ~ Normal()
 end
 
-@register assume_normal()
+model = assume_normal()

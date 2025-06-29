@@ -3,4 +3,4 @@
     b ~ truncated(Normal(); lower = a)
 end
 
-@register dynamic_constraint()
+model = dynamic_constraint()

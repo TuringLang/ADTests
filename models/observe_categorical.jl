@@ -5,4 +5,4 @@
     end
 end
 
-@register observe_categorical()
+model = observe_categorical()

@@ -2,4 +2,4 @@
     a ~ Beta(2, 2)
 end
 
-@register assume_beta()
+model = assume_beta()
