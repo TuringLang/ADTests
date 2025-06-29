@@ -58,16 +58,22 @@ definition file:
    `model` on the left-hand side is mandatory.
 """
 macro include_model(model_name::AbstractString)
-    # in principle esc() shouldn't be needed, but see
-    # https://github.com/JuliaLang/julia/issues/55677
-    Expr(:toplevel, esc(:(
-        module $(gensym())
-            using .Main: @register
-            using Turing
-            include("models/" * $(model_name) * ".jl")
-            @register model
-        end
-    )))
+    MODELS_TO_LOAD = get(ENV, "ADTESTS_MODELS_TO_LOAD", "__all__")
+    if MODELS_TO_LOAD == "__all__" || model_name in split(MODELS_TO_LOAD, ",")
+        # Declare a module containing the model. In principle esc() shouldn't
+        # be needed, but see https://github.com/JuliaLang/julia/issues/55677
+        Expr(:toplevel, esc(:(
+            module $(gensym())
+                using .Main: @register
+                using Turing
+                include("models/" * $(model_name) * ".jl")
+                @register model
+            end
+        )))
+    else
+        # Empty expression
+        :()
+    end
 end
 
 @include_model "assume_beta"
