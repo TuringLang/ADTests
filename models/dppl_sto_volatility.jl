@@ -20,4 +20,4 @@ y = map(to_num, data[1:500, 2])
     end
 end
 
-@register dppl_sto_volatility(y)
+model = dppl_sto_volatility(y)

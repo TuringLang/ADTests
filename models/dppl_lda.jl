@@ -31,4 +31,4 @@ end
     DynamicPPL.@addlogprob! sum(log_phi_dot_theta[CartesianIndex.(w, doc)])
 end
 
-@register dppl_lda(k, m, w_lda, doc_lda, alpha, beta)
+model = dppl_lda(k, m, w_lda, doc_lda, alpha, beta)

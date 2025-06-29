@@ -24,4 +24,4 @@ labels = labels[1:N]
     image_vec ~ MvNormal(vec(m[labels, :]), I)
 end
 
-@register dppl_naive_bayes(image_vec, labels, C, D)
+model = dppl_naive_bayes(image_vec, labels, C, D)

@@ -56,4 +56,4 @@ end
     DynamicPPL.@addlogprob! logsumexp(gamma)
 end
 
-@register dppl_hmm_semisup(K, T, T_unsup, w, z, u, alpha, beta)
+model = dppl_hmm_semisup(K, T, T_unsup, w, z, u, alpha, beta)

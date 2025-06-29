@@ -2,4 +2,4 @@
     m ~ filldist(Normal(0, 1), D)
 end
 
-@register dppl_high_dim_gauss(10_000)
+model = dppl_high_dim_gauss(10_000)

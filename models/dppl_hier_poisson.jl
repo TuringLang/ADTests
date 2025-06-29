@@ -24,4 +24,4 @@ lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
     y ~ arraydist(lazyarray(LogPoisson, alpha))
 end
 
-@register dppl_hier_poisson(y, x, idx, ns)
+model = dppl_hier_poisson(y, x, idx, ns)

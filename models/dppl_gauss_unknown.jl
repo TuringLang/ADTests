@@ -9,4 +9,4 @@ y = randn() .+ s * randn(n)
     y ~ filldist(Normal(m, s), N)
 end
 
-@register dppl_gauss_unknown(y)
+model = dppl_gauss_unknown(y)

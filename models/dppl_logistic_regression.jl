@@ -18,4 +18,4 @@ lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
     y ~ arraydist(lazyarray(x -> Bernoulli(safelogistic(x)), Xt * w))
 end
 
-@register dppl_logistic_regression(X', y)
+model = dppl_logistic_regression(X', y)
