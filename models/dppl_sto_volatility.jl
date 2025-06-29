@@ -1,5 +1,3 @@
-using Downloads, CSV
-
 path = "$(@__DIR__)/../data/dppl_sto_volatility.csv"
 data, _ = readdlm(path, ',', header=true)
 to_num(x) = x isa Number ? x : 0.1
