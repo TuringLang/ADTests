@@ -57,62 +57,61 @@ definition file:
  - Once defined, the model is created using `model = model_name(...)`. The
    `model` on the left-hand side is mandatory.
 """
-function include_model(model_name::AbstractString)
-    module_contents = quote
-        using DynamicPPL: @model, to_submodel
-        using Distributions
-        using LinearAlgebra: I
-        using .Main: @register
-        include("models/" * $(model_name) * ".jl")
-        @register model
-    end
-    module_name = Symbol("ADTests_", model_name)
-    # Ideally, this would be a macro. However, defining a module in a macro is
-    # either incredibly difficult or impossible. See
-    # https://github.com/TuringLang/ADTests/issues/31
-    eval(Expr(:module, true, module_name, module_contents))
+macro include_model(model_name::AbstractString)
+    # in principle esc() shouldn't be needed, but see
+    # https://github.com/JuliaLang/julia/issues/55677
+    Expr(:toplevel, esc(:(
+        module $(gensym())
+            using DynamicPPL: @model, to_submodel
+            using Distributions
+            using LinearAlgebra: I
+            using .Main: @register
+            include("models/" * $(model_name) * ".jl")
+            @register model
+        end
+    )))
 end
 
-include_model("assume_beta")
-include_model("assume_dirichlet")
-include_model("assume_lkjcholu")
-include_model("assume_mvnormal")
-include_model("assume_normal")
-include_model("assume_submodel")
-include_model("assume_wishart")
-include_model("broadcast_macro")
-include_model("control_flow")
-include_model("demo_assume_dot_observe")
-include_model("demo_assume_dot_observe_literal")
-include_model("demo_assume_index_observe")
-include_model("demo_assume_matrix_observe_matrix_index")
-include_model("demo_assume_multivariate_observe")
-include_model("demo_assume_multivariate_observe_literal")
-include_model("demo_assume_observe_literal")
-include_model("demo_assume_submodel_observe_index_literal")
-include_model("demo_dot_assume_observe")
-include_model("demo_dot_assume_observe_index")
-include_model("demo_dot_assume_observe_index_literal")
-include_model("demo_dot_assume_observe_matrix_index")
-include_model("demo_dot_assume_observe_submodel")
-include_model("dot_assume")
-include_model("dot_observe")
-include_model("dynamic_constraint")
-include_model("multiple_constraints_same_var")
-include_model("multithreaded")
-include_model("n010")
-include_model("n050")
-include_model("n100")
-include_model("n500")
-include_model("observe_bernoulli")
-include_model("observe_categorical")
-include_model("observe_index")
-include_model("observe_literal")
-include_model("observe_multivariate")
-include_model("observe_submodel")
-include_model("pdb_eight_schools_centered")
-include_model("pdb_eight_schools_noncentered")
-include_model("von_mises")
+@include_model "assume_beta"
+@include_model "assume_dirichlet"
+@include_model "assume_lkjcholu"
+@include_model "assume_mvnormal"
+@include_model "assume_normal"
+@include_model "assume_submodel"
+@include_model "assume_wishart"
+@include_model "broadcast_macro"
+@include_model "control_flow"
+@include_model "demo_assume_dot_observe"
+@include_model "demo_assume_dot_observe_literal"
+@include_model "demo_assume_index_observe"
+@include_model "demo_assume_matrix_observe_matrix_index"
+@include_model "demo_assume_multivariate_observe"
+@include_model "demo_assume_multivariate_observe_literal"
+@include_model "demo_assume_observe_literal"
+@include_model "demo_assume_submodel_observe_index_literal"
+@include_model "demo_dot_assume_observe"
+@include_model "demo_dot_assume_observe_index"
+@include_model "demo_dot_assume_observe_index_literal"
+@include_model "demo_dot_assume_observe_matrix_index"
+@include_model "demo_dot_assume_observe_submodel"
+@include_model "dot_assume"
+@include_model "dot_observe"
+@include_model "dynamic_constraint"
+@include_model "multiple_constraints_same_var"
+@include_model "multithreaded"
+@include_model "n010"
+@include_model "n050"
+@include_model "n100"
+@include_model "n500"
+@include_model "observe_bernoulli"
+@include_model "observe_categorical"
+@include_model "observe_index"
+@include_model "observe_literal"
+@include_model "observe_multivariate"
+@include_model "observe_submodel"
+@include_model "pdb_eight_schools_centered"
+@include_model "pdb_eight_schools_noncentered"
+@include_model "von_mises"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
