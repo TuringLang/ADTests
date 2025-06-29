@@ -17,7 +17,7 @@ ADTYPES = Dict(
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile = false),
     "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
-    "Mooncake" => AutoMooncake(; config = nothing),
+    "Mooncake" => AutoMooncake(),
     "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
     "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
     "Zygote" => AutoZygote(),
