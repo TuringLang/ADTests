@@ -1,3 +1,5 @@
+using LinearAlgebra: Diagonal
+
 @model function demo_assume_index_observe(
     x = [1.5, 2.0],
     ::Type{TV} = Vector{Float64},

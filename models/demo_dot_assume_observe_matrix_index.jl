@@ -1,3 +1,5 @@
+using LinearAlgebra: Diagonal
+
 @model function demo_dot_assume_observe_matrix_index(
     x = transpose([1.5 2.0;]),
     ::Type{TV} = Vector{Float64},

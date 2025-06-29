@@ -1,3 +1,5 @@
+using LinearAlgebra: Diagonal
+
 @model function _likelihood_multivariate_observe(s, m, x)
     return x ~ MvNormal(m, Diagonal(s))
 end

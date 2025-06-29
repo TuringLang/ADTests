@@ -62,10 +62,8 @@ macro include_model(model_name::AbstractString)
     # https://github.com/JuliaLang/julia/issues/55677
     Expr(:toplevel, esc(:(
         module $(gensym())
-            using DynamicPPL: @model, to_submodel
-            using Distributions
-            using LinearAlgebra: I
             using .Main: @register
+            using Turing
             include("models/" * $(model_name) * ".jl")
             @register model
         end
