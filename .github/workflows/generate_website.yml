@@ -96,6 +96,7 @@ jobs:
           ADTYPE_KEYS: ${{ needs.setup-keys.outputs.adtype_keys }}
           ADTESTS_MODELS_TO_LOAD: ${{ matrix.model }}
           DATADEPS_ALWAYS_ACCEPT: "true"
+          PYTHONUNBUFFERED: "1"
 
       - name: Output matrix values
         id: output-matrix
