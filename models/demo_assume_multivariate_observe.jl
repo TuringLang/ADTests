@@ -4,4 +4,4 @@
     m ~ MvNormal(zero(x), Diagonal(s))
     x ~ MvNormal(m, Diagonal(s))
 end
-@register demo_assume_multivariate_observe()
+model = demo_assume_multivariate_observe()

@@ -3,4 +3,4 @@
     a .~ Normal()
 end
 
-@register dot_assume()
+model = dot_assume()

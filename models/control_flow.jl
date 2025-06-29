@@ -18,4 +18,4 @@ evaluated at a value of `a < 0`. See `main.jl` for more information.
     end
 end
 
-@register control_flow()
+model = control_flow()

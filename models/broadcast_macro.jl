@@ -7,4 +7,4 @@
     @. x ~ Normal(a, $(sqrt(b)))
 end
 
-@register broadcast_macro()
+model = broadcast_macro()

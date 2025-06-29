@@ -32,51 +32,87 @@ macro register(model)
     :(MODELS[string($(esc(model)).f)] = $(esc(model)))
 end
 
-# These imports tend to get used a lot in models
-using DynamicPPL: @model, to_submodel
-using Distributions
-using LinearAlgebra
+"""
+    include_model(model_name::AbstractString)
 
-include("models/assume_beta.jl")
-include("models/assume_dirichlet.jl")
-include("models/assume_lkjcholu.jl")
-include("models/assume_mvnormal.jl")
-include("models/assume_normal.jl")
-include("models/assume_submodel.jl")
-include("models/assume_wishart.jl")
-include("models/broadcast_macro.jl")
-include("models/control_flow.jl")
-include("models/demo_assume_dot_observe.jl")
-include("models/demo_assume_dot_observe_literal.jl")
-include("models/demo_assume_index_observe.jl")
-include("models/demo_assume_matrix_observe_matrix_index.jl")
-include("models/demo_assume_multivariate_observe.jl")
-include("models/demo_assume_multivariate_observe_literal.jl")
-include("models/demo_assume_observe_literal.jl")
-include("models/demo_assume_submodel_observe_index_literal.jl")
-include("models/demo_dot_assume_observe.jl")
-include("models/demo_dot_assume_observe_index.jl")
-include("models/demo_dot_assume_observe_index_literal.jl")
-include("models/demo_dot_assume_observe_matrix_index.jl")
-include("models/demo_dot_assume_observe_submodel.jl")
-include("models/dot_assume.jl")
-include("models/dot_observe.jl")
-include("models/dynamic_constraint.jl")
-include("models/multiple_constraints_same_var.jl")
-include("models/multithreaded.jl")
-include("models/n010.jl")
-include("models/n050.jl")
-include("models/n100.jl")
-include("models/n500.jl")
-include("models/observe_bernoulli.jl")
-include("models/observe_categorical.jl")
-include("models/observe_index.jl")
-include("models/observe_literal.jl")
-include("models/observe_multivariate.jl")
-include("models/observe_submodel.jl")
-include("models/pdb_eight_schools_centered.jl")
-include("models/pdb_eight_schools_noncentered.jl")
-include("models/von_mises.jl")
+Add the model defined in `models/model_name.jl` to the full list of models
+tested in this script.
+
+We want to isolate every model in its own module, so that we avoid e.g.
+variable clashes, and also so that we make imports explicit.
+
+However, we don't want the _model files_ themselves to be cluttered with e.g.
+`module ... end` blocks as well as boring imports like @model,
+Distributions.jl, etc. which Turing re-exports by default anyway. This is
+because (a) it's boring and repetitive; and (b) the model definition shown on
+the website is exactly the contents of each file, so we would like to keep it
+as clean as possible.
+
+To this end, instead of using `include(filename)` we write a small macro that
+does this for us. We require the following to be true for each model
+definition file:
+ - The file is in the `models/` directory.
+ - The file is named `model_name.jl`, where `model_name` is the name of the
+   model, i.e. it's defined with `@model function model_name(...) ... end`.
+ - Once defined, the model is created using `model = model_name(...)`. The
+   `model` on the left-hand side is mandatory.
+"""
+function include_model(model_name::AbstractString)
+    module_contents = quote
+        using DynamicPPL: @model, to_submodel
+        using Distributions
+        using LinearAlgebra: I
+        using .Main: @register
+        include("models/" * $(model_name) * ".jl")
+        @register model
+    end
+    module_name = Symbol("ADTests_", model_name)
+    # Ideally, this would be a macro. However, defining a module in a macro is
+    # either incredibly difficult or impossible. See
+    # https://github.com/TuringLang/ADTests/issues/31
+    eval(Expr(:module, true, module_name, module_contents))
+end
+
+include_model("assume_beta")
+include_model("assume_dirichlet")
+include_model("assume_lkjcholu")
+include_model("assume_mvnormal")
+include_model("assume_normal")
+include_model("assume_submodel")
+include_model("assume_wishart")
+include_model("broadcast_macro")
+include_model("control_flow")
+include_model("demo_assume_dot_observe")
+include_model("demo_assume_dot_observe_literal")
+include_model("demo_assume_index_observe")
+include_model("demo_assume_matrix_observe_matrix_index")
+include_model("demo_assume_multivariate_observe")
+include_model("demo_assume_multivariate_observe_literal")
+include_model("demo_assume_observe_literal")
+include_model("demo_assume_submodel_observe_index_literal")
+include_model("demo_dot_assume_observe")
+include_model("demo_dot_assume_observe_index")
+include_model("demo_dot_assume_observe_index_literal")
+include_model("demo_dot_assume_observe_matrix_index")
+include_model("demo_dot_assume_observe_submodel")
+include_model("dot_assume")
+include_model("dot_observe")
+include_model("dynamic_constraint")
+include_model("multiple_constraints_same_var")
+include_model("multithreaded")
+include_model("n010")
+include_model("n050")
+include_model("n100")
+include_model("n500")
+include_model("observe_bernoulli")
+include_model("observe_categorical")
+include_model("observe_index")
+include_model("observe_literal")
+include_model("observe_multivariate")
+include_model("observe_submodel")
+include_model("pdb_eight_schools_centered")
+include_model("pdb_eight_schools_noncentered")
+include_model("von_mises")
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]

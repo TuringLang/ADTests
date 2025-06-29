@@ -5,4 +5,4 @@
     end
 end
 
-@register observe_bernoulli()
+model = observe_bernoulli()

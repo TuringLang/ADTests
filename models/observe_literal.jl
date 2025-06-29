@@ -3,4 +3,4 @@
     1.5 ~ Normal(a)
 end
 
-@register observe_literal()
+model = observe_literal()

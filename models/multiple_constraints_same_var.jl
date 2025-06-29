@@ -6,4 +6,4 @@
     x[4:5] ~ Dirichlet([1.0, 2.0])
 end
 
-@register multiple_constraints_same_var()
+model = multiple_constraints_same_var()

@@ -12,4 +12,4 @@
     end
 end
 
-@register demo_dot_assume_observe_index()
+model = demo_dot_assume_observe_index()

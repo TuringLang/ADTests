@@ -11,4 +11,4 @@ statements. See `main.jl` for more information.
     end
 end
 
-@register multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5])
+model = multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5])

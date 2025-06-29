@@ -5,4 +5,4 @@
     end
 end
 
-@register n500()
+model = n500()

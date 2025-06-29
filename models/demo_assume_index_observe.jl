@@ -14,4 +14,4 @@
     x ~ MvNormal(m, Diagonal(s))
 end
 
-@register demo_assume_index_observe()
+model = demo_assume_index_observe()

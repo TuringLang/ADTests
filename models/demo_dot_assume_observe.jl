@@ -10,4 +10,4 @@
     x ~ MvNormal(m, Diagonal(s))
 end
 
-@register demo_dot_assume_observe()
+model = demo_dot_assume_observe()

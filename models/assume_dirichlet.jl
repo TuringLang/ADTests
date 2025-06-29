@@ -2,4 +2,4 @@
     a ~ Dirichlet([1.0, 5.0])
 end
 
-@register assume_dirichlet()
+model = assume_dirichlet()

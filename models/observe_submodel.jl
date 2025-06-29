@@ -6,4 +6,4 @@ end
     _ignore ~ to_submodel(inner2(x, a))
 end
 
-@register observe_submodel()
+model = observe_submodel()

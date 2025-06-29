@@ -5,4 +5,4 @@
     end
 end
 
-@register observe_index()
+model = observe_index()

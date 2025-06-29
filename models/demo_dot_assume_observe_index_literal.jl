@@ -11,4 +11,4 @@
     2.0 ~ Normal(m[2], sqrt(s[2]))
 end
 
-@register demo_dot_assume_observe_index_literal()
+model = demo_dot_assume_observe_index_literal()

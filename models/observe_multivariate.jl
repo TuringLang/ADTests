@@ -7,4 +7,4 @@
     x ~ MvNormal(a, I)
 end
 
-@register observe_multivariate()
+model = observe_multivariate()

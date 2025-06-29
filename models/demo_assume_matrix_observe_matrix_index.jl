@@ -11,4 +11,4 @@
     x[:, 1] ~ MvNormal(m, Diagonal(s_vec))
 end
 
-@register demo_assume_matrix_observe_matrix_index()
+model = demo_assume_matrix_observe_matrix_index()

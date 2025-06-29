@@ -6,4 +6,4 @@
     2.0 ~ Normal(m, sqrt(s))
 end
 
-@register demo_assume_observe_literal()
+model = demo_assume_observe_literal()
