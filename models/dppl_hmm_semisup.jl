@@ -53,7 +53,7 @@ end
         end
         gamma .= temp_gamma
     end
-    DynamicPPL.@addlogprob! logsumexp(gamma)
+    @addlogprob! logsumexp(gamma)
 end
 
 model = dppl_hmm_semisup(K, T, T_unsup, w, z, u, alpha, beta)
