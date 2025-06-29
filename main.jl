@@ -17,7 +17,7 @@ ADTYPES = Dict(
     "ForwardDiff" => AutoForwardDiff(),
     "ReverseDiff" => AutoReverseDiff(; compile = false),
     "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
-    "Mooncake" => AutoMooncake(; config = nothing),
+    "Mooncake" => AutoMooncake(),
     "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
     "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
     "Zygote" => AutoZygote(),
@@ -100,6 +100,14 @@ end
 @include_model "demo_dot_assume_observe_submodel"
 @include_model "dot_assume"
 @include_model "dot_observe"
+@include_model "dppl_gauss_unknown"
+@include_model "dppl_hier_poisson"
+@include_model "dppl_high_dim_gauss"
+@include_model "dppl_hmm_semisup"
+@include_model "dppl_lda"
+@include_model "dppl_logistic_regression"
+@include_model "dppl_naive_bayes"
+@include_model "dppl_sto_volatility"
 @include_model "dynamic_constraint"
 @include_model "multiple_constraints_same_var"
 @include_model "multithreaded"
