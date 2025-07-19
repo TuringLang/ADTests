@@ -12,64 +12,64 @@ You can modify the list of AD types in `main.jl`.
 
 ## I want to add more models!
 
-You can modify the list of models by adding a new file, `models/{model_name}.jl`.
+You can modify the list of models by:
 
-The basic structure of this file should look like this, where `model_name` is replaced accordingly:
+1. Adding a new call to `@include_model {category_heading} {model_name}` in `main.jl`.
+   **Both `category_heading` and `model_name` should be strings.**
 
-```julia
-#=
-(1) You can add any explanatory comments here if necessary
-=#
+   `category_heading` is used to determine which table the model appears under on the website.
+   This should be self-explanatory if you look at the [current website](https://turinglang.org/ADTests).
+   
+2. Adding a new file, `models/{model_name}.jl`.
+   
+   The basic structure of this file should look like this, where `model_name` is replaced accordingly:
 
-# (2) Imports if necessary
-using MyOtherPackage: some_function
+   ```julia
+   #=
+   (1) You can add any explanatory comments here if necessary
+   =#
 
-# (3) Define data if necessary
-data = ...
+   # (2) Imports if necessary
+   using MyOtherPackage: some_function
 
-# (4) Define the model
-@model function model_name(data, ...)
-    # Define your model here
-    ...
-end
+   # (3) Define data if necessary
+   data = ...
 
-# (5) Instantiate the model
-model = model_name(data, ...)
-```
+   # (4) Define the model
+   @model function model_name(data, ...)
+       # Define your model here
+       ...
+   end
 
-**(1) Model name**
+   # (5) Instantiate the model
+   model = model_name(data, ...)
+   ```
 
-Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
-However, if necessary, you can add further explanatory comments inside the model definition file.
+   **(1) Model name**
 
-**(2) Dependencies**
+   Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
+   However, if necessary, you can add further explanatory comments inside the model definition file.
 
-Inside this file, you do not need to call `using Turing` or any of the AD backends.
-(This also means you do not need to import anything that Turing re-exports, such as distributions.)
+   **(2) Dependencies**
 
-However, you will have to make sure to import any other packages that your model requires.
-(If this package is not already present in the project environment, you will also have to add it to `Project.toml`.)
+   Inside this file, you do not need to call `using Turing` or any of the AD backends.
+   (This also means you do not need to import anything that Turing re-exports, such as distributions.)
 
-**(3) Data definition**
+   However, you will have to make sure to import any other packages that your model requires.
+   (If this package is not already present in the project environment, you will also have to add it to `Project.toml`.)
 
-Each file in `models/` is evaluated within its own module, so you can declare data variables, etc. without worrying about name clashes.
+   **(3) Data definition**
 
-**(4) Model definition**
+   Each file in `models/` is evaluated within its own module, so you can declare data variables, etc. without worrying about name clashes.
 
-Models can be defined as usual with `@model function model_name(...)`.
+   **(4) Model definition**
 
-**(5) Model instantiation**
+   Models can be defined as usual with `@model function model_name(...)`.
 
-The last line in the file should be the creation of the Turing model object using `model = model_name(...)`.
-(It is mandatory for the model object to be called `model`.)
+   **(5) Model instantiation**
 
-**Inclusion in `main.jl`**
-
-Finally, inside `main.jl`, add a call to `@include_model category_heading model_name`.
-**Both `category_heading` and `model_name` should be strings.**
-
-`category_heading` is used to determine which table the model appears under on the website.
-This should be self-explanatory if you look at the [current website](https://turinglang.org/ADTests).
+   The last line in the file should be the creation of the Turing model object using `model = model_name(...)`.
+   (It is mandatory for the model object to be called `model`.)
 
 > [!IMPORTANT]  
 > Note that for CI to run properly, `model_name` **must** be consistent between the following:
@@ -78,7 +78,7 @@ This should be self-explanatory if you look at the [current website](https://tur
 > - The filename i.e. `models/model_name.jl`
 > - The name of the model in `main.jl` i.e. `@include_model "Category Heading" "model_name"`
 
-(This setup does admittedly feel a bit complicated.
+(This setup does admittedly feel a bit fragile.
 Unfortunately I could not find a simpler way to get all the components (Julia, Python, web app) to work together in an automated fashion.
 Hopefully it is a small price to pay for the ability to just add a new model and have it be automatically included on the website.)
 
