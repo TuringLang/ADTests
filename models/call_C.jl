@@ -3,7 +3,7 @@ libc_name = Sys.iswindows() ? "msvcrt.dll" :
             Sys.isapple()   ? "libc.dylib" :
                               "libc.so.6"
 
-@model function call_C(y)
+@model function call_C(y = 0.0)
     x ~ Normal(0, 1)
 
     # Call C library abs function
