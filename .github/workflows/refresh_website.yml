@@ -32,10 +32,12 @@ jobs:
 
       - name: Download results to web/src/data
         run: |
-          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}adtests.json
-          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}manifest.json
-          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${{ github.event_name == 'pull_request' && 'pr/' || '' }}model_definitions.json
+          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${PR}adtests.json
+          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${PR}manifest.json
+          curl -O https://raw.githubusercontent.com/TuringLang/ADTests/refs/heads/gh-pages/${PR}model_definitions.json
         working-directory: web/src/data
+        env:
+          PR: ${{ github.event_name == 'pull_request' && 'pr/' || '' }}
 
       # This isn't needed to build the website, it's just there so that the
       # JSON is easily accessible on the gh-pages branch

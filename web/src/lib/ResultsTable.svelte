@@ -5,13 +5,14 @@
     import { getSortedEntries } from "./utils";
 
     interface Props {
-        data: object;
+        // model name -> adtype -> result
+        data: Map<string, Map<string, string | number>>;
         modelDefinitions: object;
     }
     const { data, modelDefinitions }: Props = $props();
 
-    const models = Object.keys(data);
-    const adtypes = Object.keys(data[models[0]]);
+    const models = [...data.keys()];
+    const adtypes = data.get(models[0]).keys();
 
     // Known errors
     const ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995";

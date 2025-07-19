@@ -13,11 +13,30 @@ You can modify the list of AD types in `main.jl`.
 ## I want to add more models!
 
 You can modify the list of models by adding a new file inside the `models` directory.
-This file should contain the model definition, and call the `@register` macro to register the model with the `ADTests` package.
-See the existing files in that directory for examples.
-Then, make sure to `include` the new source file in `main.jl`.
 
-To make sure that the definition is included in the final website, you will have to make sure that the filename is the same as the model name (i.e. a model `@model function f()` is in `models/f.jl`).
+Inside this file, you do not need to call `using Turing` or any of the AD backends.
+However, you will have to make sure to import any other packages that your model uses.
+
+This file should have, as the final line, the creation of the Turing model object using `model = model_f(...)`.
+(It is mandatory for the model object to be called `model`.)
+
+Then, inside `main.jl`, call `@include_model category_heading model_name`.
+
+- `category_heading` is a string that is used to determine which table the model appears under on the website.
+- For the automated tests to run properly, `model_name` **must** be consistent between the following:
+  - The name of the model itself i.e. `@model function model_name(...)`
+  - The filename i.e. `models/model_name.jl`
+  - The name of the model in `main.jl` i.e. `@include_model "Category Heading" model_name`
+
+Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
+However, if necessary, you can add explanatory comments inside the model definition file.
+
+You can see the existing files in that directory for examples.
+
+> [!NOTE]
+> This setup does admittedly feel a bit complicated.
+> Unfortunately I could not find a simpler way to get all the components (Julia, Python, web app) to work together in an automated fashion.
+> Hopefully it is a small price to pay for the ability to just add a new model and have it be automatically included on the website.
 
 ## I want to edit the website!
 

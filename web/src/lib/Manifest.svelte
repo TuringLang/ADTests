@@ -1,5 +1,11 @@
 <script lang="ts">
-    import manifest from "../data/manifest.json";
+    import manifestObj from "../data/manifest.json";
+
+    // convert manifest to a Map
+    let manifest = new Map<string, string | null>();
+    for (const [packageName, version] of Object.entries(manifestObj)) {
+        manifest.set(packageName, version === "" ? null : version);
+    }
 
     import { getSortedEntries } from "./utils";
 </script>
