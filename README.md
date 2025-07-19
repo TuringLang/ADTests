@@ -17,6 +17,28 @@ You can modify the list of models by adding a new file, `models/{model_name}.jl`
 Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
 However, if necessary, you can add further explanatory comments inside the model definition file.
 
+The basic structure of this file should look like this, where `model_name` is replaced accordingly:
+
+```julia
+#=
+You can add any explanatory comments here if necessary
+=#
+
+# Imports if necessary
+using MyOtherPackage: some_function
+
+# Define data if necessary
+data = ...
+
+@model function model_name(data, ...)
+    # Define your model here
+    ...
+end
+
+# Instantiate the model
+model = model_name(data, ...)
+```
+
 **Dependencies**
 
 Inside this file, you do not need to call `using Turing` or any of the AD backends.
@@ -29,27 +51,29 @@ However, you will have to make sure to import any other packages that your model
 
 Each file in `models/` is evaluated within its own module, so you can declare data variables, etc. without worrying about name clashes.
 
-Once you have defined your model as `@model function model_name(...)`, you will need to create a model object.
-As the final line in the file, the creation of the Turing model object using `model = model_name(...)`.
+Models can be defined as usual with `@model function model_name(...)`.
+
+The last line in the file should be the creation of the Turing model object using `model = model_name(...)`.
 (It is mandatory for the model object to be called `model`.)
 
 **Inclusion in `main.jl`**
 
-Finally, inside `main.jl`, call `@include_model category_heading model_name`.
-Both `category_heading` and `model_name` should be strings.
+Finally, inside `main.jl`, add a call to `@include_model category_heading model_name`.
+**Both `category_heading` and `model_name` should be strings.**
 
-`category_heading` is a string that is used to determine which table the model appears under on the website.
+`category_heading` is used to determine which table the model appears under on the website.
+This should be self-explanatory if you look at the [current website](https://turinglang.org/ADTests).
 
-Note that for CI to run properly, `model_name` **must** be consistent between the following:
+> [!IMPORTANT]  
+> Note that for CI to run properly, `model_name` **must** be consistent between the following:
+> 
+> - The name of the model itself i.e. `@model function model_name(...)`
+> - The filename i.e. `models/model_name.jl`
+> - The name of the model in `main.jl` i.e. `@include_model "Category Heading" "model_name"`
 
-- The name of the model itself i.e. `@model function model_name(...)`
-- The filename i.e. `models/model_name.jl`
-- The name of the model in `main.jl` i.e. `@include_model "Category Heading" "model_name"`
-
-> [!NOTE]
-> This setup does admittedly feel a bit complicated.
-> Unfortunately I could not find a simpler way to get all the components (Julia, Python, web app) to work together in an automated fashion.
-> Hopefully it is a small price to pay for the ability to just add a new model and have it be automatically included on the website.
+(This setup does admittedly feel a bit complicated.
+Unfortunately I could not find a simpler way to get all the components (Julia, Python, web app) to work together in an automated fashion.
+Hopefully it is a small price to pay for the ability to just add a new model and have it be automatically included on the website.)
 
 ## I want to edit the website!
 
