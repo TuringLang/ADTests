@@ -83,6 +83,15 @@ def run_ad(args):
     else:
         RUN_JULIA_COMMAND = JULIA_COMMAND
 
+    # Get category
+    try:
+        category = run_and_capture([*RUN_JULIA_COMMAND, "--get-category", model_key])
+    except sp.CalledProcessError as e:
+        print(f"Julia crashed when getting category for {model_key}.")
+        print(f"To reproduce, run: `julia --project=. main.jl --get-category {model_key}`")
+        category = "error"
+    results["__category__"] = category
+
     # Run tests
     for adtype in adtypes:
         print(f"Running {model_key} with {adtype}...")
@@ -127,12 +136,14 @@ def html(_args):
     # [
     #     {"model_name": "model1",
     #      "results": {
+    #          "__category_": "category1",
     #          "AD1": "result1",
     #          "AD2": "result2"
     #      }
     #     },
     #     {"model_name": "model2",
     #      "results": {
+    #          "__category_": "category2",
     #          "AD1": "result3",
     #          "AD2": "result4"
     #      }
