@@ -76,6 +76,7 @@ end
 # although it's hardly a big deal.
 @include_model "Base Julia features" "control_flow"
 @include_model "Base Julia features" "multithreaded"
+@include_model "Base Julia features" "call_C"
 @include_model "Core Turing syntax" "broadcast_macro"
 @include_model "Core Turing syntax" "dot_assume"
 @include_model "Core Turing syntax" "dot_observe"
