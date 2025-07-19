@@ -1,35 +1,35 @@
 {
   "assume_beta": {
     "__category__": "Distributions",
-    "EnzymeForward": 2.6341318204104507,
-    "EnzymeReverse": 4.23187052508562,
-    "FiniteDifferences": 24.251372081131752,
-    "ForwardDiff": 1.6551813876021446,
-    "Mooncake": 7.147004149982556,
-    "ReverseDiff": 28.415533580552125,
-    "ReverseDiffCompiled": 2.712266789910243,
-    "Zygote": 921.8972464511716
+    "EnzymeForward": 2.6841195546311725,
+    "EnzymeReverse": 4.318403632431522,
+    "FiniteDifferences": 25.570926845982527,
+    "ForwardDiff": 1.6978630830929429,
+    "Mooncake": 7.3961084424557475,
+    "ReverseDiff": 29.079732658755084,
+    "ReverseDiffCompiled": 2.6497375151433573,
+    "Zygote": 992.601332649923
   },
   "control_flow": {
     "__category__": "Base Julia features",
-    "EnzymeForward": 2.649510812970721,
-    "EnzymeReverse": 3.523212947503737,
-    "FiniteDifferences": 40.809571013501966,
-    "ForwardDiff": 1.5959261779214153,
-    "Mooncake": 9.762508206179003,
-    "ReverseDiff": 19.770870719977033,
+    "EnzymeForward": 2.763308424409123,
+    "EnzymeReverse": 3.364607766484233,
+    "FiniteDifferences": 41.83166128209488,
+    "ForwardDiff": 1.514428013965907,
+    "Mooncake": 9.39421434671221,
+    "ReverseDiff": 19.416689636163177,
     "ReverseDiffCompiled": "wrong",
-    "Zygote": 1049.0712942383313
+    "Zygote": 1157.3000035407006
   },
   "dot_assume": {
     "__category__": "Core Turing syntax",
-    "EnzymeForward": 2.9190442584937997,
-    "EnzymeReverse": 2.053736122228796,
-    "FiniteDifferences": 76.96770533446231,
-    "ForwardDiff": 1.3528361712496009,
-    "Mooncake": 5.456591816093787,
-    "ReverseDiff": 21.044022196065242,
-    "ReverseDiffCompiled": 2.202672977704072,
+    "EnzymeForward": 3.0081183786273606,
+    "EnzymeReverse": 1.9073143417092462,
+    "FiniteDifferences": 78.77102489347388,
+    "ForwardDiff": 1.3533029150422928,
+    "Mooncake": 5.266765266417852,
+    "ReverseDiff": 22.80722972518981,
+    "ReverseDiffCompiled": 2.1851235929634027,
     "Zygote": "error"
   }
 }
