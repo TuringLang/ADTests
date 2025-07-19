@@ -12,26 +12,37 @@ You can modify the list of AD types in `main.jl`.
 
 ## I want to add more models!
 
-You can modify the list of models by adding a new file inside the `models` directory.
+You can modify the list of models by adding a new file, `models/{model_name}.jl`.
+
+Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
+However, if necessary, you can add further explanatory comments inside the model definition file.
+
+**Dependencies**
 
 Inside this file, you do not need to call `using Turing` or any of the AD backends.
 However, you will have to make sure to import any other packages that your model uses.
+(If this package is a new dependency, you will also have to add it to `Project.toml`.)
 
-This file should have, as the final line, the creation of the Turing model object using `model = model_f(...)`.
+**Model definition and creation**
+
+Each file in `models/` is evaluated within its own module, so you can declare data variables, etc. without worrying about name clashes.
+
+Once you have defined your model as `@model function model_name(...)`, you will need to create a model object.
+As the final line in the file, the creation of the Turing model object using `model = model_name(...)`.
 (It is mandatory for the model object to be called `model`.)
 
-Then, inside `main.jl`, call `@include_model category_heading model_name`.
+**Inclusion in `main.jl`**
 
-- `category_heading` is a string that is used to determine which table the model appears under on the website.
-- For the automated tests to run properly, `model_name` **must** be consistent between the following:
-  - The name of the model itself i.e. `@model function model_name(...)`
-  - The filename i.e. `models/model_name.jl`
-  - The name of the model in `main.jl` i.e. `@include_model "Category Heading" model_name`
+Finally, inside `main.jl`, call `@include_model category_heading model_name`.
+Both `category_heading` and `model_name` should be strings.
 
-Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
-However, if necessary, you can add explanatory comments inside the model definition file.
+`category_heading` is a string that is used to determine which table the model appears under on the website.
 
-You can see the existing files in that directory for examples.
+Note that for CI to run properly, `model_name` **must** be consistent between the following:
+
+- The name of the model itself i.e. `@model function model_name(...)`
+- The filename i.e. `models/model_name.jl`
+- The name of the model in `main.jl` i.e. `@include_model "Category Heading" "model_name"`
 
 > [!NOTE]
 > This setup does admittedly feel a bit complicated.
