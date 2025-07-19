@@ -1,5 +1,5 @@
-export function getSortedEntries(obj: object) {
-    return Object.entries(obj).sort(([a, _x], [b, _y]) =>
-        a.localeCompare(b),
+export function getSortedEntries(m: Map<string, any>) {
+    return [...m.entries()].sort(([k1, _v1], [k2, _v2]) =>
+        k1.localeCompare(k2),
     );
 }

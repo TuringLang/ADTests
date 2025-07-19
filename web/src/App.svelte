@@ -2,6 +2,30 @@
     import data from "./data/adtests.json";
     import modelDefinitions from "./data/model_definitions.json";
 
+    // Parse data into nice JS objects.
+    // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
+    // category -> model_name -> adtype -> result
+    let categorisedData = new Map<
+        string,
+        Map<string, Map<string, string | number>>
+    >();
+    for (const [model_name, results] of Object.entries(data)) {
+        let category = results.__category__;
+        delete results.__category__;
+        let resultsMap = new Map<string, string | number>();
+        for (const [adtype, result] of Object.entries(results)) {
+            resultsMap.set(adtype, result);
+        }
+        if (!categorisedData.has(category)) {
+            categorisedData.set(
+                category,
+                new Map<string, Map<string, string | number>>(),
+            );
+        }
+        categorisedData.get(category).set(model_name, resultsMap);
+    }
+    console.log(categorisedData);
+
     import Manifest from "./lib/Manifest.svelte";
     import ResultsTable from "./lib/ResultsTable.svelte";
 </script>
@@ -78,7 +102,10 @@
                 >Download the raw data (JSON)</a
             >
         </p>
-        <ResultsTable {data} {modelDefinitions} />
+        {#each categorisedData.entries() as [category, modelData]}
+            <h3>{category}</h3>
+            <ResultsTable data={modelData} {modelDefinitions} />
+        {/each}
 
         <h2>Manifest</h2>
         <p>The tests above were run with the following package versions:</p>
