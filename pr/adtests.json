@@ -1,35 +1,35 @@
 {
   "assume_beta": {
     "__category__": "Distributions",
-    "EnzymeForward": 2.6841195546311725,
-    "EnzymeReverse": 4.318403632431522,
-    "FiniteDifferences": 25.570926845982527,
-    "ForwardDiff": 1.6978630830929429,
-    "Mooncake": 7.3961084424557475,
-    "ReverseDiff": 29.079732658755084,
-    "ReverseDiffCompiled": 2.6497375151433573,
-    "Zygote": 992.601332649923
+    "EnzymeForward": 2.695124237512756,
+    "EnzymeReverse": 4.27058485038711,
+    "FiniteDifferences": 24.580852430927393,
+    "ForwardDiff": 1.6886389954656436,
+    "Mooncake": 7.126913372582002,
+    "ReverseDiff": 28.441492079713846,
+    "ReverseDiffCompiled": 2.7063413644058802,
+    "Zygote": 965.2038086680029
   },
   "control_flow": {
     "__category__": "Base Julia features",
-    "EnzymeForward": 2.763308424409123,
-    "EnzymeReverse": 3.364607766484233,
-    "FiniteDifferences": 41.83166128209488,
-    "ForwardDiff": 1.514428013965907,
-    "Mooncake": 9.39421434671221,
-    "ReverseDiff": 19.416689636163177,
+    "EnzymeForward": 2.742892094828313,
+    "EnzymeReverse": 3.3425075613922366,
+    "FiniteDifferences": 42.09988068859724,
+    "ForwardDiff": 1.5725138487752628,
+    "Mooncake": 9.928816066450475,
+    "ReverseDiff": 18.92809743327073,
     "ReverseDiffCompiled": "wrong",
-    "Zygote": 1157.3000035407006
+    "Zygote": 1104.2978999487793
   },
   "dot_assume": {
     "__category__": "Core Turing syntax",
-    "EnzymeForward": 3.0081183786273606,
-    "EnzymeReverse": 1.9073143417092462,
-    "FiniteDifferences": 78.77102489347388,
-    "ForwardDiff": 1.3533029150422928,
-    "Mooncake": 5.266765266417852,
-    "ReverseDiff": 22.80722972518981,
-    "ReverseDiffCompiled": 2.1851235929634027,
+    "EnzymeForward": 3.0591123082831353,
+    "EnzymeReverse": 1.9341109510592698,
+    "FiniteDifferences": 78.41227621483377,
+    "ForwardDiff": 1.3806842467153555,
+    "Mooncake": 5.269892060870591,
+    "ReverseDiff": 22.2756517294258,
+    "ReverseDiffCompiled": 2.1937652976142443,
     "Zygote": "error"
   }
 }
