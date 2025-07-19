@@ -14,32 +14,35 @@ You can modify the list of AD types in `main.jl`.
 
 You can modify the list of models by adding a new file, `models/{model_name}.jl`.
 
-Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
-However, if necessary, you can add further explanatory comments inside the model definition file.
-
 The basic structure of this file should look like this, where `model_name` is replaced accordingly:
 
 ```julia
 #=
-You can add any explanatory comments here if necessary
+(1) You can add any explanatory comments here if necessary
 =#
 
-# Imports if necessary
+# (2) Imports if necessary
 using MyOtherPackage: some_function
 
-# Define data if necessary
+# (3) Define data if necessary
 data = ...
 
+# (4) Define the model
 @model function model_name(data, ...)
     # Define your model here
     ...
 end
 
-# Instantiate the model
+# (5) Instantiate the model
 model = model_name(data, ...)
 ```
 
-**Dependencies**
+**(1) Model name**
+
+Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
+However, if necessary, you can add further explanatory comments inside the model definition file.
+
+**(2) Dependencies**
 
 Inside this file, you do not need to call `using Turing` or any of the AD backends.
 (This also means you do not need to import anything that Turing re-exports, such as distributions.)
@@ -47,11 +50,15 @@ Inside this file, you do not need to call `using Turing` or any of the AD backen
 However, you will have to make sure to import any other packages that your model requires.
 (If this package is not already present in the project environment, you will also have to add it to `Project.toml`.)
 
-**Model definition and creation**
+**(3) Data definition**
 
 Each file in `models/` is evaluated within its own module, so you can declare data variables, etc. without worrying about name clashes.
 
+**(4) Model definition**
+
 Models can be defined as usual with `@model function model_name(...)`.
+
+**(5) Model instantiation**
 
 The last line in the file should be the creation of the Turing model object using `model = model_name(...)`.
 (It is mandatory for the model object to be called `model`.)
