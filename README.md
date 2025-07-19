@@ -20,8 +20,10 @@ However, if necessary, you can add further explanatory comments inside the model
 **Dependencies**
 
 Inside this file, you do not need to call `using Turing` or any of the AD backends.
-However, you will have to make sure to import any other packages that your model uses.
-(If this package is a new dependency, you will also have to add it to `Project.toml`.)
+(This also means you do not need to import anything that Turing re-exports, such as distributions.)
+
+However, you will have to make sure to import any other packages that your model requires.
+(If this package is not already present in the project environment, you will also have to add it to `Project.toml`.)
 
 **Model definition and creation**
 
