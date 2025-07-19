@@ -14,13 +14,13 @@ You can modify the list of AD types in `main.jl`.
 
 You can modify the list of models by:
 
-1. Adding a new call to `@include_model {category_heading} {model_name}` in `main.jl`.
-   **Both `category_heading` and `model_name` should be strings.**
+1. **Adding a new call to `@include_model {category_heading} {model_name}` in `main.jl`.**
+   Both `category_heading` and `model_name` should be strings.
 
    `category_heading` is used to determine which table the model appears under on the website.
    This should be self-explanatory if you look at the [current website](https://turinglang.org/ADTests).
    
-2. Adding a new file, `models/{model_name}.jl`.
+2. **Adding a new file, `models/{model_name}.jl`.**
    
    The basic structure of this file should look like this, where `model_name` is replaced accordingly:
 
@@ -45,7 +45,7 @@ You can modify the list of models by:
    model = model_name(data, ...)
    ```
 
-   **(1) Model name**
+   **(1) Description**
 
    Ideally, `model_name` would be self-explanatory, i.e. it would serve to illustrate exactly one feature and the name would indicate this.
    However, if necessary, you can add further explanatory comments inside the model definition file.
