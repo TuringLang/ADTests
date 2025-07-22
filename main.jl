@@ -1,6 +1,7 @@
 using DynamicPPL: DynamicPPL, VarInfo
 using DynamicPPL.TestUtils.AD: run_ad, ADResult, ADIncorrectException
 using ADTypes
+using Random: Xoshiro
 
 import FiniteDifferences: central_fdm
 import ForwardDiff
@@ -11,13 +12,13 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
-    "Mooncake" => AutoMooncake(; config=nothing),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "ReverseDiff" => AutoReverseDiff(; compile = false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
+    "Mooncake" => AutoMooncake(; config = nothing),
+    "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
+    "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
     "Zygote" => AutoZygote(),
 )
 
@@ -56,14 +57,12 @@ macro include_model(category::AbstractString, model_name::AbstractString)
     if MODELS_TO_LOAD == "__all__" || model_name in split(MODELS_TO_LOAD, ",")
         # Declare a module containing the model. In principle esc() shouldn't
         # be needed, but see https://github.com/JuliaLang/julia/issues/55677
-        Expr(:toplevel, esc(:(
-            module $(gensym())
-            using .Main: @register
-            using Turing
-            include("models/" * $(model_name) * ".jl")
-            @register $(category) model
-            end
-        )))
+        Expr(:toplevel, esc(:(module $(gensym())
+        using .Main: @register
+        using Turing
+        include("models/" * $(model_name) * ".jl")
+        @register $(category) model
+        end)))
     else
         # Empty expression
         :()
@@ -133,9 +132,18 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo=vi, params=params, benchmark=true)
+            result = run_ad(model, adtype; varinfo = vi, params = params, benchmark = true)
         else
-            result = run_ad(model, adtype; benchmark=true)
+            vi = VarInfo(Xoshiro(468), model)
+            linked_vi = DynamicPPL.link!!(vi, model)
+            params = linked_vi[:]
+            result = run_ad(
+                model,
+                adtype;
+                params = params,
+                reference_adtype = ADTYPES["FiniteDifferences"],
+                benchmark = true,
+            )
         end
         # If reached here - nothing went wrong
         println(result.time_vs_primal)
