@@ -25,7 +25,7 @@ end
     subj_prior_μ ~ Normal(0, 1)
     subj_prior_σ = 1.0
     # Inverse temperature for actions
-    β = 1
+    β ~ Exponential(1)
 
     ### "Perceptual inference": running the inner model ###
     # Condition the inner model
