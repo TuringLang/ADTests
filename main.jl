@@ -133,16 +133,12 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo=vi, params=params, test=WithBackend(ADTYPES["FiniteDifferences"], benchmark=true),
-            )
+            result = run_ad(model, adtype; varinfo=vi, params=params, test=WithBackend(ADTYPES["FiniteDifferences"]), benchmark=true)
         else
-            vi = VarInfo(Xoshiro(468), model)
-            linked_vi = DynamicPPL.link!!(vi, model)
-            params = linked_vi[:]
             result = run_ad(
                 model,
                 adtype;
-                params=params,
+                rng=Xoshiro(468),
                 test=WithBackend(ADTYPES["FiniteDifferences"]),
                 benchmark=true,
             )
