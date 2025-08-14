@@ -12,8 +12,6 @@ y = mapreduce(λi -> rand(Poisson(λi), nd), vcat, λ)
 x = repeat(logpop, inner=nd)
 idx = repeat(collect(1:ns), inner=nd)
 
-lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
-
 @model function dppl_hier_poisson(y, x, idx, ns)
     a0 ~ Normal(0, 10)
     a1 ~ Normal(0, 1)
