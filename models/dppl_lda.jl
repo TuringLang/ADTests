@@ -21,8 +21,8 @@ for i in 1:m
 end
 
 @model function dppl_lda(k, m, w, doc, alpha, beta)
-    theta ~ filldist(Dirichlet(alpha), m)
-    phi ~ filldist(Dirichlet(beta), k)
+    theta ~ product_distribution(fill(Dirichlet(alpha), m))
+    phi ~ product_distribution(fill(Dirichlet(beta), k))
     log_phi_dot_theta = log.(phi * theta)
     @addlogprob! sum(log_phi_dot_theta[CartesianIndex.(w, doc)])
 end
