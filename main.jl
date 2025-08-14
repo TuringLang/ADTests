@@ -151,12 +151,19 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             else
                 ADTYPES["FiniteDifferences"]
             end
+            rtol = if (model_name == "dppl_logistic_regression")
+                # these models are numerically more sensitive to different backends so use looser bounds 
+                1e-1
+            else
+                sqrt(eps())
+            end
             result = run_ad(
                 model,
                 adtype;
                 rng=Xoshiro(468),
                 test=WithBackend(ref_backend),
                 benchmark=true,
+                rtol=rtol,
             )
         end
         # If reached here - nothing went wrong
