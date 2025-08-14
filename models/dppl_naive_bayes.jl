@@ -16,12 +16,12 @@ image = transform(pca, image_raw)
 # Take only the first 1000 images and vectorise
 N = 1000
 image_subset = image[:, 1:N]'
-image_vec = vec(image_subset[:, :])
+image_vec = image_subset[:, :]
 labels = labels[1:N]
 
 @model function dppl_naive_bayes(image_vec, labels, C, D)
     m ~ product_distribution(fill(Normal(0, 10), C, D))
-    image_vec ~ MvNormal(vec(m[labels, :]), I)
+    image_vec ~ product_distribution(Normal.(m[labels, :]))
 end
 
 model = dppl_naive_bayes(image_vec, labels, C, D)
