@@ -5,7 +5,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -16,7 +17,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -27,7 +29,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -38,7 +41,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -49,7 +53,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -60,7 +65,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -71,7 +77,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -82,7 +89,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -93,7 +101,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -104,7 +113,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -115,7 +125,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -126,7 +137,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -137,7 +149,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -148,7 +161,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -159,7 +173,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -170,7 +185,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -181,7 +197,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -192,7 +209,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -203,7 +221,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -214,7 +233,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -225,7 +245,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -236,7 +257,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -247,7 +269,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -258,7 +281,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -269,7 +293,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -280,7 +305,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -291,7 +317,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -302,7 +329,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -313,7 +341,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -324,7 +353,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -335,7 +365,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -346,7 +377,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -357,7 +389,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -368,7 +401,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -379,7 +413,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -390,7 +425,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -401,7 +437,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -412,7 +449,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -423,7 +461,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -434,7 +473,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -445,7 +485,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "error",
     "Zygote": "error"
@@ -456,7 +497,8 @@
     "EnzymeReverse": "error",
     "FiniteDifferences": "error",
     "ForwardDiff": "error",
-    "Mooncake": "error",
+    "MooncakeForward": "error",
+    "MooncakeReverse": "error",
     "ReverseDiff": "error",
     "ReverseDiffCompiled": "wrong",
     "Zygote": "error"
