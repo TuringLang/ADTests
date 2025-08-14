@@ -143,11 +143,19 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             params = [-0.5, 0.5]
             result = run_ad(model, adtype; varinfo=vi, params=params, test=WithBackend(ADTYPES["FiniteDifferences"]), benchmark=true)
         else
+            ref_backend = if model_name == "dppl_hmm_semisup"
+                # FiniteDifferences errors on this model causing all models
+                # to 'error'
+                # https://github.com/TuringLang/ADTests/issues/40
+                ADTYPES["ForwardDiff"]
+            else
+                ADTYPES["FiniteDifferences"]
+            end
             result = run_ad(
                 model,
                 adtype;
                 rng=Xoshiro(468),
-                test=WithBackend(ADTYPES["FiniteDifferences"]),
+                test=WithBackend(ref_backend),
                 benchmark=true,
             )
         end
