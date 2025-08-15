@@ -103,16 +103,6 @@
             >
         </p>
 
-        <p>
-            <b>Note about Enzyme:</b> Enzyme does not work with DynamicPPL 0.37
-            / Turing 0.40 because of
-            <a
-                href="https://github.com/EnzymeAD/Enzyme.jl/issues/2429"
-                target="_blank">this issue</a
-            >. If you want to use Enzyme with Turing, please use an older
-            version of Turing / DynamicPPL.
-        </p>
-
         {#each categorisedData.entries() as [category, modelData]}
             <h3>{category}</h3>
             <ResultsTable data={modelData} {modelDefinitions} />
