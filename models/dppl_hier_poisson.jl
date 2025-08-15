@@ -1,4 +1,3 @@
-using LazyArrays
 using Turing: LogPoisson
 
 nd, ns = 5, 10
@@ -13,15 +12,13 @@ y = mapreduce(λi -> rand(Poisson(λi), nd), vcat, λ)
 x = repeat(logpop, inner=nd)
 idx = repeat(collect(1:ns), inner=nd)
 
-lazyarray(f, x) = LazyArray(Base.broadcasted(f, x))
-
 @model function dppl_hier_poisson(y, x, idx, ns)
     a0 ~ Normal(0, 10)
     a1 ~ Normal(0, 1)
     a0_sig ~ truncated(Cauchy(0, 1); lower=0)
-    a0s ~ filldist(Normal(0, a0_sig), ns)
+    a0s ~ product_distribution(fill(Normal(0, a0_sig), ns))
     alpha = a0 .+ a0s[idx] .+ a1 * x
-    y ~ arraydist(lazyarray(LogPoisson, alpha))
+    y ~ product_distribution(LogPoisson.(alpha))
 end
 
 model = dppl_hier_poisson(y, x, idx, ns)
