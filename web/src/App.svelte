@@ -105,12 +105,12 @@
 
         <p>
             <b>Note about Enzyme:</b> Enzyme does not work with DynamicPPL 0.37
-            / Turing 0.40 because of
+            / Turing 0.40 on Julia 1.11 because of
             <a
                 href="https://github.com/EnzymeAD/Enzyme.jl/issues/2429"
                 target="_blank">this issue</a
-            >. If you want to use Enzyme with Turing, please use an older
-            version of Turing / DynamicPPL.
+            >. If you want to use Enzyme with Turing, please use Julia 1.10, or
+            an older version of Turing / DynamicPPL.
         </p>
 
         {#each categorisedData.entries() as [category, modelData]}
