@@ -171,18 +171,11 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     catch e
         @show e
         if e isa ADIncorrectException
-            # First check for completely incorrect ones
-            for (a, b) in zip(e.grad_expected, e.grad_actual)
-                if !isnan(a) && !isnan(b) && abs(a - b) > 1e-6
-                    println("wrong")
-                    exit()
-                end
-            end
             # If not, check for NaN's and report those
             if any(isnan, e.grad_expected) || any(isnan, e.grad_actual)
                 println("NaN")
             else
-                # Something else went wrong, shouldn't happen
+                # Otherwise it's just a numerical error
                 println("wrong")
             end
         else
