@@ -7,7 +7,7 @@ import FiniteDifferences: central_fdm
 import ForwardDiff
 import ReverseDiff
 import Mooncake
-import Enzyme: set_runtime_activity, Forward, Reverse
+import Enzyme: set_runtime_activity, Forward, Reverse, Const
 import Zygote
 
 # AD backends to test.
@@ -18,8 +18,8 @@ ADTYPES = Dict(
     "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
     "MooncakeReverse" => AutoMooncake(),
     "MooncakeForward" => AutoMooncakeForward(),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true), function_annotation=Const),
+    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true), function_annotation=Const),
     "Zygote" => AutoZygote(),
 )
 
