@@ -18,8 +18,8 @@ ADTYPES = Dict(
     "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
     "MooncakeReverse" => AutoMooncake(),
     "MooncakeForward" => AutoMooncakeForward(),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true)),
+    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true), function_annotation=Enzyme.Const),
+    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true), function_annotation=Enzyme.Const),
     "Zygote" => AutoZygote(),
 )
 
