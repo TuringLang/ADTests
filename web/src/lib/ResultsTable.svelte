@@ -18,10 +18,18 @@
     const ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995";
     const MOONCAKE_THREADED =
         "https://github.com/chalk-lab/Mooncake.jl/issues/570";
+    const ENZYME_FWD_VNDICT = "https://github.com/EnzymeAD/Enzyme.jl/issues/2580";
+    const ENZYME_ELTYPE = "https://github.com/EnzymeAD/Enzyme.jl/issues/2589";
     const KNOWN_ERRORS = {
         assume_mvnormal__EnzymeForward: ENZYME_FWD_BLAS,
         assume_wishart__EnzymeForward: ENZYME_FWD_BLAS,
         multithreaded__Mooncake: MOONCAKE_THREADED,
+        demo_dot_assume_observe__EnzymeReverse: ENZYME_FWD_VNDICT,
+        demo_dot_assume_observe_index__EnzymeReverse: ENZYME_FWD_VNDICT,
+        demo_dot_assume_observe_matrix_index__EnzymeReverse: ENZYME_FWD_VNDICT,
+        demo_dot_assume_observe_submodel__EnzymeReverse: ENZYME_FWD_VNDICT,
+        multiple_constraints_same_var__EnzymeForward: ENZYME_ELTYPE,
+        multiple_constraints_same_var__EnzymeReverse: ENZYME_ELTYPE,
     };
 </script>
 
