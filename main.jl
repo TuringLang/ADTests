@@ -77,6 +77,7 @@ end
 @include_model "Base Julia features" "control_flow"
 @include_model "Base Julia features" "multithreaded"
 @include_model "Base Julia features" "call_C"
+@include_model "Core Turing syntax" "assume_submodel"
 @include_model "Core Turing syntax" "broadcast_macro"
 @include_model "Core Turing syntax" "dot_assume"
 @include_model "Core Turing syntax" "dot_observe"
@@ -91,7 +92,6 @@ end
 @include_model "Distributions" "assume_lkjcholu"
 @include_model "Distributions" "assume_mvnormal"
 @include_model "Distributions" "assume_normal"
-@include_model "Distributions" "assume_submodel"
 @include_model "Distributions" "assume_wishart"
 @include_model "Distributions" "observe_bernoulli"
 @include_model "Distributions" "observe_categorical"
@@ -123,7 +123,8 @@ end
 @include_model "Effect of model size" "n500"
 @include_model "PosteriorDB" "pdb_eight_schools_centered"
 @include_model "PosteriorDB" "pdb_eight_schools_noncentered"
-@include_model "Miscellaneous features" "metabayesian_MH"
+@include_model "Integrations with other packages" "metabayesian_MH"
+@include_model "Integrations with other packages" "ordinary_diffeq"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
