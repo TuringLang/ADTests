@@ -1,6 +1,6 @@
 # See https://turinglang.org/docs/tutorials/bayesian-differential-equations/.
 
-using OrdinaryDiffEq
+using OrdinaryDiffEq: ODEProblem, solve, Tsit5
 
 function lotka_volterra(du, u, p, t)
     α, β, γ, δ = p
@@ -26,7 +26,7 @@ odedata = rand.(Poisson.(q * Array(sol)))
     p = [α, β, γ, δ]
     predicted = solve(prob, Tsit5(); p=p, saveat=0.1, abstol=1e-6, reltol=1e-6)
     for i in eachindex(predicted)
-        data[:, i] ~ arraydist(Poisson.(q .* predicted[i] .+ 1e-5))
+        data[:, i] ~ product_distribution(Poisson.(q .* predicted[i] .+ 1e-5))
     end
     return nothing
 end
