@@ -124,6 +124,7 @@ end
 @include_model "PosteriorDB" "pdb_eight_schools_centered"
 @include_model "PosteriorDB" "pdb_eight_schools_noncentered"
 @include_model "External libraries" "metabayesian_Turing_AdvancedMH_MH"
+@include_model "External libraries" "metabayesian_Turing_AdvancedHMC_NUTS"
 @include_model "External libraries" "DifferentialEquations_lv_ODE"
 @include_model "External libraries" "DifferentialEquations_lv_DDE"
 @include_model "External libraries" "Lux_neural_network"
