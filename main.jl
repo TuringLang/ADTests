@@ -114,7 +114,7 @@ end
 @include_model "Effect of model size" "n500"
 @include_model "PosteriorDB" "pdb_eight_schools_centered"
 @include_model "PosteriorDB" "pdb_eight_schools_noncentered"
-@include_model "Miscellaneous features" "metabayesian_MH"
+@include_model "External libraries" "metabayesian_MH"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
