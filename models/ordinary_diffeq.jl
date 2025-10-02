@@ -16,18 +16,18 @@ u0 = [1.0, 1.0]
 p = [1.5, 1.0, 3.0, 1.0]
 tspan = (0.0, 10.0)
 prob = ODEProblem(lotka_volterra, u0, tspan, p)
-sol = solve(prob, Tsit5(); saveat=0.1)
+sol = solve(prob, Tsit5(); saveat = 0.1)
 q = 1.7
 odedata = rand.(Poisson.(q * Array(sol)))
 
 @model function ordinary_diffeq(data, prob)
-    α ~ truncated(Normal(1.5, 0.2); lower=0.5, upper=2.5)
-    β ~ truncated(Normal(1.1, 0.2); lower=0, upper=2)
-    γ ~ truncated(Normal(3.0, 0.2); lower=1, upper=4)
-    δ ~ truncated(Normal(1.0, 0.2); lower=0, upper=2)
-    q ~ truncated(Normal(1.7, 0.2); lower=0, upper=3)
+    α ~ truncated(Normal(1.5, 0.2); lower = 0.5, upper = 2.5)
+    β ~ truncated(Normal(1.1, 0.2); lower = 0, upper = 2)
+    γ ~ truncated(Normal(3.0, 0.2); lower = 1, upper = 4)
+    δ ~ truncated(Normal(1.0, 0.2); lower = 0, upper = 2)
+    q ~ truncated(Normal(1.7, 0.2); lower = 0, upper = 3)
     p = [α, β, γ, δ]
-    predicted = solve(prob, Tsit5(); p=p, saveat=0.1, abstol=1e-6, reltol=1e-6)
+    predicted = solve(prob, Tsit5(); p = p, saveat = 0.1, abstol = 1e-6, reltol = 1e-6)
     for i in eachindex(predicted)
         data[:, i] ~ product_distribution(Poisson.(q .* predicted[i] .+ 1e-5))
     end
