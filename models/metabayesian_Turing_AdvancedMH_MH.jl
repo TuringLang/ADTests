@@ -1,5 +1,5 @@
 #=
-This is a "meta-Bayesian" model, where the generative model includes an inversion of a different generative model.
+This is a "meta-Bayesian" model, where the generative model includes an inversion of a different "subjective" generative model.
 These types of models are common in cognitive modelling, where systems of interest (e.g. human subjects) are thought to use Bayesian inference to navigate their environment.
 Here we use a Metropolis-Hasting sampler implemented with Turing and AdvancedMH as the inversion of the inner "subjective" model.
 =#
