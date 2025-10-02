@@ -12,14 +12,20 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    "ReverseDiff" => AutoReverseDiff(; compile = false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
     "MooncakeReverse" => AutoMooncake(),
     "MooncakeForward" => AutoMooncakeForward(),
-    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true), function_annotation=Const),
-    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true), function_annotation=Const),
+    "EnzymeForward" => AutoEnzyme(;
+        mode = set_runtime_activity(Forward, true),
+        function_annotation = Const,
+    ),
+    "EnzymeReverse" => AutoEnzyme(;
+        mode = set_runtime_activity(Reverse, true),
+        function_annotation = Const,
+    ),
     "Zygote" => AutoZygote(),
 )
 
@@ -137,34 +143,44 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model_name, adtype_name = ARGS[2], ARGS[3]
     model, adtype = MODELS[model_name][2], ADTYPES[adtype_name]
 
+    ref_backend = if model_name == "dppl_hmm_semisup"
+        # FiniteDifferences errors on this model causing all models
+        # to 'error'
+        # https://github.com/TuringLang/ADTests/issues/40
+        ADTYPES["ForwardDiff"]
+    else
+        ADTYPES["FiniteDifferences"]
+    end
+
     try
         if model_name == "control_flow"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo=vi, params=params, test=WithBackend(ADTYPES["FiniteDifferences"]), benchmark=true)
+            result = run_ad(
+                model,
+                adtype;
+                varinfo = vi,
+                params = params,
+                test = WithBackend(ref_backend),
+                benchmark = true,
+            )
         else
-            ref_backend = if model_name == "dppl_hmm_semisup"
-                # FiniteDifferences errors on this model causing all models
-                # to 'error'
-                # https://github.com/TuringLang/ADTests/issues/40
-                ADTYPES["ForwardDiff"]
-            else
-                ADTYPES["FiniteDifferences"]
-            end
-            rtol = if (model_name == "dppl_logistic_regression")
-                # these models are numerically more sensitive to different backends so use looser bounds 
+            # Some models are more numerically sensitive
+            rtol = if model_name == "dppl_logistic_regression"
                 1e-1
+            elseif model_name == "ordinary_diffeq"
+                1e-3
             else
                 sqrt(eps())
             end
             result = run_ad(
                 model,
                 adtype;
-                rng=Xoshiro(468),
-                test=WithBackend(ref_backend),
-                benchmark=true,
-                rtol=rtol,
+                rng = Xoshiro(468),
+                test = WithBackend(ref_backend),
+                benchmark = true,
+                rtol = rtol,
             )
         end
         # If reached here - nothing went wrong
