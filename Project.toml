@@ -1,6 +1,7 @@
 [deps]
 ADTypes = "47edcb42-4c32-4615-8424-f2b9edc5f35b"
 Chairmarks = "0ca39b1e-fe0b-4e98-acfc-b1656634c4de"
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 DifferentiationInterface = "a0c0ee7d-e4b9-4e03-894e-1c5f64a51d63"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 DynamicPPL = "366bfd00-2699-11ea-058f-f148b4cae6d8"
