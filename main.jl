@@ -123,8 +123,11 @@ end
 @include_model "Effect of model size" "n500"
 @include_model "PosteriorDB" "pdb_eight_schools_centered"
 @include_model "PosteriorDB" "pdb_eight_schools_noncentered"
-@include_model "Integrations with other packages" "metabayesian_MH"
-@include_model "Integrations with other packages" "ordinary_diffeq"
+@include_model "External libraries" "metabayesian_Turing_AdvancedMH_MH"
+@include_model "External libraries" "DifferentialEquations_lv_ODE"
+@include_model "External libraries" "DifferentialEquations_lv_DDE"
+@include_model "External libraries" "Lux_neural_network"
+@include_model "External libraries" "AbstractGPs_GP"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
