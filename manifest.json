@@ -1,7 +1,7 @@
 {
   "ADTypes": "1.18.0",
   "AbstractFFTs": "1.5.0",
-  "AbstractMCMC": "5.8.0",
+  "AbstractMCMC": "5.8.1",
   "AbstractPPL": "0.13.1",
   "AbstractTrees": "0.4.5",
   "Accessors": "0.1.42",
