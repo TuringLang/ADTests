@@ -2,6 +2,9 @@
 
 using OrdinaryDiffEq: ODEProblem, solve, Tsit5
 
+# SciMLSensitivity is needed for reverse-mode AD on differential equations
+import SciMLSensitivity
+
 function lotka_volterra(du, u, p, t)
     α, β, γ, δ = p
     x, y = u
