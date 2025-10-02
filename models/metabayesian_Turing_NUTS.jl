@@ -1,7 +1,7 @@
 #=
 This is a "meta-Bayesian" model, where the generative model includes an inversion of a different "subjective" generative model.
 These types of models are common in cognitive modelling, where systems of interest (e.g. human subjects) are thought to use Bayesian inference to navigate their environment.
-Here we use a Metropolis-Hasting sampler implemented with Turing and AdvancedMH as the inversion of the inner "subjective" model.
+Here we use a NUTS sampler implemented with Turing as the inversion of the inner "subjective" model.
 =#
 using Random: Xoshiro
 
@@ -14,10 +14,10 @@ using Random: Xoshiro
 end
 
 # Outer model function
-@model function metabayesian_Turing_AdvancedMH_MH(
+@model function metabayesian_Turing_NUTS(
     observation,
     action,
-    inner_sampler = MH(),
+    inner_sampler = NUTS(),
     inner_n_samples = 20,
 )
     ### Sample parameters for the inner inference and response ###
@@ -41,4 +41,4 @@ end
     action ~ Normal(subj_mean_expectationₜ, β)
 end
 
-model = metabayesian_Turing_AdvancedMH_MH(0.0, 1.0)
+model = metabayesian_Turing_NUTS(0.0, 1.0)
