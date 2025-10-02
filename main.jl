@@ -1,5 +1,5 @@
 using DynamicPPL: DynamicPPL, VarInfo
-using DynamicPPL.TestUtils.AD: run_ad, ADResult, ADIncorrectException
+using DynamicPPL.TestUtils.AD: run_ad, ADResult, ADIncorrectException, WithBackend
 using ADTypes
 using Random: Xoshiro
 
@@ -7,18 +7,19 @@ import FiniteDifferences: central_fdm
 import ForwardDiff
 import ReverseDiff
 import Mooncake
-import Enzyme: set_runtime_activity, Forward, Reverse
+import Enzyme: set_runtime_activity, Forward, Reverse, Const
 import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile = false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
-    "Mooncake" => AutoMooncake(; config = nothing),
-    "EnzymeForward" => AutoEnzyme(; mode = set_runtime_activity(Forward, true)),
-    "EnzymeReverse" => AutoEnzyme(; mode = set_runtime_activity(Reverse, true)),
+    "ReverseDiff" => AutoReverseDiff(; compile=false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    "MooncakeReverse" => AutoMooncake(),
+    "MooncakeForward" => AutoMooncakeForward(),
+    "EnzymeForward" => AutoEnzyme(; mode=set_runtime_activity(Forward, true), function_annotation=Const),
+    "EnzymeReverse" => AutoEnzyme(; mode=set_runtime_activity(Reverse, true), function_annotation=Const),
     "Zygote" => AutoZygote(),
 )
 
@@ -76,6 +77,7 @@ end
 @include_model "Base Julia features" "control_flow"
 @include_model "Base Julia features" "multithreaded"
 @include_model "Base Julia features" "call_C"
+@include_model "Core Turing syntax" "assume_submodel"
 @include_model "Core Turing syntax" "broadcast_macro"
 @include_model "Core Turing syntax" "dot_assume"
 @include_model "Core Turing syntax" "dot_observe"
@@ -90,11 +92,18 @@ end
 @include_model "Distributions" "assume_lkjcholu"
 @include_model "Distributions" "assume_mvnormal"
 @include_model "Distributions" "assume_normal"
-@include_model "Distributions" "assume_submodel"
 @include_model "Distributions" "assume_wishart"
 @include_model "Distributions" "observe_bernoulli"
 @include_model "Distributions" "observe_categorical"
 @include_model "Distributions" "observe_von_mises"
+@include_model "DynamicPPL arXiV paper" "dppl_gauss_unknown"
+@include_model "DynamicPPL arXiV paper" "dppl_hier_poisson"
+@include_model "DynamicPPL arXiV paper" "dppl_high_dim_gauss"
+@include_model "DynamicPPL arXiV paper" "dppl_hmm_semisup"
+@include_model "DynamicPPL arXiV paper" "dppl_lda"
+@include_model "DynamicPPL arXiV paper" "dppl_logistic_regression"
+@include_model "DynamicPPL arXiV paper" "dppl_naive_bayes"
+@include_model "DynamicPPL arXiV paper" "dppl_sto_volatility"
 @include_model "DynamicPPL demo models" "demo_assume_dot_observe"
 @include_model "DynamicPPL demo models" "demo_assume_dot_observe_literal"
 @include_model "DynamicPPL demo models" "demo_assume_index_observe"
@@ -136,36 +145,41 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # https://github.com/TuringLang/ADTests/issues/4
             vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
-            result = run_ad(model, adtype; varinfo = vi, params = params, benchmark = true)
+            result = run_ad(model, adtype; varinfo=vi, params=params, test=WithBackend(ADTYPES["FiniteDifferences"]), benchmark=true)
         else
-            vi = VarInfo(Xoshiro(468), model)
-            linked_vi = DynamicPPL.link!!(vi, model)
-            params = linked_vi[:]
+            ref_backend = if model_name == "dppl_hmm_semisup"
+                # FiniteDifferences errors on this model causing all models
+                # to 'error'
+                # https://github.com/TuringLang/ADTests/issues/40
+                ADTYPES["ForwardDiff"]
+            else
+                ADTYPES["FiniteDifferences"]
+            end
+            rtol = if (model_name == "dppl_logistic_regression")
+                # these models are numerically more sensitive to different backends so use looser bounds 
+                1e-1
+            else
+                sqrt(eps())
+            end
             result = run_ad(
                 model,
                 adtype;
-                params = params,
-                reference_adtype = ADTYPES["FiniteDifferences"],
-                benchmark = true,
+                rng=Xoshiro(468),
+                test=WithBackend(ref_backend),
+                benchmark=true,
+                rtol=rtol,
             )
         end
         # If reached here - nothing went wrong
-        println(result.time_vs_primal)
+        println(result.grad_time / result.primal_time)
     catch e
         @show e
         if e isa ADIncorrectException
-            # First check for completely incorrect ones
-            for (a, b) in zip(e.grad_expected, e.grad_actual)
-                if !isnan(a) && !isnan(b) && abs(a - b) > 1e-6
-                    println("wrong")
-                    exit()
-                end
-            end
             # If not, check for NaN's and report those
             if any(isnan, e.grad_expected) || any(isnan, e.grad_actual)
                 println("NaN")
             else
-                # Something else went wrong, shouldn't happen
+                # Otherwise it's just a numerical error
                 println("wrong")
             end
         else

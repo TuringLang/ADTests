@@ -102,6 +102,7 @@
                 >Download the raw data (JSON)</a
             >
         </p>
+
         {#each categorisedData.entries() as [category, modelData]}
             <h3>{category}</h3>
             <ResultsTable data={modelData} {modelDefinitions} />
