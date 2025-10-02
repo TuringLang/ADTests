@@ -117,6 +117,7 @@ end
 @include_model "External libraries" "metabayesian_Turing_AdvancedMH_MH"
 @include_model "External libraries" "DifferentialEquations_lv_ODE"
 @include_model "External libraries" "DifferentialEquations_lv_DDE"
+@include_model "External libraries" "Lux_neural_network"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
