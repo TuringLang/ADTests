@@ -132,6 +132,7 @@ end
 @include_model "External libraries" "metabayesian_Turing_AdvancedVI_fullrank"
 @include_model "External libraries" "metabayesian_Gen_MH"
 @include_model "External libraries" "metabayesian_RxInfer"
+@include_model "External libraries" "metaAD_ForwardDiff"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
