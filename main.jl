@@ -126,6 +126,7 @@ end
 @include_model "External libraries" "metabayesian_Turing_MH"
 @include_model "External libraries" "metabayesian_Turing_NUTS"
 @include_model "External libraries" "metabayesian_Turing_AdvancedVI_fullrank"
+@include_model "External libraries" "metabayesian_Gen_MH"
 @include_model "External libraries" "metabayesian_RxInfer"
 @include_model "External libraries" "DifferentialEquations_lv_ODE"
 @include_model "External libraries" "DifferentialEquations_lv_DDE"
