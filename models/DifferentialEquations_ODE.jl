@@ -31,7 +31,7 @@ q = 1.7
 odedata = rand.(Poisson.(q * Array(sol)))
 
 # Create Turing model
-@model function DifferentialEquations_lv_ODE(data, prob)
+@model function DifferentialEquations_ODE(data, prob)
     # Prior distributions.
     α ~ truncated(Normal(1.5, 0.2); lower=0.5, upper=2.5)
     β ~ truncated(Normal(1.1, 0.2); lower=0, upper=2)
@@ -53,4 +53,4 @@ odedata = rand.(Poisson.(q * Array(sol)))
 end
 
 # Instantiate the model
-model = DifferentialEquations_lv_ODE(odedata, prob)
+model = DifferentialEquations_ODE(odedata, prob)

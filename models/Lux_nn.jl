@@ -62,7 +62,7 @@ const nn = StatefulLuxLayer{true}(nn_initial, nothing, st)
 
 ## Create Turing model ##
 # Specify the probabilistic model.
-@model function Lux_neural_network(xs, ts; sigma = sigma, ps = ps, nn = nn)
+@model function Lux_nn(xs, ts; sigma = sigma, ps = ps, nn = nn)
     # Sample the parameters
     nparameters = Lux.parameterlength(nn_initial)
     parameters ~ MvNormal(zeros(nparameters), Diagonal(abs2.(sigma .* ones(nparameters))))
@@ -76,4 +76,4 @@ const nn = StatefulLuxLayer{true}(nn_initial, nothing, st)
     end
 end
 
-model = Lux_neural_network(reduce(hcat, xs), ts)
+model = Lux_nn(reduce(hcat, xs), ts)
