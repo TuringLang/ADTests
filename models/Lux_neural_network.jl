@@ -16,18 +16,18 @@ rng = Random.default_rng()
 Random.seed!(rng, 1234)
 
 # Generate artificial data
-x1s = rand(rng, Float32, M) * 4.5f0;
-x2s = rand(rng, Float32, M) * 4.5f0;
+x1s = rand(Float32, M) * 4.5f0;
+x2s = rand(Float32, M) * 4.5f0;
 xt1s = Array([[x1s[i] + 0.5f0; x2s[i] + 0.5f0] for i in 1:M])
-x1s = rand(rng, Float32, M) * 4.5f0;
-x2s = rand(rng, Float32, M) * 4.5f0;
+x1s = rand(Float32, M) * 4.5f0;
+x2s = rand(Float32, M) * 4.5f0;
 append!(xt1s, Array([[x1s[i] - 5.0f0; x2s[i] - 5.0f0] for i in 1:M]))
 
-x1s = rand(rng, Float32, M) * 4.5f0;
-x2s = rand(rng, Float32, M) * 4.5f0;
+x1s = rand(Float32, M) * 4.5f0;
+x2s = rand(Float32, M) * 4.5f0;
 xt0s = Array([[x1s[i] + 0.5f0; x2s[i] - 5.0f0] for i in 1:M])
-x1s = rand(rng, Float32, M) * 4.5f0;
-x2s = rand(rng, Float32, M) * 4.5f0;
+x1s = rand(Float32, M) * 4.5f0;
+x2s = rand(Float32, M) * 4.5f0;
 append!(xt0s, Array([[x1s[i] - 5.0f0; x2s[i] + 0.5f0] for i in 1:M]))
 
 # Store all the data for later
