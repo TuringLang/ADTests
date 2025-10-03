@@ -3,7 +3,6 @@ This is a "meta-Bayesian" model, where the generative model includes an inversio
 These types of models are common in cognitive modelling, where systems of interest (e.g. human subjects) are thought to use Bayesian inference to navigate their environment.
 Here we use RxInfer.jl for the inversion of the inner "subjective" model.
 =#
-using Turing
 using RxInfer
 
 # Inner model function

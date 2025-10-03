@@ -3,9 +3,11 @@ This is a "meta-Bayesian" model, where the generative model includes an inversio
 These types of models are common in cognitive modelling, where systems of interest (e.g. human subjects) are thought to use Bayesian inference to navigate their environment.
 Here we use Gen.jl for the inversion of the inner "subjective" model.
 =#
-using Turing
 using Gen
 
+#Unsure if its possible to pass an RNG to Gen, so setting a global one
+using Random
+Random.seed!(rng, 1234)
 
 # Inner model function
 @gen function inner_model(prior_μ, prior_σ)
