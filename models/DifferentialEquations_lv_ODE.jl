@@ -2,7 +2,7 @@
 This is an implementation of using DifferentialEquations.jl with Turing to model the Lotka–Volterra equations (predator-prey model).
 The model is adapted from the Turing documentation: https://turinglang.org/docs/tutorials/bayesian-differential-equations/ 
 =#
-using DifferentialEquations
+using OrdinaryDiffEq
 using Distributions
 
 # Define Lotka–Volterra model
