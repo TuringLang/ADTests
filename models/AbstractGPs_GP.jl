@@ -4,16 +4,15 @@ The model is adapted from the Turing documentation: https://turinglang.org/docs/
 =#
 
 using AbstractGPs
-using DataFrames
 using LogExpFunctions
 
 # Load data
-df = DataFrame(
-    distance = [2,3,4,5,6], n = [1443, 694, 455, 353, 272], y = [1346, 577, 337, 208, 149]
-)
+distance = [2.,3.,4.,5.,6.]
+n = [1443, 694, 455, 353, 272]
+y = [1346, 577, 337, 208, 149]
 
 # Make Turing model
-@model function AbstractGPs_GP(d, n; jitter=1e-4)
+@model function AbstractGPs_GP(d, n, y; jitter=1e-4)
     v ~ Gamma(2, 1)
     l ~ Gamma(4, 1)
     f = GP(v * with_lengthscale(SEKernel(), l))
@@ -22,4 +21,4 @@ df = DataFrame(
     return (fx=f(d, jitter), f_latent=f_latent, y=y)
 end
 
-model = AbstractGPs_GP(Float64.(df.distance), df.n)
+model = AbstractGPs_GP(distance, n, y)
