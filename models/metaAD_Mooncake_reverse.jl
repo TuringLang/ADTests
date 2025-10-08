@@ -3,7 +3,7 @@ import Mooncake
 
 f(x) = sum(cos, x)
 
-@model function metaAD_Mooncake(y)
+@model function metaAD_Mooncake_reverse(y)
     x ~ filldist(Normal(), 2)
 
     backend = AutoMooncake()
@@ -13,4 +13,4 @@ f(x) = sum(cos, x)
     y ~ Normal(out, 0.01)
 end
 
-model = metaAD_Mooncake(0.5)
+model = metaAD_Mooncake_reverse(0.5)
