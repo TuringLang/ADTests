@@ -129,7 +129,6 @@ end
 @include_model "Effect of model size" "n500"
 @include_model "PosteriorDB" "pdb_eight_schools_centered"
 @include_model "PosteriorDB" "pdb_eight_schools_noncentered"
-@include_model "Integrations with other packages" "metabayesian_MH"
 @include_model "Integrations with other packages" "ordinary_diffeq"
 
 # The entry point to this script itself begins here
