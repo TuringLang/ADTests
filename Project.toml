@@ -26,3 +26,6 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 [compat]
 DynamicPPL = "0.38"
 Turing = "0.41"
+
+[sources]
+Mooncake = {url = "https://github.com/chalk-lab/Mooncake.jl", rev = "copilot/fix-521d0edf-b6f3-4f8f-810a-9b67505eccca"}
