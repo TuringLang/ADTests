@@ -96,10 +96,7 @@
             </li>
         </ul>
 
-        <div class="warning">
-            <b>Note: The results here are run with Julia 1.11. Mooncake and Enzyme currently do not work on Julia 1.12.</b>
-        </div>
-<h2>Results</h2> <p>
+        <h2>Results</h2> <p>
             <a href="adtests.json" target="_blank" download
                 >Download the raw data (JSON)</a
             >
