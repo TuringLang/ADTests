@@ -28,5 +28,5 @@ DynamicPPL = "0.38"
 Turing = "0.41"
 
 [sources]
-Mooncake = {url = "https://github.com/chalk-lab/Mooncake.jl", rev = "gdalle:selective_zeroing"}
+Mooncake = {url = "https://github.com/gdalle/Mooncake.jl", rev = "selective_zeroing"}
 DifferentiationInterface = {url = "https://github.com/JuliaDiff/DifferentiationInterface.jl", rev = "gd/mooncake_selective_zeroing", subdir = "DifferentiationInterface"}
