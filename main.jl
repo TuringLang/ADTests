@@ -14,19 +14,19 @@ import Zygote
 ADTYPES = Dict(
     "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile = false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
+    # "ReverseDiff" => AutoReverseDiff(; compile = false),
+    # "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
     "MooncakeReverse" => AutoMooncake(),
     "MooncakeForward" => AutoMooncakeForward(),
-    "EnzymeForward" => AutoEnzyme(;
-        mode = set_runtime_activity(Forward, true),
-        function_annotation = Const,
-    ),
-    "EnzymeReverse" => AutoEnzyme(;
-        mode = set_runtime_activity(Reverse, true),
-        function_annotation = Const,
-    ),
-    "Zygote" => AutoZygote(),
+    # "EnzymeForward" => AutoEnzyme(;
+    #     mode = set_runtime_activity(Forward, true),
+    #     function_annotation = Const,
+    # ),
+    # "EnzymeReverse" => AutoEnzyme(;
+    #     mode = set_runtime_activity(Reverse, true),
+    #     function_annotation = Const,
+    # ),
+    # "Zygote" => AutoZygote(),
 )
 
 MODELS = Dict{String,Tuple{String,DynamicPPL.Model}}()
