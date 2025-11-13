@@ -26,3 +26,6 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 [compat]
 DynamicPPL = "0.38"
 Turing = "0.41"
+
+[sources]
+DifferentiationInterface = {url = "https://github.com/JuliaDiff/DifferentiationInterface.jl", rev = "gd/mooncake_dual_init"}
