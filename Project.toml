@@ -28,4 +28,4 @@ DynamicPPL = "0.38"
 Turing = "0.41"
 
 [sources]
-DifferentiationInterface = {url = "https://github.com/JuliaDiff/DifferentiationInterface.jl", rev = "gd/mooncake_dual_init"}
+DifferentiationInterface = {url = "https://github.com/JuliaDiff/DifferentiationInterface.jl", rev = "gd/mooncake_dual_init", subdir = "DifferentiationInterface"}
