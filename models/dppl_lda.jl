@@ -11,12 +11,12 @@ n = sum(doc_lengths)
 
 w = Vector{Int}(undef, n)
 doc = Vector{Int}(undef, n)
-for i in 1:m
+for i = 1:m
     local idx = sum(doc_lengths[1:i-1]) # starting index for inner loop
-    for j in 1:doc_lengths[i]
+    for j = 1:doc_lengths[i]
         z = rand(Categorical(theta[:, i]))
-        w[idx + j] = rand(Categorical(phi[:, z]))
-        doc[idx + j] = i
+        w[idx+j] = rand(Categorical(phi[:, z]))
+        doc[idx+j] = i
     end
 end
 

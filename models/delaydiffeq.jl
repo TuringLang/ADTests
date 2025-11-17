@@ -1,6 +1,7 @@
 #=
 This is an example of using DifferentialEquations.jl with Turing to model a delayed Lotka–Volterra equations (predator-prey model).
-The model is adapted from the Turing documentation: https://turinglang.org/docs/tutorials/bayesian-differential-equations/ 
+The model is adapted from the Turing documentation:
+https://turinglang.org/docs/tutorials/bayesian-differential-equations/ 
 =#
 using DelayDiffEq: DDEProblem, solve, MethodOfSteps, Tsit5
 
@@ -23,7 +24,7 @@ sol_dde = solve(prob_dde; saveat=0.1)
 q = 1.7
 ddedata = rand.(Poisson.(q .* Array(sol_dde)))
 
-@model function DifferentialEquations_DDE(data, prob)
+@model function delaydiffeq(data, prob)
     α ~ truncated(Normal(1.5, 0.2); lower=0.5, upper=2.5)
     β ~ truncated(Normal(1.1, 0.2); lower=0, upper=2)
     γ ~ truncated(Normal(3.0, 0.2); lower=1, upper=4)
@@ -38,4 +39,4 @@ ddedata = rand.(Poisson.(q .* Array(sol_dde)))
     return nothing
 end
 
-model = DifferentialEquations_DDE(ddedata, prob_dde)
+model = delaydiffeq(ddedata, prob_dde)

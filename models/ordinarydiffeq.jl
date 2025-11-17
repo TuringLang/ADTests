@@ -1,7 +1,5 @@
-#=
-This is an example of using DifferentialEquations.jl with Turing to model the Lotka–Volterra equations (predator-prey model).
-The model is adapted from the Turing documentation: https://turinglang.org/docs/tutorials/bayesian-differential-equations/ 
-=#
+# See https://turinglang.org/docs/tutorials/bayesian-differential-equations/.
+
 using OrdinaryDiffEq: ODEProblem, solve, Tsit5
 
 # SciMLSensitivity is needed for reverse-mode AD on differential equations
@@ -22,7 +20,7 @@ sol = solve(prob, Tsit5(); saveat = 0.1)
 q = 1.7
 odedata = rand.(Poisson.(q * Array(sol)))
 
-@model function DifferentialEquations_ODE(data, prob)
+@model function ordinarydiffeq(data, prob)
     α ~ truncated(Normal(1.5, 0.2); lower = 0.5, upper = 2.5)
     β ~ truncated(Normal(1.1, 0.2); lower = 0, upper = 2)
     γ ~ truncated(Normal(3.0, 0.2); lower = 1, upper = 4)
@@ -36,4 +34,4 @@ odedata = rand.(Poisson.(q * Array(sol)))
     return nothing
 end
 
-model = DifferentialEquations_ODE(odedata, prob)
+model = ordinarydiffeq(odedata, prob)

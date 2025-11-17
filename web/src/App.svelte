@@ -96,8 +96,10 @@
             </li>
         </ul>
 
-        <h2>Results</h2>
-        <p>
+        <div class="warning">
+            <b>Note: The results here are run with Julia 1.11. Enzyme currently does not work on Julia 1.12.</b>
+        </div>
+<h2>Results</h2> <p>
             <a href="adtests.json" target="_blank" download
                 >Download the raw data (JSON)</a
             >
@@ -130,5 +132,14 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
+    }
+
+    div.warning {
+        width: fit-content;
+        background-color: #ffe2e2;
+        border: 1px solid #990000;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin: auto;
     }
 </style>
