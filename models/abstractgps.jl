@@ -1,6 +1,7 @@
 #=
-This is an implementation of using AbstractGPs.jl with Turing to model a Gaussian Process.
-The model is adapted from the Turing documentation: https://turinglang.org/docs/tutorials/gaussian-processes-introduction/
+This is an implementation of using AbstractGPs.jl with Turing to model a Gaussian process.
+The model is adapted from the Turing documentation:
+https://turinglang.org/docs/tutorials/gaussian-processes-introduction/
 =#
 
 using AbstractGPs
@@ -12,7 +13,7 @@ n = [1443, 694, 455, 353, 272]
 y = [1346, 577, 337, 208, 149]
 
 # Make Turing model
-@model function AbstractGPs_GP(d, n, y; jitter=1e-4)
+@model function abstractgps(d, n, y; jitter=1e-4)
     v ~ Gamma(2, 1)
     l ~ Gamma(4, 1)
     f = GP(v * with_lengthscale(SEKernel(), l))
@@ -21,4 +22,4 @@ y = [1346, 577, 337, 208, 149]
     return (fx=f(d, jitter), f_latent=f_latent, y=y)
 end
 
-model = AbstractGPs_GP(distance, n, y)
+model = abstractgps(distance, n, y)
