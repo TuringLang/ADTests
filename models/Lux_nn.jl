@@ -1,12 +1,12 @@
 #=
-This is an implementation of using Flux.jl with Turing to implement a Bayesian neural network.
-The model is adapted from the Turing documentation: https://turinglang.org/docs/tutorials/bayesian-neural-networks/
+This is an implementation of using Lux.jl with Turing to implement a Bayesian neural network.
+The model is adapted from the Turing documentation:
+https://turinglang.org/docs/tutorials/bayesian-neural-networks/
 =#
 using Lux
 using Random
 using LinearAlgebra
 using Functors
-
 
 ## Simulate data ##
 # Number of points to generate
@@ -34,7 +34,6 @@ append!(xt0s, Array([[x1s[i] - 5.0f0; x2s[i] + 0.5f0] for i in 1:M]))
 xs = [xt1s; xt0s]
 ts = [ones(2 * M); zeros(2 * M)]
 
-
 ## Create neural network ##
 # Construct a neural network using Lux
 nn_initial = Chain(Dense(2 => 3, tanh), Dense(3 => 2, tanh), Dense(2 => 1, σ))
@@ -59,10 +58,9 @@ end
 
 const nn = StatefulLuxLayer{true}(nn_initial, nothing, st)
 
-
 ## Create Turing model ##
 # Specify the probabilistic model.
-@model function Lux_nn(xs, ts; sigma = sigma, ps = ps, nn = nn)
+@model function lux_nn(xs, ts; sigma = sigma, ps = ps, nn = nn)
     # Sample the parameters
     nparameters = Lux.parameterlength(nn_initial)
     parameters ~ MvNormal(zeros(nparameters), Diagonal(abs2.(sigma .* ones(nparameters))))
@@ -76,4 +74,4 @@ const nn = StatefulLuxLayer{true}(nn_initial, nothing, st)
     end
 end
 
-model = Lux_nn(reduce(hcat, xs), ts)
+model = lux_nn(reduce(hcat, xs), ts)
