@@ -20,7 +20,7 @@ sol = solve(prob, Tsit5(); saveat = 0.1)
 q = 1.7
 odedata = rand.(Poisson.(q * Array(sol)))
 
-@model function ordinary_diffeq(data, prob)
+@model function ordinarydiffeq(data, prob)
     α ~ truncated(Normal(1.5, 0.2); lower = 0.5, upper = 2.5)
     β ~ truncated(Normal(1.1, 0.2); lower = 0, upper = 2)
     γ ~ truncated(Normal(3.0, 0.2); lower = 1, upper = 4)
@@ -34,4 +34,4 @@ odedata = rand.(Poisson.(q * Array(sol)))
     return nothing
 end
 
-model = ordinary_diffeq(odedata, prob)
+model = ordinarydiffeq(odedata, prob)
