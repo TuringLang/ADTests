@@ -132,7 +132,7 @@ end
 @include_model "External libraries" "delaydiffeq"
 @include_model "External libraries" "ordinarydiffeq"
 @include_model "External libraries" "lux_nn"
-@include_model "External libraries" "AbstractGPs_GP"
+@include_model "External libraries" "abstractgps"
 
 # The entry point to this script itself begins here
 if ARGS == ["--list-model-keys"]
