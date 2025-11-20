@@ -24,6 +24,9 @@
         }
         categorisedData.get(category).set(model_name, resultsMap);
     }
+    categorisedData = new Map(
+        [...categorisedData.entries()].sort(), // Sort categories alphabetically
+    );
     console.log(categorisedData);
 
     import Manifest from "./lib/Manifest.svelte";
