@@ -80,9 +80,9 @@ end
 #    a, b, c, ... are assumed variables
 #    x, y, z, ... are observed variables
 # although it's hardly a big deal.
-@include_model "Base Julia features" "control_flow"
-@include_model "Base Julia features" "multithreaded"
-@include_model "Base Julia features" "call_C"
+@include_model "Base Julia features" "control_flow (input argument dependent control flow)"
+@include_model "Base Julia features" "parallelism (threading, MPI)"
+@include_model "Base Julia features" "foreign_call (e.g. llvmcall, C/Fortran call, GPU kernel)"
 @include_model "Core Turing syntax" "assume_submodel"
 @include_model "Core Turing syntax" "broadcast_macro"
 @include_model "Core Turing syntax" "dot_assume"
