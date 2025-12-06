@@ -1,7 +1,8 @@
 #=
-Most models in ADTests are run with 1 thread. This model is run with 2 threads
+Most models in ADTests are run with 1 thread. This model is run with 4 threads
 to properly demonstrate the compatibility with multithreaded observe
-statements. See `main.jl` for more information.
+statements. See the docs for more details on multithreading in Turing:
+https://turinglang.org/docs/usage/threadsafe-evaluation/
 =#
 
 @model function multithreaded(x)
@@ -11,4 +12,5 @@ statements. See `main.jl` for more information.
     end
 end
 
-model = multithreaded([1.5, 2.0, 2.5, 1.5, 2.0, 2.5])
+x = randn(100)
+model = setthreadsafe(multithreaded(x), true)
