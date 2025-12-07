@@ -1,3 +1,4 @@
+using Random: Xoshiro
 using StatsFuns: logistic
 
 function safelogistic(x::T) where {T}
@@ -5,10 +6,9 @@ function safelogistic(x::T) where {T}
 end
 
 d, n = 100, 10_000
-X = randn(d, n)
-w = randn(d)
+X = randn(Xoshiro(468), d, n)
+w = randn(Xoshiro(468), d)
 y = Int.(logistic.(X' * w) .> 0.5)
-
 
 @model function dppl_logistic_regression(Xt, y)
     N, D = size(Xt)
