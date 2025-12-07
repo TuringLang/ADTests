@@ -86,8 +86,8 @@
                 '<span class="wrong">wrong</span>' means that AD ran but the
                 result was not correct. If this happens you should be very wary!
                 Note that this is done by comparing against the result obtained
-                using ForwardDiff, i.e., ForwardDiff is by definition always
-                'correct'.
+                using FiniteDifferences, i.e., FiniteDifferences is by
+                definition always 'correct'.
             </li>
             <li>
                 '<span class="error">error</span>' means that AD didn't run.
@@ -100,9 +100,13 @@
         </ul>
 
         <div class="warning">
-            <b>Note: The results here are run with Julia 1.11. Enzyme currently does not work on Julia 1.12.</b>
+            <b
+                >Note: The results here are run with Julia 1.11. Enzyme
+                currently does not work on Julia 1.12.</b
+            >
         </div>
-<h2>Results</h2> <p>
+        <h2>Results</h2>
+        <p>
             <a href="adtests.json" target="_blank" download
                 >Download the raw data (JSON)</a
             >
