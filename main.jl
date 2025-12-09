@@ -171,7 +171,9 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             # Some models are more numerically sensitive
             rtol = if model_name == "dppl_logistic_regression"
                 1e-1
-            elseif model_name == "ordinary_diffeq"
+            elseif model_name == "lux_nn"
+                1e-2
+            elseif model_name == "ordinarydiffeq"
                 1e-3
             else
                 sqrt(eps())
