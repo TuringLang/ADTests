@@ -12,19 +12,19 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile = false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
-    "MooncakeReverse" => AutoMooncake(),
-    "MooncakeForward" => AutoMooncakeForward(),
-    "EnzymeForward" => AutoEnzyme(;
-        mode = set_runtime_activity(Forward, true),
-        function_annotation = Const,
+    "ReverseDiff" => AutoReverseDiff(; compile=false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    "MooncakeRvs" => AutoMooncake(),
+    "MooncakeFwd" => AutoMooncakeForward(),
+    "EnzymeFwd" => AutoEnzyme(;
+        mode=set_runtime_activity(Forward, true),
+        function_annotation=Const,
     ),
-    "EnzymeReverse" => AutoEnzyme(;
-        mode = set_runtime_activity(Reverse, true),
-        function_annotation = Const,
+    "EnzymeRvs" => AutoEnzyme(;
+        mode=set_runtime_activity(Reverse, true),
+        function_annotation=Const,
     ),
     "Zygote" => AutoZygote(),
 )
@@ -162,10 +162,10 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             result = run_ad(
                 model,
                 adtype;
-                varinfo = vi,
-                params = params,
-                test = WithBackend(ref_backend),
-                benchmark = true,
+                varinfo=vi,
+                params=params,
+                test=WithBackend(ref_backend),
+                benchmark=true,
             )
         else
             # Some models are more numerically sensitive
@@ -173,7 +173,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
                 1e-1
             elseif model_name == "lux_nn"
                 1e-2
-            elseif model_name == "ordinarydiffeq"
+            elseif model_name == "ordinarydiffeq" || model_name == "delaydiffeq"
                 1e-3
             else
                 sqrt(eps())
@@ -181,16 +181,17 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             result = run_ad(
                 model,
                 adtype;
-                rng = Xoshiro(468),
-                test = WithBackend(ref_backend),
-                benchmark = true,
-                rtol = rtol,
+                rng=Xoshiro(468),
+                test=WithBackend(ref_backend),
+                benchmark=true,
+                rtol=rtol,
             )
         end
         # If reached here - nothing went wrong
         println(result.grad_time / result.primal_time)
     catch e
-        @show e
+        showerror(stderr, e)
+        println()
         if e isa ADIncorrectException
             # If not, check for NaN's and report those
             if any(isnan, e.grad_expected) || any(isnan, e.grad_actual)
