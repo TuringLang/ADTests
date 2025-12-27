@@ -1,7 +1,5 @@
 <script lang="ts">
-    import Highlight from "svelte-highlight";
-    import { julia } from "svelte-highlight/languages/julia";
-    import "svelte-highlight/styles/atom-one-light.css";
+    import ModelNameAndDefinition from "./ModelNameAndDefinition.svelte";
     import { getSortedEntries } from "./utils";
 
     interface Props {
@@ -37,15 +35,10 @@
     <tbody>
         {#each getSortedEntries(data) as [model_name, results]}
             <tr>
-                <td
-                    >{model_name}
-                    <div class="model-definition">
-                        <Highlight
-                            language={julia}
-                            code={modelDefinitions[model_name]}
-                        />
-                    </div></td
-                >
+                <ModelNameAndDefinition
+                    name={model_name}
+                    definition={modelDefinitions[model_name]}
+                />
                 {#each getSortedEntries(results) as [adtype, result]}
                     {#if typeof result === "number"}
                         <td>{result.toFixed(3)}</td>
@@ -104,26 +97,6 @@
         td,
         th {
             text-align: right;
-        }
-        div.model-definition {
-            background-color: #f6f6f6;
-            border: 1px solid black;
-            border-radius: 5px;
-            padding: 0 10px;
-            z-index: 5;
-            font-size: 0.9em;
-            text-align: left;
-            font-weight: normal;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            display: none;
-        }
-        tr > td:first-child:hover {
-            background-color: #f8f8f8;
-        }
-        tr > td:first-child:hover > div.model-definition {
-            display: block;
         }
 
         span.error {
