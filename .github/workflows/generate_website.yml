@@ -100,7 +100,7 @@ jobs:
 
       - name: Output matrix values
         id: output-matrix
-        uses: penelopeysm/matrix-output@main
+        uses: penelopeysm/matrix-output@113486a833fbee039b6b040d8ff4422fcca253a5  # HEAD~
         with:
           yaml: |
             model_name: ${{ matrix.model }}
