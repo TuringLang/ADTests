@@ -21,7 +21,7 @@ image_vec = image_subset[:, :]
 labels = labels[1:N]
 
 @model function dppl_naive_bayes(image_vec, labels, C, D)
-    m ~ product_distribution(FillArrays.Fill(Normal(0, 10), C, D))
+    m ~ product_distribution(Fill(Normal(0, 10), C, D))
     image_vec ~ product_distribution(Normal.(m[labels, :]))
 end
 
