@@ -1,3 +1,5 @@
+using FillArrays
+
 n = 10_000
 s = abs(rand()) + 0.5
 y = randn() .+ s * randn(n)
