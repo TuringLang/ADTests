@@ -6,7 +6,7 @@ using LinearAlgebra: Diagonal
 ) where {TV}
     n = length(x)
     d = n ÷ 2
-    s ~ reshape(product_distribution(fill(InverseGamma(2, 3), n)), d, 2)
+    s ~ reshape(product_distribution(FillArrays.Fill(InverseGamma(2, 3), n)), d, 2)
     s_vec = vec(s)
     m ~ MvNormal(zeros(n), Diagonal(s_vec))
     x[:, 1] ~ MvNormal(m, Diagonal(s_vec))
