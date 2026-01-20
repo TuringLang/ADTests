@@ -1,3 +1,5 @@
+using FillArrays
+
 v = 100      # words
 k = 5        # topics
 m = 10       # number of docs
@@ -21,8 +23,8 @@ for i = 1:m
 end
 
 @model function dppl_lda(k, m, w, doc, alpha, beta)
-    theta ~ product_distribution(fill(Dirichlet(alpha), m))
-    phi ~ product_distribution(fill(Dirichlet(beta), k))
+    theta ~ product_distribution(Fill(Dirichlet(alpha), m))
+    phi ~ product_distribution(Fill(Dirichlet(beta), k))
     log_phi_dot_theta = log.(phi * theta)
     @addlogprob! sum(log_phi_dot_theta[CartesianIndex.(w, doc)])
 end

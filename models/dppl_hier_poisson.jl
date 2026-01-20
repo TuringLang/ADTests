@@ -1,3 +1,4 @@
+using FillArrays
 using Turing: LogPoisson
 
 nd, ns = 5, 10
@@ -16,7 +17,7 @@ idx = repeat(collect(1:ns), inner = nd)
     a0 ~ Normal(0, 10)
     a1 ~ Normal(0, 1)
     a0_sig ~ truncated(Cauchy(0, 1); lower = 0)
-    a0s ~ product_distribution(fill(Normal(0, a0_sig), ns))
+    a0s ~ product_distribution(Fill(Normal(0, a0_sig), ns))
     alpha = a0 .+ a0s[idx] .+ a1 * x
     y ~ product_distribution(LogPoisson.(alpha))
 end

@@ -1,3 +1,4 @@
+using FillArrays
 using StatsFuns: logsumexp
 
 # Set up hyperparameters
@@ -28,8 +29,8 @@ for t = 2:T_unsup
 end
 
 @model function dppl_hmm_semisup(K, T, T_unsup, w, z, u, alpha, beta)
-    theta ~ product_distribution(fill(Dirichlet(alpha), K))
-    phi ~ product_distribution(fill(Dirichlet(beta), K))
+    theta ~ product_distribution(Fill(Dirichlet(alpha), K))
+    phi ~ product_distribution(Fill(Dirichlet(beta), K))
     for t = 1:T
         w[t] ~ Categorical(phi[:, z[t]])
     end
