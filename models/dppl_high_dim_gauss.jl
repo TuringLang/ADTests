@@ -1,3 +1,5 @@
+using FillArrays
+
 @model function dppl_high_dim_gauss(D)
     m ~ product_distribution(FillArrays.Fill(Normal(0, 1), D))
 end
