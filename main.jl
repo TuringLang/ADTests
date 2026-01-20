@@ -67,6 +67,7 @@ macro include_model(category::AbstractString, model_name::AbstractString)
         Expr(:toplevel, esc(:(module $(gensym())
         using .Main: @register
         using Turing
+        using FillArrays
         include("models/" * $(model_name) * ".jl")
         @register $(category) model
         end)))

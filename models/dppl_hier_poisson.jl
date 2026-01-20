@@ -1,4 +1,3 @@
-using FillArrays
 using Turing: LogPoisson
 
 nd, ns = 5, 10

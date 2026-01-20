@@ -1,4 +1,3 @@
-using FillArrays
 using StatsFuns: logsumexp
 
 # Set up hyperparameters

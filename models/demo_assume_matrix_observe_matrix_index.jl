@@ -1,4 +1,3 @@
-using FillArrays
 using LinearAlgebra: Diagonal
 
 @model function demo_assume_matrix_observe_matrix_index(

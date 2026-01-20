@@ -1,4 +1,3 @@
-using FillArrays
 using MLDatasets: MNIST
 using MultivariateStats: fit, PCA, transform
 

@@ -1,5 +1,3 @@
-using FillArrays
-
 v = 100      # words
 k = 5        # topics
 m = 10       # number of docs
