@@ -1,20 +1,12 @@
 <script lang="ts">
     import data from "./data/adtests.json";
     import modelDefinitions from "./data/model_definitions.json";
-    import { onMount } from "svelte";
-
-    // Theme Logic
-    let theme = $state("light");
-
-    onMount(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            theme = "dark";
-        } else {
-            theme = "light";
-        }
-        document.documentElement.setAttribute('data-theme', theme);
-    });
+    
+    let theme = $state(
+        typeof document !== 'undefined' 
+        ? (document.documentElement.getAttribute('data-theme') || "light") 
+        : "light"
+    );
 
     function toggleTheme() {
         theme = theme === "light" ? "dark" : "light";

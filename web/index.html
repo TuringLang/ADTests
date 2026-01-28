@@ -25,6 +25,35 @@
     <meta name="theme-color" content="#f1f2e3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
 
+    <style>
+      :root {
+        --bg-primary: #f1f2e3;
+        --text-primary: #1e293b;
+      }
+      [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --text-primary: #cbd5e1;
+      }
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        margin: 0; 
+      }
+    </style>
+
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let theme = 'light';
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          theme = 'dark';
+        }
+        
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
