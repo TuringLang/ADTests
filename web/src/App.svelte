@@ -22,7 +22,9 @@
         localStorage.setItem('theme', theme);
     }
 
-    // Parse data logic (unchanged)
+    // Parse data into nice JS objects.
+    // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
+    // category -> model_name -> adtype -> result
     let categorisedData = new Map<
         string,
         Map<string, Map<string, string | number>>
@@ -43,7 +45,7 @@
         categorisedData.get(category).set(model_name, resultsMap);
     }
     categorisedData = new Map(
-        [...categorisedData.entries()].sort(), 
+        [...categorisedData.entries()].sort(), // Sort categories alphabetically
     );
 
     import Manifest from "./lib/Manifest.svelte";
