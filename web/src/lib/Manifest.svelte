@@ -29,19 +29,20 @@
 
 <style>
     table {
-        border: 1px solid black;
+        border: 1px solid var(--table-border);
         border-collapse: collapse;
+        background-color: var(--table-cell-bg);
 
         td,
         th {
-            border: 1px solid black;
+            border: 1px solid var(--table-border);
             padding: 0px 10px;
             white-space: nowrap;
             text-align: left;
         }
 
         th {
-            background-color: #ececec;
+            background-color: var(--table-header-bg);
         }
 
         td.version {

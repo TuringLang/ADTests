@@ -3,7 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Turing AD tests</title>
+    
+    <title>Turing AD Tests</title>
+    <meta name="title" content="Turing AD Tests" />
+    <meta name="description" content="Performance benchmarks comparing Automatic Differentiation (AD) backends on Turing.jl probabilistic models." />
+    <meta name="keywords" content="Turing.jl, Julia, Automatic Differentiation, AD, Benchmark, Bayesian Inference, MCMC, Probabilistic Programming, Performance" />
+    <meta name="author" content="TuringLang" />
+
+    <link rel="icon" href="https://turinglang.org/assets/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Turing AD Tests" />
+    <meta property="og:description" content="Performance benchmarks comparing Automatic Differentiation (AD) backends on Turing.jl probabilistic models." />
+    <meta property="og:image" content="https://turinglang.org/assets/logo/turing-logo-light.svg" />
+
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Turing AD Tests" />
+    <meta property="twitter:description" content="Performance benchmarks comparing Automatic Differentiation (AD) backends on Turing.jl probabilistic models." />
+    <meta property="twitter:image" content="https://turinglang.org/assets/logo/turing-logo-light.svg" />
+
+    <meta name="theme-color" content="#f1f2e3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+
+    <style>
+      :root {
+        --bg-primary: #f1f2e3;
+        --text-primary: #1e293b;
+      }
+      [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --text-primary: #cbd5e1;
+      }
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        margin: 0; 
+      }
+    </style>
+
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let theme = 'light';
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          theme = 'dark';
+        }
+        
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

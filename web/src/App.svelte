@@ -1,6 +1,18 @@
 <script lang="ts">
     import data from "./data/adtests.json";
     import modelDefinitions from "./data/model_definitions.json";
+    
+    let theme = $state(
+        typeof document !== 'undefined' 
+        ? (document.documentElement.getAttribute('data-theme') || "light") 
+        : "light"
+    );
+
+    function toggleTheme() {
+        theme = theme === "light" ? "dark" : "light";
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
 
     // Parse data into nice JS objects.
     // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
@@ -27,7 +39,6 @@
     categorisedData = new Map(
         [...categorisedData.entries()].sort(), // Sort categories alphabetically
     );
-    console.log(categorisedData);
 
     import Manifest from "./lib/Manifest.svelte";
     import ResultsTable from "./lib/ResultsTable.svelte";
@@ -35,7 +46,28 @@
 
 <div id="main-wrapper">
     <main>
-        <h1>Turing AD tests</h1>
+        <div class="header">
+            <h1>Turing AD tests</h1>
+            <button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle Dark Mode" title="Toggle theme">
+                {#if theme === 'dark'}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                {:else}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                {/if}
+            </button>
+        </div>
 
         <p>
             <a href="https://turinglang.org/docs">Turing.jl documentation</a> |
@@ -135,6 +167,31 @@
         max-width: min-content;
     }
 
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    button.theme-toggle {
+        background: transparent;
+        color: var(--text-primary);
+        border: 1px solid var(--table-border);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button.theme-toggle:hover {
+        background-color: var(--btn-hover);
+        transform: rotate(15deg);
+    }
+
     ul {
         display: flex;
         flex-direction: column;
@@ -143,10 +200,22 @@
 
     div.warning {
         width: fit-content;
-        background-color: #ffe2e2;
-        border: 1px solid #990000;
+        background-color: var(--warning-bg);
+        border: 1px solid var(--warning-border);
+        color: var(--warning-text);
         border-radius: 10px;
         padding: 10px 15px;
         margin: auto;
+    }
+
+    span.wrong {
+        color: var(--wrong-color);
+        background-color: var(--wrong-bg);
+        padding: 0 4px;
+        border-radius: 3px;
+    }
+    
+    span.error {
+        color: var(--error-color);
     }
 </style>
