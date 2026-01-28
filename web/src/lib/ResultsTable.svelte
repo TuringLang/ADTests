@@ -64,8 +64,9 @@
 
 <style>
     table {
-        border: 1px solid black;
+        border: 1px solid var(--table-border);
         border-collapse: collapse;
+        background-color: var(--table-cell-bg);
 
         tr > td:first-child,
         tr > th:first-child {
@@ -76,19 +77,19 @@
             transition: background-color 0.3s ease;
         }
         tr > td:first-child {
-            background-color: #ececec;
+            background-color: var(--table-sticky-col-bg);
         }
         tr > th:first-child {
-            background-color: #d1d1d1;
+            background-color: var(--table-sticky-header-bg);
         }
         td,
         th {
-            border: 1px solid black;
+            border: 1px solid var(--table-border);
             padding: 0px 10px;
             white-space: nowrap;
         }
         th {
-            background-color: #ececec;
+            background-color: var(--table-header-bg);
         }
         td {
             font-family: "Fira Code", monospace;
@@ -100,26 +101,26 @@
         }
 
         span.error {
-            color: #ff0000;
+            color: var(--error-color);
         }
         span.incorrect,
         span.wrong {
-            color: #ff0000;
-            background-color: #ffcccc;
+            color: var(--wrong-color);
+            background-color: var(--wrong-bg);
         }
 
         a.issue {
-            color: #880000;
+            color: var(--issue-color);
             text-decoration: none;
         }
 
         a.issue:hover {
-            background-color: #ffcccc;
+            background-color: var(--issue-hover-bg);
             transition: background-color 0.3s ease;
         }
 
         a.issue:visited {
-            color: #880000;
+            color: var(--issue-color);
         }
     }
 </style>

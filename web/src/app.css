@@ -1,13 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    /* Light Mode - "Paper" feel */
+    --bg-primary: #f1f2e3;
+    --text-primary: #1e293b; /* Slate 800 */
+    --link-color: #2563eb;   /* Blue 600 */
+    --link-visited: #7c3aed; /* Violet 600 */
+    
+    --table-border: #94a3b8; /* Slate 400 */
+    --table-header-bg: #e2e8f0; /* Slate 200 */
+    --table-sticky-col-bg: #f1f5f9; /* Slate 100 */
+    --table-sticky-header-bg: #cbd5e1; /* Slate 300 */
+    --table-cell-bg: transparent;
+
+    --warning-bg: #fef2f2; /* Red 50 */
+    --warning-border: #ef4444; /* Red 500 */
+    --warning-text: #991b1b; /* Red 800 */
+
+    --error-color: #dc2626;
+    --wrong-color: #b91c1c;
+    --wrong-bg: #fee2e2;
+    
+    --issue-color: #9f1239;
+    --issue-hover-bg: #fecdd3;
+
+    --model-def-bg: #f8fafc;
+    --copy-btn-text: #64748b;
+    
+    --btn-bg: #e2e8f0;
+    --btn-text: #334155;
+    --btn-hover: #cbd5e1;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode - "Midnight" feel */
+    --bg-primary: #0f172a; /* Slate 900 - Rich dark blue-grey */
+    
+    --text-primary: #cbd5e1; 
+    
+    --link-color: #60a5fa; /* Blue 400 */
+    --link-visited: #a78bfa; /* Violet 400 */
+
+    --table-border: #334155; /* Slate 700 */
+    --table-header-bg: #1e293b; /* Slate 800 */
+    --table-sticky-col-bg: #0f172a; /* Match bg */
+    --table-sticky-header-bg: #1e293b; 
+    --table-cell-bg: #0f172a;
+
+    --warning-bg: #450a0a; /* Deep Red */
+    --warning-border: #f87171; /* Red 400 */
+    --warning-text: #fecaca; /* Red 200 */
+
+    --error-color: #f87171;
+    --wrong-color: #fca5a5;
+    --wrong-bg: #450a0a;
+
+    --issue-color: #fda4af;
+    --issue-hover-bg: #881337;
+
+    --model-def-bg: #1e293b; 
+    --copy-btn-text: #94a3b8;
+
+    --btn-bg: #1e293b;
+    --btn-text: #e2e8f0;
+    --btn-hover: #334155;
+}
+
 html {
     font-family: "Fira Sans", sans-serif;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 1.6;
-    background-color: #f1f2e3;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--link-visited);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3 {
+    color: #e2e8f0; 
 }

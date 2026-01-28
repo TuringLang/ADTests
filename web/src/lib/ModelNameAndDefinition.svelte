@@ -41,8 +41,8 @@
         position: relative;
         text-align: right;
         transition: background-color 0.3s ease;
-        background-color: #ececec;
-        border: 1px solid black;
+        background-color: var(--table-sticky-col-bg);
+        border: 1px solid var(--table-border);
         border-collapse: collapse;
         padding: 0px 10px;
         white-space: nowrap;
@@ -53,8 +53,8 @@
     }
 
     div.model-definition {
-        background-color: #f6f6f6;
-        border: 1px solid black;
+        background-color: var(--model-def-bg);
+        border: 1px solid var(--table-border);
         border-radius: 5px;
         padding: 10px 0 0 0;
         z-index: 5;
@@ -72,7 +72,7 @@
         font-family: inherit;
         top: 5px;
         left: 10px;
-        color: #555555;
+        color: var(--copy-btn-text);
         cursor: pointer;
     }
 </style>
