@@ -1,23 +1,23 @@
 <script lang="ts">
     import data from "./data/adtests.json";
     import modelDefinitions from "./data/model_definitions.json";
-    
+
     let theme = $state(
-        typeof document !== 'undefined' 
-        ? (document.documentElement.getAttribute('data-theme') || "light") 
-        : "light"
+        typeof document !== "undefined"
+            ? document.documentElement.getAttribute("data-theme") || "light"
+            : "light",
     );
 
     function toggleTheme() {
         theme = theme === "light" ? "dark" : "light";
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
     }
 
     // Parse data into nice JS objects.
     // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
     // category -> model_name -> adtype -> result
-    let categorisedData = new Map<
+    let unsortedCategorisedData = new Map<
         string,
         Map<string, Map<string, string | number>>
     >();
@@ -28,16 +28,16 @@
         for (const [adtype, result] of Object.entries(results)) {
             resultsMap.set(adtype, result);
         }
-        if (!categorisedData.has(category)) {
-            categorisedData.set(
+        if (!unsortedCategorisedData.has(category)) {
+            unsortedCategorisedData.set(
                 category,
                 new Map<string, Map<string, string | number>>(),
             );
         }
-        categorisedData.get(category).set(model_name, resultsMap);
+        unsortedCategorisedData.get(category).set(model_name, resultsMap);
     }
-    categorisedData = new Map(
-        [...categorisedData.entries()].sort(), // Sort categories alphabetically
+    let categorisedData = new Map(
+        [...unsortedCategorisedData.entries()].sort(), // Sort categories alphabetically
     );
 
     import Manifest from "./lib/Manifest.svelte";
@@ -48,22 +48,50 @@
     <main>
         <div class="header">
             <h1>Turing AD tests</h1>
-            <button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle Dark Mode" title="Toggle theme">
-                {#if theme === 'dark'}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <button
+                class="theme-toggle"
+                onclick={toggleTheme}
+                aria-label="Toggle Dark Mode"
+                title="Toggle theme"
+            >
+                {#if theme === "dark"}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
                         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"
+                        ></line>
                         <line x1="1" y1="12" x2="3" y2="12"></line>
                         <line x1="21" y1="12" x2="23" y2="12"></line>
                         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 {:else}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path
+                            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                        ></path>
                     </svg>
                 {/if}
             </button>
@@ -159,18 +187,20 @@
     div#main-wrapper {
         display: flex;
         align-items: center;
-        margin: 0px 0px 50px 0px;
+        padding: 0px 40px 50px;
+        width: min-content;
     }
 
     main {
         margin: auto;
-        max-width: min-content;
+        width: min-content;
+        max-width: calc(100vw - 80px);
     }
 
     .header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: baseline;
     }
 
     button.theme-toggle {
@@ -185,6 +215,8 @@
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s ease;
+        /* for slightly better alignment */
+        transform: translateY(-5px);
     }
 
     button.theme-toggle:hover {
@@ -214,7 +246,7 @@
         padding: 0 4px;
         border-radius: 3px;
     }
-    
+
     span.error {
         color: var(--error-color);
     }
