@@ -161,8 +161,7 @@
 
         <div class="warning">
             <b
-                >Note: The results here are run with Julia 1.11. Enzyme
-                currently does not work on Julia 1.12.</b
+                >Note: The results here are run with Julia 1.11.</b
             >
         </div>
         <h2>Results</h2>
