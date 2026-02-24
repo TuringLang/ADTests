@@ -1,0 +1,4 @@
+[deps]
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+MLDatasets = "eb30cadb-4394-5ae3-aed4-317e484a6458"
+MultivariateStats = "6f286f6a-111f-5878-ab1e-185364afe411"

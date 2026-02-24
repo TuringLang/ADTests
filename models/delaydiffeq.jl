@@ -11,7 +11,7 @@ import SciMLSensitivity
 function delay_lotka_volterra(du, u, h, p, t)
     α, β, γ, δ = p
     x, y = u
-    du[1] = α * h(p, t - 1; idxs=1) - β * x * y
+    du[1] = α * h(p, t - 1; idxs = 1) - β * x * y
     du[2] = -γ * y + δ * x * y
     return nothing
 end
@@ -20,18 +20,25 @@ u0 = [1.0; 1.0]
 tspan = (0.0, 10.0)
 h(p, t; idxs::Int) = 1.0
 prob_dde = DDEProblem(delay_lotka_volterra, u0, h, tspan, p)
-sol_dde = solve(prob_dde; saveat=0.1)
+sol_dde = solve(prob_dde; saveat = 0.1)
 q = 1.7
 ddedata = rand.(Poisson.(q .* Array(sol_dde)))
 
 @model function delaydiffeq(data, prob)
-    α ~ truncated(Normal(1.5, 0.2); lower=0.5, upper=2.5)
-    β ~ truncated(Normal(1.1, 0.2); lower=0, upper=2)
-    γ ~ truncated(Normal(3.0, 0.2); lower=1, upper=4)
-    δ ~ truncated(Normal(1.0, 0.2); lower=0, upper=2)
-    q ~ truncated(Normal(1.7, 0.2); lower=0, upper=3)
+    α ~ truncated(Normal(1.5, 0.2); lower = 0.5, upper = 2.5)
+    β ~ truncated(Normal(1.1, 0.2); lower = 0, upper = 2)
+    γ ~ truncated(Normal(3.0, 0.2); lower = 1, upper = 4)
+    δ ~ truncated(Normal(1.0, 0.2); lower = 0, upper = 2)
+    q ~ truncated(Normal(1.7, 0.2); lower = 0, upper = 3)
     p = [α, β, γ, δ]
-    predicted = solve(prob, MethodOfSteps(Tsit5()); p=p, saveat=0.1, abstol=1e-6, reltol=1e-6)
+    predicted = solve(
+        prob,
+        MethodOfSteps(Tsit5());
+        p = p,
+        saveat = 0.1,
+        abstol = 1e-6,
+        reltol = 1e-6,
+    )
     ϵ = 1e-5
     for i in eachindex(predicted)
         data[:, i] ~ arraydist(Poisson.(q .* predicted[i] .+ ϵ))

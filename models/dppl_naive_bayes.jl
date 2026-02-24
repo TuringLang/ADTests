@@ -1,24 +1,18 @@
+using DelimitedFiles
 using FillArrays
-using MLDatasets: MNIST
-using MultivariateStats: fit, PCA, transform
 
-# Load MNIST images and labels
-features = MNIST(split = :train).features
-nrows, ncols, nimages = size(features)
-image_raw = Float64.(reshape(features, (nrows * ncols, nimages)))
-labels = MNIST(split = :train).targets .+ 1
+# Load pre-computed PCA-reduced MNIST data. There are 1000 images,
+# each of which have been compressed to 40 dimensions via PCA.
+#
+# See scripts/generate_naive_bayes_data.jl for details.
+
+path = "$(@__DIR__)/../data/dppl_naive_bayes.csv"
+data, _ = readdlm(path, ',', header = true)
+
+labels = Int.(data[:, 1])
+image_vec = data[:, 2:end]
 C = 10 # Number of labels
-
-# Preprocess the images by reducing dimensionality
-D = 40
-pca = fit(PCA, image_raw; maxoutdim = D)
-image = transform(pca, image_raw)
-
-# Take only the first 1000 images and vectorise
-N = 1000
-image_subset = image[:, 1:N]'
-image_vec = image_subset[:, :]
-labels = labels[1:N]
+D = size(image_vec, 2)
 
 @model function dppl_naive_bayes(image_vec, labels, C, D)
     m ~ product_distribution(Fill(Normal(0, 10), C, D))

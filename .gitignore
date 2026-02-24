@@ -1,4 +1,6 @@
 Manifest.toml
+!scripts/Manifest.toml
+
 .DS_Store
 *.swp
 html

@@ -18,17 +18,17 @@ Random.seed!(rng, 1234)
 # Generate artificial data
 x1s = rand(Float32, M) * 4.5f0;
 x2s = rand(Float32, M) * 4.5f0;
-xt1s = Array([[x1s[i] + 0.5f0; x2s[i] + 0.5f0] for i in 1:M])
+xt1s = Array([[x1s[i] + 0.5f0; x2s[i] + 0.5f0] for i = 1:M])
 x1s = rand(Float32, M) * 4.5f0;
 x2s = rand(Float32, M) * 4.5f0;
-append!(xt1s, Array([[x1s[i] - 5.0f0; x2s[i] - 5.0f0] for i in 1:M]))
+append!(xt1s, Array([[x1s[i] - 5.0f0; x2s[i] - 5.0f0] for i = 1:M]))
 
 x1s = rand(Float32, M) * 4.5f0;
 x2s = rand(Float32, M) * 4.5f0;
-xt0s = Array([[x1s[i] + 0.5f0; x2s[i] - 5.0f0] for i in 1:M])
+xt0s = Array([[x1s[i] + 0.5f0; x2s[i] - 5.0f0] for i = 1:M])
 x1s = rand(Float32, M) * 4.5f0;
 x2s = rand(Float32, M) * 4.5f0;
-append!(xt0s, Array([[x1s[i] - 5.0f0; x2s[i] + 0.5f0] for i in 1:M]))
+append!(xt0s, Array([[x1s[i] - 5.0f0; x2s[i] + 0.5f0] for i = 1:M]))
 
 # Store all the data for later
 xs = [xt1s; xt0s]
@@ -49,7 +49,7 @@ function vector_to_parameters(ps_new::AbstractVector, ps::NamedTuple)
     @assert length(ps_new) == Lux.parameterlength(ps)
     i = 1
     function get_ps(x)
-        z = reshape(view(ps_new, i:(i + length(x) - 1)), size(x))
+        z = reshape(view(ps_new, i:(i+length(x)-1)), size(x))
         i += length(x)
         return z
     end

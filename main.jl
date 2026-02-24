@@ -12,19 +12,19 @@ import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
-    "FiniteDifferences" => AutoFiniteDifferences(; fdm=central_fdm(5, 1)),
+    "FiniteDifferences" => AutoFiniteDifferences(; fdm = central_fdm(5, 1)),
     "ForwardDiff" => AutoForwardDiff(),
-    "ReverseDiff" => AutoReverseDiff(; compile=false),
-    "ReverseDiffCompiled" => AutoReverseDiff(; compile=true),
+    "ReverseDiff" => AutoReverseDiff(; compile = false),
+    "ReverseDiffCompiled" => AutoReverseDiff(; compile = true),
     "MooncakeRvs" => AutoMooncake(),
     "MooncakeFwd" => AutoMooncakeForward(),
     "EnzymeFwd" => AutoEnzyme(;
-        mode=set_runtime_activity(Forward, true),
-        function_annotation=Const,
+        mode = set_runtime_activity(Forward, true),
+        function_annotation = Const,
     ),
     "EnzymeRvs" => AutoEnzyme(;
-        mode=set_runtime_activity(Reverse, true),
-        function_annotation=Const,
+        mode = set_runtime_activity(Reverse, true),
+        function_annotation = Const,
     ),
     "Zygote" => AutoZygote(),
 )
@@ -161,10 +161,10 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             result = run_ad(
                 model,
                 adtype;
-                varinfo=vi,
-                params=params,
-                test=WithBackend(ref_backend),
-                benchmark=true,
+                varinfo = vi,
+                params = params,
+                test = WithBackend(ref_backend),
+                benchmark = true,
             )
         else
             # Some models are more numerically sensitive
@@ -180,10 +180,10 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
             result = run_ad(
                 model,
                 adtype;
-                rng=Xoshiro(468),
-                test=WithBackend(ref_backend),
-                benchmark=true,
-                rtol=rtol,
+                rng = Xoshiro(468),
+                test = WithBackend(ref_backend),
+                benchmark = true,
+                rtol = rtol,
             )
         end
         # If reached here - nothing went wrong
