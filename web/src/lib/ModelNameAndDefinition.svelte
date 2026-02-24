@@ -10,26 +10,46 @@
     const { name, definition }: Props = $props();
 
     let copied = $state(false);
+    let tooltipPosition = $state<"right" | "left" | "below">("right");
+    let tdElement: HTMLTableCellElement | undefined = $state();
 
     function copyToClipboard() {
         navigator.clipboard.writeText(definition);
         copied = true;
-        
+
         setTimeout(() => {
             copied = false;
         }, 2000);
     }
+
+    function updateTooltipPosition() {
+        if (!tdElement) return;
+        const rect = tdElement.getBoundingClientRect();
+        const spaceRight = window.innerWidth - rect.right;
+        const spaceLeft = rect.left;
+        const tooltipWidth = 350;
+
+        if (spaceRight >= tooltipWidth) {
+            tooltipPosition = "right";
+        } else if (spaceLeft >= tooltipWidth) {
+            tooltipPosition = "left";
+        } else {
+            tooltipPosition = "below";
+        }
+    }
 </script>
 
 <td
+    bind:this={tdElement}
+    onmouseenter={updateTooltipPosition}
     >{name}
-    <div class="model-definition">
+    <div class="model-definition {tooltipPosition}">
         <div class="code-wrapper">
             <Highlight language={julia} code={definition} />
         </div>
-        <button 
-            class="copy-btn" 
-            onclick={copyToClipboard} 
+        <button
+            class="copy-btn"
+            onclick={copyToClipboard}
             aria-label="Copy to clipboard"
             title="Copy code"
             disabled={copied}
@@ -66,21 +86,19 @@
 
     div.model-definition {
         position: absolute;
-        left: 100%;
-        top: 0;
         z-index: 50;
         min-width: 300px;
         max-width: 600px;
-        
+
         background-color: var(--model-def-bg);
         border: 1px solid var(--table-border);
         border-radius: 6px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        
+
         font-size: 0.85rem;
         text-align: left;
         font-weight: normal;
-        
+
         opacity: 0;
         visibility: hidden;
         transform: translateY(5px);
@@ -88,10 +106,25 @@
         transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
     }
 
+    div.model-definition.right {
+        left: 100%;
+        top: 0;
+    }
+
+    div.model-definition.left {
+        right: 100%;
+        top: 0;
+    }
+
+    div.model-definition.below {
+        left: 0;
+        top: 100%;
+    }
+
     :global([data-theme="dark"]) div.code-wrapper {
         filter: invert(0.93) hue-rotate(180deg);
     }
-    
+
     div.code-wrapper :global(pre) {
         border-radius: 6px;
         margin: 0;
@@ -102,20 +135,20 @@
         position: absolute;
         top: 4px;
         right: 4px;
-        
+
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         width: 24px;
         height: 24px;
         padding: 0;
-        
+
         background-color: var(--bg-primary);
         border: 1px solid var(--table-border);
         border-radius: 4px;
         color: var(--copy-btn-text);
-        
+
         cursor: pointer;
         transition: all 0.2s ease;
         opacity: 0.6;
@@ -127,7 +160,7 @@
         background-color: var(--btn-hover);
         color: var(--link-color);
     }
-    
+
     button.copy-btn:disabled {
         color: var(--link-visited);
         border-color: var(--link-visited);

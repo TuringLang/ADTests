@@ -1,39 +1,83 @@
 <script lang="ts">
     import ModelNameAndDefinition from "./ModelNameAndDefinition.svelte";
     import { getSortedEntries } from "./utils";
+    import { getHeatmapStyle } from "./heatmap";
+    import knownIssues from "./known_issues.json";
+    import type { SortState, ResultValue } from "./types";
 
     interface Props {
-        // model name -> adtype -> result
-        data: Map<string, Map<string, string | number>>;
-        modelDefinitions: object;
+        data: Map<string, Map<string, ResultValue>>;
+        modelDefinitions: Record<string, string>;
+        theme: string;
     }
-    const { data, modelDefinitions }: Props = $props();
+    const { data, modelDefinitions, theme }: Props = $props();
 
-    const models = [...data.keys()];
-    const adtypes = data.get(models[0]).keys();
+    const models = $derived([...data.keys()]);
+    const adtypes = $derived(data.size > 0 ? [...data.get(models[0])!.keys()] : []);
 
-    // Known errors
-    const ENZYME_FWD_BLAS = "https://github.com/EnzymeAD/Enzyme.jl/issues/1995";
-    const MOONCAKE_THREADED =
-        "https://github.com/chalk-lab/Mooncake.jl/issues/570";
-    const KNOWN_ERRORS = {
-        assume_mvnormal__EnzymeForward: ENZYME_FWD_BLAS,
-        assume_wishart__EnzymeForward: ENZYME_FWD_BLAS,
-        multithreaded__Mooncake: MOONCAKE_THREADED,
-    };
+    let sortState = $state<SortState>({ column: null, direction: null });
+
+    function cycleSortDirection(column: string) {
+        if (sortState.column !== column) {
+            sortState = { column, direction: "asc" };
+        } else if (sortState.direction === "asc") {
+            sortState = { column, direction: "desc" };
+        } else {
+            sortState = { column: null, direction: null };
+        }
+    }
+
+    const sortedEntries = $derived.by(() => {
+        const entries = getSortedEntries(data);
+        if (!sortState.column || !sortState.direction) return entries;
+
+        const col = sortState.column;
+        const dir = sortState.direction;
+
+        return [...entries].sort(([, aResults], [, bResults]) => {
+            const a = aResults.get(col);
+            const b = bResults.get(col);
+            const aNum = typeof a === "number";
+            const bNum = typeof b === "number";
+
+            // Non-numeric values always sort to bottom
+            if (!aNum && !bNum) return 0;
+            if (!aNum) return 1;
+            if (!bNum) return -1;
+
+            return dir === "asc"
+                ? (a as number) - (b as number)
+                : (b as number) - (a as number);
+        });
+    });
 </script>
 
-<table id="results">
-    <thead
-        ><tr>
-            <th>Model name \\ AD type</th>
+<table>
+    <thead>
+        <tr>
+            <th>Model name \ AD type</th>
             {#each adtypes as adtype}
-                <th>{adtype}</th>
+                <th
+                    class="sortable"
+                    onclick={() => cycleSortDirection(adtype)}
+                    title="Click to sort"
+                >
+                    {adtype}
+                    <span class="sort-indicator">
+                        {#if sortState.column === adtype}
+                            {#if sortState.direction === "asc"}
+                                ▲
+                            {:else}
+                                ▼
+                            {/if}
+                        {/if}
+                    </span>
+                </th>
             {/each}
-        </tr></thead
-    >
+        </tr>
+    </thead>
     <tbody>
-        {#each getSortedEntries(data) as [model_name, results]}
+        {#each sortedEntries as [model_name, results]}
             <tr>
                 <ModelNameAndDefinition
                     name={model_name}
@@ -41,19 +85,19 @@
                 />
                 {#each getSortedEntries(results) as [adtype, result]}
                     {#if typeof result === "number"}
-                        <td>{result.toFixed(3)}</td>
+                        <td style={getHeatmapStyle(result, results, theme)}>
+                            {result.toFixed(3)}
+                        </td>
                     {:else}
                         <td>
-                            {#if KNOWN_ERRORS[`${model_name}__${adtype}`]}
+                            {#if knownIssues[`${model_name}__${adtype}` as keyof typeof knownIssues]}
                                 <a
                                     class="issue"
-                                    href={KNOWN_ERRORS[
-                                        `${model_name}__${adtype}`
-                                    ]}
+                                    href={knownIssues[`${model_name}__${adtype}` as keyof typeof knownIssues]}
                                     target="_blank">(?)</a
                                 >
                             {/if}
-                            <span class={result}>{result}</span>
+                            <span class={result === "NaN" ? "nan" : result}>{result}</span>
                         </td>
                     {/if}
                 {/each}
@@ -108,6 +152,11 @@
             color: var(--wrong-color);
             background-color: var(--wrong-bg);
         }
+        span.nan {
+            color: var(--error-color);
+            font-style: italic;
+            opacity: 0.6;
+        }
 
         a.issue {
             color: var(--issue-color);
@@ -122,5 +171,21 @@
         a.issue:visited {
             color: var(--issue-color);
         }
+    }
+
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    th.sortable:hover {
+        background-color: var(--btn-hover);
+    }
+
+    .sort-indicator {
+        font-size: 0.7em;
+        margin-left: 2px;
+        display: inline-block;
+        width: 1em;
     }
 </style>

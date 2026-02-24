@@ -1,0 +1,6 @@
+{
+  "assume_mvnormal__EnzymeFwd": "https://github.com/EnzymeAD/Enzyme.jl/issues/1995",
+  "assume_wishart__EnzymeFwd": "https://github.com/EnzymeAD/Enzyme.jl/issues/1995",
+  "multithreaded__MooncakeFwd": "https://github.com/chalk-lab/Mooncake.jl/issues/570",
+  "multithreaded__MooncakeRvs": "https://github.com/chalk-lab/Mooncake.jl/issues/570"
+}

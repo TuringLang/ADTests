@@ -1,6 +1,7 @@
 <script lang="ts">
     import data from "./data/adtests.json";
     import modelDefinitions from "./data/model_definitions.json";
+    import type { CategoryData, ResultValue } from "./lib/types";
 
     let theme = $state(
         typeof document !== "undefined"
@@ -17,31 +18,48 @@
     // Parse data into nice JS objects.
     // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
     // category -> model_name -> adtype -> result
-    let unsortedCategorisedData = new Map<
-        string,
-        Map<string, Map<string, string | number>>
-    >();
+    let unsortedCategorisedData = new Map<string, CategoryData>();
     for (const [model_name, results] of Object.entries(data)) {
         let category = results.__category__;
         delete results.__category__;
-        let resultsMap = new Map<string, string | number>();
+        let resultsMap = new Map<string, ResultValue>();
         for (const [adtype, result] of Object.entries(results)) {
             resultsMap.set(adtype, result);
         }
         if (!unsortedCategorisedData.has(category)) {
-            unsortedCategorisedData.set(
-                category,
-                new Map<string, Map<string, string | number>>(),
-            );
+            unsortedCategorisedData.set(category, new Map());
         }
-        unsortedCategorisedData.get(category).set(model_name, resultsMap);
+        unsortedCategorisedData.get(category)!.set(model_name, resultsMap);
     }
     let categorisedData = new Map(
-        [...unsortedCategorisedData.entries()].sort(), // Sort categories alphabetically
+        [...unsortedCategorisedData.entries()].sort(),
     );
+
+    // Search/filter
+    let searchQuery = $state("");
+
+    const filteredData = $derived.by(() => {
+        const query = searchQuery.trim().toLowerCase();
+        if (!query) return categorisedData;
+
+        const filtered = new Map<string, CategoryData>();
+        for (const [category, modelData] of categorisedData) {
+            const filteredModels: CategoryData = new Map();
+            for (const [modelName, results] of modelData) {
+                if (modelName.toLowerCase().includes(query)) {
+                    filteredModels.set(modelName, results);
+                }
+            }
+            if (filteredModels.size > 0) {
+                filtered.set(category, filteredModels);
+            }
+        }
+        return filtered;
+    });
 
     import Manifest from "./lib/Manifest.svelte";
     import ResultsTable from "./lib/ResultsTable.svelte";
+    import HeatmapLegend from "./lib/HeatmapLegend.svelte";
 </script>
 
 <div id="main-wrapper">
@@ -171,9 +189,21 @@
             >
         </p>
 
-        {#each categorisedData.entries() as [category, modelData]}
+        <div class="controls">
+            <input
+                type="search"
+                class="search-input"
+                placeholder="Filter models..."
+                bind:value={searchQuery}
+            />
+            <HeatmapLegend {theme} />
+        </div>
+
+        {#each filteredData.entries() as [category, modelData]}
             <h3>{category}</h3>
-            <ResultsTable data={modelData} {modelDefinitions} />
+            <ResultsTable data={modelData} {modelDefinitions} {theme} />
+        {:else}
+            <p class="no-results">No models match "{searchQuery}".</p>
         {/each}
 
         <h2>Manifest</h2>
@@ -248,5 +278,41 @@
 
     span.error {
         color: var(--error-color);
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        padding: 6px 12px;
+        border: 1px solid var(--table-border);
+        border-radius: 6px;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: "Fira Sans", sans-serif;
+        font-size: 0.9rem;
+        width: 200px;
+        outline: none;
+        transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+        border-color: var(--link-color);
+    }
+
+    .search-input::placeholder {
+        color: var(--text-primary);
+        opacity: 0.4;
+    }
+
+    .no-results {
+        color: var(--text-primary);
+        opacity: 0.6;
+        font-style: italic;
     }
 </style>
