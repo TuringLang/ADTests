@@ -1,3 +1,8 @@
+<script module lang="ts">
+    // Shared across all instances: close any other open tooltip when a new one opens
+    let activeHideCallback: (() => void) | null = null;
+</script>
+
 <script lang="ts">
     import Highlight from "svelte-highlight";
     import { julia } from "svelte-highlight/languages/julia";
@@ -10,8 +15,10 @@
     const { name, definition }: Props = $props();
 
     let copied = $state(false);
-    let tooltipPosition = $state<"right" | "left" | "below">("right");
+    let showTooltip = $state(false);
+    let tooltipStyle = $state("");
     let tdElement: HTMLTableCellElement | undefined = $state();
+    let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
     function copyToClipboard() {
         navigator.clipboard.writeText(definition);
@@ -22,45 +29,84 @@
         }, 2000);
     }
 
-    function updateTooltipPosition() {
+    function cancelHide() {
+        if (hideTimeout) {
+            clearTimeout(hideTimeout);
+            hideTimeout = null;
+        }
+    }
+
+    function hideImmediately() {
+        cancelHide();
+        showTooltip = false;
+        if (activeHideCallback === hideImmediately) {
+            activeHideCallback = null;
+        }
+    }
+
+    function scheduleHide() {
+        cancelHide();
+        hideTimeout = setTimeout(hideImmediately, 100);
+    }
+
+    function onMouseEnter() {
+        // Close any other open tooltip immediately
+        if (activeHideCallback && activeHideCallback !== hideImmediately) {
+            activeHideCallback();
+        }
+        cancelHide();
         if (!tdElement) return;
+        showTooltip = true;
+        activeHideCallback = hideImmediately;
         const rect = tdElement.getBoundingClientRect();
+        const tooltipWidth = 350;
         const spaceRight = window.innerWidth - rect.right;
         const spaceLeft = rect.left;
-        const tooltipWidth = 350;
 
+        let left: string;
         if (spaceRight >= tooltipWidth) {
-            tooltipPosition = "right";
+            left = `${rect.right}px`;
         } else if (spaceLeft >= tooltipWidth) {
-            tooltipPosition = "left";
+            left = `${rect.left - tooltipWidth}px`;
         } else {
-            tooltipPosition = "below";
+            left = `${rect.left}px`;
         }
+
+        tooltipStyle = `left: ${left}; top: ${rect.top}px`;
     }
 </script>
 
 <td
     bind:this={tdElement}
-    onmouseenter={updateTooltipPosition}
+    onmouseenter={onMouseEnter}
+    onmouseleave={scheduleHide}
     >{name}
-    <div class="model-definition {tooltipPosition}">
-        <div class="code-wrapper">
-            <Highlight language={julia} code={definition} />
-        </div>
-        <button
-            class="copy-btn"
-            onclick={copyToClipboard}
-            aria-label="Copy to clipboard"
-            title="Copy code"
-            disabled={copied}
+    {#if showTooltip}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class="model-definition"
+            style={tooltipStyle}
+            onmouseenter={cancelHide}
+            onmouseleave={scheduleHide}
         >
-            {#if copied}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            {:else}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            {/if}
-        </button>
-    </div>
+            <div class="code-wrapper">
+                <Highlight language={julia} code={definition} />
+            </div>
+            <button
+                class="copy-btn"
+                onclick={copyToClipboard}
+                aria-label="Copy to clipboard"
+                title="Copy code"
+                disabled={copied}
+            >
+                {#if copied}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                {:else}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                {/if}
+            </button>
+        </div>
+    {/if}
 </td>
 
 <style>
@@ -77,15 +123,8 @@
         cursor: help;
     }
 
-    td:hover > div.model-definition {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        pointer-events: auto;
-    }
-
     div.model-definition {
-        position: absolute;
+        position: fixed;
         z-index: 50;
         min-width: 300px;
         max-width: 600px;
@@ -98,27 +137,7 @@
         font-size: 0.85rem;
         text-align: left;
         font-weight: normal;
-
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(5px);
-        pointer-events: none;
-        transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-    }
-
-    div.model-definition.right {
-        left: 100%;
-        top: 0;
-    }
-
-    div.model-definition.left {
-        right: 100%;
-        top: 0;
-    }
-
-    div.model-definition.below {
-        left: 0;
-        top: 100%;
+        pointer-events: auto;
     }
 
     :global([data-theme="dark"]) div.code-wrapper {

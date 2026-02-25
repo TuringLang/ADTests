@@ -52,6 +52,7 @@
     });
 </script>
 
+<div class="table-scroll">
 <table>
     <thead>
         <tr>
@@ -106,6 +107,7 @@
         {/each}
     </tbody>
 </table>
+</div>
 
 <style>
     table {
@@ -188,5 +190,11 @@
         margin-left: 2px;
         display: inline-block;
         width: 1em;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 12px;
     }
 </style>
