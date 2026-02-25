@@ -1,5 +1,8 @@
 <script lang="ts">
     import ModelNameAndDefinition from "./ModelNameAndDefinition.svelte";
+    import Highlight from "svelte-highlight";
+    import { julia } from "svelte-highlight/languages/julia";
+    import "svelte-highlight/styles/atom-one-light.css";
     import { getSortedEntries } from "./utils";
     import { getHeatmapStyle } from "./heatmap";
     import { getKnownIssueUrl, getOverrideValue } from "./annotations";
@@ -16,6 +19,14 @@
     const adtypes = $derived(data.size > 0 ? [...data.get(models[0])!.keys()] : []);
 
     let sortState = $state<SortState>({ column: null, direction: null });
+    let expandedModel = $state<string | null>(null);
+    let copied = $state(false);
+
+    function copyToClipboard(definition: string) {
+        navigator.clipboard.writeText(definition);
+        copied = true;
+        setTimeout(() => { copied = false; }, 2000);
+    }
 
     function cycleSortDirection(column: string) {
         if (sortState.column !== column) {
@@ -82,7 +93,7 @@
             <tr>
                 <ModelNameAndDefinition
                     name={model_name}
-                    definition={modelDefinitions[model_name]}
+                    onToggle={() => expandedModel = expandedModel === model_name ? null : model_name}
                 />
                 {#each getSortedEntries(results) as [adtype, result]}
                     {@const displayValue = getOverrideValue(model_name, adtype) ?? result}
@@ -104,6 +115,30 @@
                     {/if}
                 {/each}
             </tr>
+            {#if expandedModel === model_name}
+                <tr class="definition-row">
+                    <td colspan={adtypes.length + 1}>
+                        <div class="definition-content">
+                            <div class="code-wrapper">
+                                <Highlight language={julia} code={modelDefinitions[model_name]} />
+                            </div>
+                            <button
+                                class="copy-btn"
+                                onclick={() => copyToClipboard(modelDefinitions[model_name])}
+                                aria-label="Copy to clipboard"
+                                title="Copy code"
+                                disabled={copied}
+                            >
+                                {#if copied}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                {/if}
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            {/if}
         {/each}
     </tbody>
 </table>
@@ -115,7 +150,7 @@
         border-collapse: collapse;
         background-color: var(--table-cell-bg);
 
-        tr > td:first-child,
+        tr:not(.definition-row) > td:first-child,
         tr > th:first-child {
             font-family: "Fira Sans", sans-serif;
             font-weight: 700;
@@ -123,7 +158,7 @@
             text-align: right;
             transition: background-color 0.3s ease;
         }
-        tr > td:first-child {
+        tr:not(.definition-row) > td:first-child {
             background-color: var(--table-sticky-col-bg);
         }
         tr > th:first-child {
@@ -196,5 +231,59 @@
         overflow-x: auto;
         overflow-y: hidden;
         padding-bottom: 12px;
+    }
+
+    tr.definition-row td {
+        padding: 0;
+        border: 1px solid var(--table-border);
+        background-color: var(--model-def-bg);
+        text-align: left;
+        font-size: 0.85rem;
+    }
+
+    .definition-content {
+        position: relative;
+    }
+
+    :global([data-theme="dark"]) .code-wrapper {
+        filter: invert(0.93) hue-rotate(180deg);
+    }
+
+    .code-wrapper :global(pre) {
+        margin: 0;
+        padding: 4px 8px 4px 34px !important;
+    }
+
+    button.copy-btn {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--table-border);
+        border-radius: 4px;
+        color: var(--copy-btn-text);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        opacity: 0.6;
+        z-index: 10;
+    }
+
+    button.copy-btn:hover {
+        opacity: 1;
+        background-color: var(--btn-hover);
+        color: var(--link-color);
+    }
+
+    button.copy-btn:disabled {
+        color: var(--link-visited);
+        border-color: var(--link-visited);
+        opacity: 1;
+        cursor: default;
     }
 </style>

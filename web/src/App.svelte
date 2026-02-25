@@ -3,11 +3,16 @@
     import modelDefinitions from "./data/model_definitions.json";
     import type { CategoryData, ResultValue } from "./lib/types";
 
-    let theme = $state(
+    const initialTheme =
         typeof document !== "undefined"
-            ? document.documentElement.getAttribute("data-theme") || "light"
-            : "light",
-    );
+            ? localStorage.getItem("theme") ||
+              document.documentElement.getAttribute("data-theme") ||
+              "light"
+            : "light";
+    if (typeof document !== "undefined") {
+        document.documentElement.setAttribute("data-theme", initialTheme);
+    }
+    let theme = $state(initialTheme);
 
     function toggleTheme() {
         theme = theme === "light" ? "dark" : "light";
@@ -145,7 +150,7 @@
 
         <ul class="notes">
             <li>
-                You can hover over the model names to see their definitions.
+                You can click on the model names to see their definitions.
             </li>
             <li>
                 The definitions of the AD types can be found in <a
