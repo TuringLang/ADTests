@@ -3,18 +3,24 @@ import type { ResultValue } from "./types";
 /**
  * Green → Yellow → Red gradient.
  * t=0 → green (fast), t=0.5 → yellow, t=1 → red (slow).
+ *
+ * The gradient is split into two halves, each linearly interpolating between
+ * two anchor colors:
+ *   t in [0, 0.5):   green (34, 197, 94) → yellow (200, 180, 0)
+ *   t in [0.5, 1]:    yellow (200, 180, 0) → red (220, 0, 30)
+ *
+ * Within each half, `s` rescales t to [0, 1] so we can linearly interpolate
+ * each RGB channel independently: channel = start + s * (end - start).
  */
 function heatmapColor(t: number): [number, number, number] {
     let r: number, g: number, b: number;
     if (t < 0.5) {
-        // green → yellow
-        const s = t * 2;
+        const s = t * 2; // rescale [0, 0.5) → [0, 1)
         r = Math.round(34 + s * (200 - 34));
         g = Math.round(197 + s * (180 - 197));
         b = Math.round(94 + s * (0 - 94));
     } else {
-        // yellow → red
-        const s = (t - 0.5) * 2;
+        const s = (t - 0.5) * 2; // rescale [0.5, 1] → [0, 1]
         r = Math.round(200 + s * (220 - 200));
         g = Math.round(180 - s * 180);
         b = Math.round(0 + s * 30);

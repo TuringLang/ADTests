@@ -2,7 +2,7 @@
     import ModelNameAndDefinition from "./ModelNameAndDefinition.svelte";
     import { getSortedEntries } from "./utils";
     import { getHeatmapStyle } from "./heatmap";
-    import knownIssues from "./known_issues.json";
+    import { getKnownIssueUrl, getOverrideValue } from "./annotations";
     import type { SortState, ResultValue } from "./types";
 
     interface Props {
@@ -84,20 +84,21 @@
                     definition={modelDefinitions[model_name]}
                 />
                 {#each getSortedEntries(results) as [adtype, result]}
-                    {#if typeof result === "number"}
-                        <td style={getHeatmapStyle(result, results, theme)}>
-                            {result.toFixed(3)}
+                    {@const displayValue = getOverrideValue(model_name, adtype) ?? result}
+                    {#if typeof displayValue === "number"}
+                        <td style={getHeatmapStyle(displayValue, results, theme)}>
+                            {displayValue.toFixed(3)}
                         </td>
                     {:else}
                         <td>
-                            {#if knownIssues[`${model_name}__${adtype}` as keyof typeof knownIssues]}
+                            {#if getKnownIssueUrl(model_name, adtype)}
                                 <a
                                     class="issue"
-                                    href={knownIssues[`${model_name}__${adtype}` as keyof typeof knownIssues]}
+                                    href={getKnownIssueUrl(model_name, adtype)}
                                     target="_blank">(?)</a
                                 >
                             {/if}
-                            <span class={result === "NaN" ? "nan" : result}>{result}</span>
+                            <span class={displayValue === "NaN" ? "nan" : displayValue}>{displayValue}</span>
                         </td>
                     {/if}
                 {/each}
