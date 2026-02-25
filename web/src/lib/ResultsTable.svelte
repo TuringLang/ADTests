@@ -67,7 +67,7 @@
 <table>
     <thead>
         <tr>
-            <th>Model name \ AD type</th>
+            <th class="model-col-header">Model</th>
             {#each adtypes as adtype}
                 <th
                     class="sortable"
@@ -89,8 +89,8 @@
         </tr>
     </thead>
     <tbody>
-        {#each sortedEntries as [model_name, results]}
-            <tr>
+        {#each sortedEntries as [model_name, results], i}
+            <tr class:alt={i % 2 === 1}>
                 <ModelNameAndDefinition
                     name={model_name}
                     onToggle={() => expandedModel = expandedModel === model_name ? null : model_name}
@@ -149,6 +149,8 @@
         border: 1px solid var(--table-border);
         border-collapse: collapse;
         background-color: var(--table-cell-bg);
+        box-shadow: var(--shadow-sm);
+        border-radius: 6px;
 
         tr:not(.definition-row) > td:first-child,
         tr > th:first-child {
@@ -156,7 +158,6 @@
             font-weight: 700;
             position: relative;
             text-align: right;
-            transition: background-color 0.3s ease;
         }
         tr:not(.definition-row) > td:first-child {
             background-color: var(--table-sticky-col-bg);
@@ -167,19 +168,28 @@
         td,
         th {
             border: 1px solid var(--table-border);
-            padding: 0px 10px;
+            padding: 2px 10px;
             white-space: nowrap;
         }
         th {
             background-color: var(--table-header-bg);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            padding: 6px 10px;
         }
         td {
             font-family: "Fira Code", monospace;
+            font-size: 0.9rem;
         }
 
         td,
         th {
             text-align: right;
+        }
+
+        tr.alt > td:not(:first-child) {
+            background-color: var(--table-row-alt);
         }
 
         span.error {
@@ -189,6 +199,8 @@
         span.wrong {
             color: var(--wrong-color);
             background-color: var(--wrong-bg);
+            padding: 0 3px;
+            border-radius: 2px;
         }
         span.nan {
             color: var(--error-color);
@@ -203,7 +215,7 @@
 
         a.issue:hover {
             background-color: var(--issue-hover-bg);
-            transition: background-color 0.3s ease;
+            transition: background-color 0.2s ease;
         }
 
         a.issue:visited {
@@ -214,6 +226,7 @@
     th.sortable {
         cursor: pointer;
         user-select: none;
+        transition: background-color 0.15s ease;
     }
 
     th.sortable:hover {
@@ -221,10 +234,11 @@
     }
 
     .sort-indicator {
-        font-size: 0.7em;
+        font-size: 0.65em;
         margin-left: 2px;
         display: inline-block;
         width: 1em;
+        opacity: 0.7;
     }
 
     .table-scroll {

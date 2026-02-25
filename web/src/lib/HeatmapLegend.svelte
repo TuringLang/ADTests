@@ -18,6 +18,7 @@
         <div class="gradient-bar" style="background: {gradient()}"></div>
         <span class="label">Slower</span>
     </div>
+    <div class="divider"></div>
     <div class="status-labels">
         <span class="status error">error</span>
         <span class="status wrong">wrong</span>
@@ -29,45 +30,50 @@
     .legend {
         display: flex;
         align-items: center;
-        gap: 20px;
-        padding: 8px 14px;
+        gap: 14px;
+        padding: 6px 14px;
         border: 1px solid var(--table-border);
         border-radius: 8px;
-        background-color: var(--table-cell-bg);
-        font-size: 0.85rem;
+        background-color: var(--bg-secondary);
+        font-size: 0.8rem;
         width: fit-content;
     }
 
     .gradient-section {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
     }
 
     .gradient-bar {
-        width: 120px;
-        height: 14px;
-        border-radius: 3px;
+        width: 100px;
+        height: 10px;
+        border-radius: 5px;
         border: 1px solid var(--table-border);
     }
 
     .label {
-        font-size: 0.8rem;
-        color: var(--text-primary);
-        opacity: 0.7;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+    .divider {
+        width: 1px;
+        height: 16px;
+        background-color: var(--table-border);
     }
 
     .status-labels {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
     }
 
     .status {
-        padding: 1px 6px;
+        padding: 0 5px;
         border-radius: 3px;
         font-family: "Fira Code", monospace;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .status.error {
