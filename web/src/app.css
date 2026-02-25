@@ -1,22 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    /* Light Mode - "Paper" feel */
-    --bg-primary: #f1f2e3;
+    /* Light Mode */
+    --bg-primary: #f6f7f2;
+    --bg-secondary: #edeee5;
     --text-primary: #1e293b;
-    --text-header: #1e293b;
+    --text-secondary: #475569;
+    --text-header: #0f172a;
     --link-color: #2563eb;
     --link-visited: #7c3aed;
 
-    --table-border: #94a3b8;
-    --table-header-bg: #e2e8f0;
-    --table-sticky-col-bg: #ececec;
-    --table-sticky-header-bg: #d1d1d1;
+    --table-border: #cbd5e1;
+    --table-header-bg: #e8ecf1;
+    --table-sticky-col-bg: #eef0eb;
+    --table-sticky-header-bg: #dde1d8;
     --table-cell-bg: transparent;
+    --table-row-alt: rgba(0, 0, 0, 0.02);
 
-    --warning-bg: #fae3e2;
-    --warning-border: #ef4444;
-    --warning-text: #000000;
+    --warning-bg: #fef3c7;
+    --warning-border: #f59e0b;
+    --warning-text: #92400e;
 
     --error-color: #dc2626;
     --wrong-color: #b91c1c;
@@ -31,12 +34,17 @@
     --btn-bg: #e2e8f0;
     --btn-text: #334155;
     --btn-hover: #cbd5e1;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="dark"] {
-    /* Dark Mode - "Midnight" feel */
+    /* Dark Mode */
     --bg-primary: #0f172a;
-    --text-primary: #cbd5e1; 
+    --bg-secondary: #1a2540;
+    --text-primary: #cbd5e1;
+    --text-secondary: #94a3b8;
     --text-header: #e2e8f0;
 
     --link-color: #60a5fa;
@@ -45,12 +53,13 @@
     --table-border: #334155;
     --table-header-bg: #1e293b;
     --table-sticky-col-bg: #0f172a;
-    --table-sticky-header-bg: #1e293b; 
+    --table-sticky-header-bg: #1e293b;
     --table-cell-bg: #0f172a;
+    --table-row-alt: rgba(255, 255, 255, 0.02);
 
-    --warning-bg: #450a0a;
-    --warning-border: #f87171;
-    --warning-text: #cbd5e1;
+    --warning-bg: #451a03;
+    --warning-border: #d97706;
+    --warning-text: #fde68a;
 
     --error-color: #f87171;
     --wrong-color: #fca5a5;
@@ -59,16 +68,19 @@
     --issue-color: #fda4af;
     --issue-hover-bg: #881337;
 
-    --model-def-bg: #1e293b; 
+    --model-def-bg: #1e293b;
     --copy-btn-text: #94a3b8;
 
     --btn-bg: #1e293b;
     --btn-text: #e2e8f0;
     --btn-hover: #334155;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
 }
 
 html {
-    font-family: "Fira Sans", sans-serif;
+    font-family: "Inter", sans-serif;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 1.6;
@@ -95,5 +107,5 @@ a:visited {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: var(--text-primary);
+    color: var(--text-header);
 }

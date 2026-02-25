@@ -10,7 +10,7 @@
     import { getSortedEntries } from "./utils";
 </script>
 
-<table id="manifest">
+<table>
     <thead>
         <tr>
             <th>Package</th>
@@ -18,8 +18,8 @@
         </tr>
     </thead>
     <tbody>
-        {#each getSortedEntries(manifest) as [packageName, version]}
-            <tr>
+        {#each getSortedEntries(manifest) as [packageName, version], i}
+            <tr class:alt={i % 2 === 1}>
                 <td>{packageName}</td>
                 <td class="version">{version === null ? "" : `v${version}`}</td>
             </tr>
@@ -32,21 +32,30 @@
         border: 1px solid var(--table-border);
         border-collapse: collapse;
         background-color: var(--table-cell-bg);
+        box-shadow: var(--shadow-sm);
 
         td,
         th {
             border: 1px solid var(--table-border);
-            padding: 0px 10px;
+            padding: 2px 10px;
             white-space: nowrap;
             text-align: left;
         }
 
         th {
             background-color: var(--table-header-bg);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 10px;
         }
 
         td.version {
             font-family: "Fira Code", monospace;
+            font-size: 0.9rem;
+        }
+
+        tr.alt > td {
+            background-color: var(--table-row-alt);
         }
     }
 </style>

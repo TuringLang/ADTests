@@ -12,7 +12,7 @@ on:
       - 'ad.py'
       - '.github/workflows/refresh_website.yml'
   pull_request:
-    paths:
+    paths-ignore:
       - '**/*.jl'
       - '*.toml'
       - 'ad.py'
