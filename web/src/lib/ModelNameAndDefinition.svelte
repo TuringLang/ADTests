@@ -10,8 +10,8 @@
 
 <style>
     td.model-name {
-        font-family: "Fira Sans", sans-serif;
-        font-weight: 700;
+        font-family: inherit;
+        font-weight: 600;
         position: relative;
         text-align: right;
         transition: background-color 0.3s ease;

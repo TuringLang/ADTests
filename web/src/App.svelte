@@ -171,7 +171,7 @@
     div#main-wrapper {
         display: flex;
         align-items: center;
-        padding: 0px 40px 50px;
+        padding: 10px 40px 50px;
         width: min-content;
     }
 
@@ -209,17 +209,16 @@
     }
 
     .nav-links a {
-        color: var(--text-secondary);
+        color: var(--link-color);
         transition: color 0.2s ease;
     }
 
     .nav-links a:hover {
-        color: var(--link-color);
-        text-decoration: none;
+        text-decoration: underline;
     }
 
     .nav-links a:visited {
-        color: var(--text-secondary);
+        color: var(--link-color);
     }
 
     button.theme-toggle {
@@ -357,7 +356,7 @@
         border-radius: 8px;
         background-color: var(--bg-primary);
         color: var(--text-primary);
-        font-family: "Fira Sans", sans-serif;
+        font-family: inherit;
         font-size: 0.9rem;
         width: 200px;
         outline: none;

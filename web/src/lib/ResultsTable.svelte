@@ -154,8 +154,8 @@
 
         tr:not(.definition-row) > td:first-child,
         tr > th:first-child {
-            font-family: "Fira Sans", sans-serif;
-            font-weight: 700;
+            font-family: inherit;
+            font-weight: 600;
             position: relative;
             text-align: right;
         }
