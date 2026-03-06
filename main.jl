@@ -156,7 +156,7 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     try
         if model_name == "control_flow"
             # https://github.com/TuringLang/ADTests/issues/4
-            vi = DynamicPPL.unflatten(VarInfo(model), [0.5, -0.5])
+            vi = DynamicPPL.unflatten!!(VarInfo(model), [0.5, -0.5])
             params = [-0.5, 0.5]
             result = run_ad(
                 model,
