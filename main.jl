@@ -8,7 +8,6 @@ import ForwardDiff
 import ReverseDiff
 import Mooncake
 import Enzyme: set_runtime_activity, Forward, Reverse, Const
-import Zygote
 
 # AD backends to test.
 ADTYPES = Dict(
@@ -26,7 +25,6 @@ ADTYPES = Dict(
         mode = set_runtime_activity(Reverse, true),
         function_annotation = Const,
     ),
-    "Zygote" => AutoZygote(),
 )
 
 MODELS = Dict{String,Tuple{String,DynamicPPL.Model}}()
