@@ -81,11 +81,12 @@
                             {displayValue.toFixed(3)}
                         </td>
                     {:else}
+                        {@const issueUrl = getKnownIssueUrl(model_name, adtype)}
                         <td>
-                            {#if getKnownIssueUrl(model_name, adtype)}
+                            {#if issueUrl}
                                 <a
                                     class="issue"
-                                    href={getKnownIssueUrl(model_name, adtype)}
+                                    href={issueUrl}
                                     target="_blank">(?)</a
                                 >
                             {/if}

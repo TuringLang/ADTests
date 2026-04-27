@@ -29,11 +29,15 @@ export function sortedADResults(results: ADResults): [string, ResultValue][] {
     return [...results.entries()].sort(([a], [b]) => compareADBackends(a, b));
 }
 
+export function alphabetical<V>(map: Map<string, V>): [string, V][] {
+    return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
+}
+
 export function sortModelEntries(
     data: Map<string, ModelData>,
     sort: SortState,
 ): [string, ModelData][] {
-    const entries = [...data.entries()].sort(([a], [b]) => a.localeCompare(b));
+    const entries = alphabetical(data);
     if (!sort.column || !sort.direction) return entries;
 
     const col = sort.column;

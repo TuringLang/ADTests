@@ -83,20 +83,16 @@ def run_ad(args):
     else:
         RUN_JULIA_COMMAND = JULIA_COMMAND
 
-    # Get category
+    # Get category and dimension
     try:
-        category = run_and_capture([*RUN_JULIA_COMMAND, "--get-category", model_key])
-    except sp.CalledProcessError as e:
-        print(f"Julia crashed when getting category for {model_key}.")
-        print(f"To reproduce, run: `julia --project=. main.jl --get-category {model_key}`")
-        category = "error"
+        meta = run_and_capture([*RUN_JULIA_COMMAND, "--get-meta", model_key])
+        category, dim_str = meta.splitlines()
+        dim = int(dim_str)
+    except sp.CalledProcessError:
+        print(f"Julia crashed when getting metadata for {model_key}.")
+        print(f"To reproduce, run: `julia --project=. main.jl --get-meta {model_key}`")
+        raise
     results["__category__"] = category
-
-    # Get dimension
-    try:
-        dim = int(run_and_capture([*RUN_JULIA_COMMAND, "--get-dimension", model_key]))
-    except (sp.CalledProcessError, ValueError) as e:
-        raise RuntimeError(f"Could not get dimension for {model_key}") from e
     results["__dim__"] = dim
 
     # Run tests

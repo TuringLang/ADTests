@@ -7,7 +7,8 @@
         manifest.set(packageName, version === "" ? null : version);
     }
 
-    const sorted = [...manifest.entries()].sort(([a], [b]) => a.localeCompare(b));
+    import { alphabetical } from "./utils";
+    const sorted = alphabetical(manifest);
 </script>
 
 <table>
