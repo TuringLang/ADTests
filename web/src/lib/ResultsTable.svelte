@@ -11,9 +11,10 @@
     interface Props {
         data: Map<string, Map<string, ResultValue>>;
         modelDefinitions: Record<string, string>;
+        dimensions: Map<string, number | null>;
         theme: string;
     }
-    const { data, modelDefinitions, theme }: Props = $props();
+    const { data, modelDefinitions, dimensions, theme }: Props = $props();
 
     const models = $derived([...data.keys()]);
     const adtypes = $derived(
@@ -72,6 +73,7 @@
     <thead>
         <tr>
             <th class="model-col-header">Model</th>
+            <th class="dim-col-header">Dim</th>
             {#each adtypes as adtype}
                 <th
                     class="sortable"
@@ -99,6 +101,7 @@
                     name={model_name}
                     onToggle={() => expandedModel = expandedModel === model_name ? null : model_name}
                 />
+                <td class="dim-cell">{dimensions.get(model_name) ?? ""}</td>
                 {#each getSortedEntries(results) as [adtype, result]}
                     {@const displayValue = getOverrideValue(model_name, adtype) ?? result}
                     {#if typeof displayValue === "number"}
@@ -121,7 +124,7 @@
             </tr>
             {#if expandedModel === model_name}
                 <tr class="definition-row">
-                    <td colspan={adtypes.length + 1}>
+                    <td colspan={adtypes.length + 2}>
                         <div class="definition-content">
                             <div class="code-wrapper">
                                 <Highlight language={julia} code={modelDefinitions[model_name]} />
@@ -225,6 +228,18 @@
         a.issue:visited {
             color: var(--issue-color);
         }
+    }
+
+    th.dim-col-header {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    td.dim-cell {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: right;
     }
 
     th.sortable {

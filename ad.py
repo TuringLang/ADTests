@@ -92,6 +92,14 @@ def run_ad(args):
         category = "error"
     results["__category__"] = category
 
+    # Get dimension
+    try:
+        dim = int(run_and_capture([*RUN_JULIA_COMMAND, "--get-dimension", model_key]))
+    except (sp.CalledProcessError, ValueError):
+        print(f"Could not get dimension for {model_key}.")
+        dim = None
+    results["__dim__"] = dim
+
     # Run tests
     for adtype in adtypes:
         print(f"Running {model_key} with {adtype}...")

@@ -1,5 +1,6 @@
-using DynamicPPL: DynamicPPL, VarInfo
+using DynamicPPL: DynamicPPL, VarInfo, LogDensityFunction
 using DynamicPPL.TestUtils.AD: run_ad, ADResult, ADIncorrectException, WithBackend
+using LogDensityProblems: LogDensityProblems
 using ADTypes
 using Random: Xoshiro
 
@@ -147,6 +148,10 @@ elseif ARGS == ["--list-adtype-keys"]
     foreach(println, sort(collect(keys(ADTYPES))))
 elseif length(ARGS) == 2 && ARGS[1] == "--get-category"
     println(MODELS[ARGS[2]][1])
+elseif length(ARGS) == 2 && ARGS[1] == "--get-dimension"
+    model = MODELS[ARGS[2]][2]
+    ldf = LogDensityFunction(model)
+    println(LogDensityProblems.dimension(ldf))
 elseif length(ARGS) == 3 && ARGS[1] == "--run"
     model_name, adtype_name = ARGS[2], ARGS[3]
     model, adtype = MODELS[model_name][2], ADTYPES[adtype_name]
@@ -216,4 +221,5 @@ else
     println("       julia main.jl --list-adtype-keys")
     println("       julia main.jl --run <model> <adtype>")
     println("       julia main.jl --get-category <model>")
+    println("       julia main.jl --get-dimension <model>")
 end
