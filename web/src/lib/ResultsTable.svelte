@@ -3,7 +3,7 @@
     import Highlight from "svelte-highlight";
     import { julia } from "svelte-highlight/languages/julia";
     import "svelte-highlight/styles/atom-one-light.css";
-    import { getSortedEntries } from "./utils";
+    import { getSortedEntries, compareADBackends } from "./utils";
     import { getHeatmapStyle } from "./heatmap";
     import { getKnownIssueUrl, getOverrideValue } from "./annotations";
     import type { SortState, ResultValue } from "./types";
@@ -16,7 +16,11 @@
     const { data, modelDefinitions, theme }: Props = $props();
 
     const models = $derived([...data.keys()]);
-    const adtypes = $derived(data.size > 0 ? [...data.get(models[0])!.keys()] : []);
+    const adtypes = $derived(
+        data.size > 0
+            ? [...data.get(models[0])!.keys()].sort((a, b) => compareADBackends(a, b))
+            : []
+    );
 
     let sortState = $state<SortState>({ column: null, direction: null });
     let expandedModel = $state<string | null>(null);

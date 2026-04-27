@@ -25,7 +25,7 @@ function getOrderInTable(m: string): number {
     }
 }
 
-function compareADBackends(b1: string, b2: string): number {
+export function compareADBackends(b1: string, b2: string): number {
     const m1 = getOrderInTable(b1);
     const m2 = getOrderInTable(b2);
     if (m1 < m2) {
