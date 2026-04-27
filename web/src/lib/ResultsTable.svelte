@@ -3,25 +3,19 @@
     import Highlight from "svelte-highlight";
     import { julia } from "svelte-highlight/languages/julia";
     import "svelte-highlight/styles/atom-one-light.css";
-    import { getSortedEntries, compareADBackends } from "./utils";
+    import { getADTypes, sortedADResults, sortModelEntries } from "./utils";
     import { getHeatmapStyle } from "./heatmap";
     import { getKnownIssueUrl, getOverrideValue } from "./annotations";
-    import type { SortState, ResultValue } from "./types";
+    import type { SortState, ModelData } from "./types";
 
     interface Props {
-        data: Map<string, Map<string, ResultValue>>;
+        data: Map<string, ModelData>;
         modelDefinitions: Record<string, string>;
-        dimensions: Map<string, number | null>;
         theme: string;
     }
-    const { data, modelDefinitions, dimensions, theme }: Props = $props();
+    const { data, modelDefinitions, theme }: Props = $props();
 
-    const models = $derived([...data.keys()]);
-    const adtypes = $derived(
-        data.size > 0
-            ? [...data.get(models[0])!.keys()].sort((a, b) => compareADBackends(a, b))
-            : []
-    );
+    const adtypes = $derived(getADTypes(data));
 
     let sortState = $state<SortState>({ column: null, direction: null });
     let expandedModel = $state<string | null>(null);
@@ -43,29 +37,7 @@
         }
     }
 
-    const sortedEntries = $derived.by(() => {
-        const entries = getSortedEntries(data);
-        if (!sortState.column || !sortState.direction) return entries;
-
-        const col = sortState.column;
-        const dir = sortState.direction;
-
-        return [...entries].sort(([, aResults], [, bResults]) => {
-            const a = aResults.get(col);
-            const b = bResults.get(col);
-            const aNum = typeof a === "number";
-            const bNum = typeof b === "number";
-
-            // Non-numeric values always sort to bottom
-            if (!aNum && !bNum) return 0;
-            if (!aNum) return 1;
-            if (!bNum) return -1;
-
-            return dir === "asc"
-                ? (a as number) - (b as number)
-                : (b as number) - (a as number);
-        });
-    });
+    const sortedEntries = $derived(sortModelEntries(data, sortState));
 </script>
 
 <div class="table-scroll">
@@ -95,14 +67,14 @@
         </tr>
     </thead>
     <tbody>
-        {#each sortedEntries as [model_name, results], i}
+        {#each sortedEntries as [model_name, { dim, results }], i}
             <tr class:alt={i % 2 === 1}>
                 <ModelNameAndDefinition
                     name={model_name}
                     onToggle={() => expandedModel = expandedModel === model_name ? null : model_name}
                 />
-                <td class="dim-cell">{dimensions.get(model_name) ?? ""}</td>
-                {#each getSortedEntries(results) as [adtype, result]}
+                <td class="dim-cell">{dim}</td>
+                {#each sortedADResults(results) as [adtype, result]}
                     {@const displayValue = getOverrideValue(model_name, adtype) ?? result}
                     {#if typeof displayValue === "number"}
                         <td style={getHeatmapStyle(displayValue, results, theme)}>

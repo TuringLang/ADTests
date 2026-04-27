@@ -95,9 +95,8 @@ def run_ad(args):
     # Get dimension
     try:
         dim = int(run_and_capture([*RUN_JULIA_COMMAND, "--get-dimension", model_key]))
-    except (sp.CalledProcessError, ValueError):
-        print(f"Could not get dimension for {model_key}.")
-        dim = None
+    except (sp.CalledProcessError, ValueError) as e:
+        raise RuntimeError(f"Could not get dimension for {model_key}") from e
     results["__dim__"] = dim
 
     # Run tests

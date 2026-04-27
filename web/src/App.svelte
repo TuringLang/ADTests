@@ -24,13 +24,11 @@
     // Obviously, the nested strings are a bit ugly. From outer to inner, they are:
     // category -> model_name -> adtype -> result
     let unsortedCategorisedData = new Map<string, CategoryData>();
-    let dimensions = new Map<string, number | null>();
     for (const [model_name, results] of Object.entries(data)) {
         let category = results.__category__;
         delete results.__category__;
-        let dim = results.__dim__ ?? null;
+        let dim = results.__dim__;
         delete results.__dim__;
-        dimensions.set(model_name, typeof dim === "number" ? dim : null);
         let resultsMap = new Map<string, ResultValue>();
         for (const [adtype, result] of Object.entries(results)) {
             resultsMap.set(adtype, result);
@@ -38,7 +36,10 @@
         if (!unsortedCategorisedData.has(category)) {
             unsortedCategorisedData.set(category, new Map());
         }
-        unsortedCategorisedData.get(category)!.set(model_name, resultsMap);
+        unsortedCategorisedData.get(category)!.set(model_name, {
+            dim: dim as number,
+            results: resultsMap,
+        });
     }
     let categorisedData = new Map(
         [...unsortedCategorisedData.entries()].sort(),
@@ -160,7 +161,7 @@
 
         {#each filteredData.entries() as [category, modelData]}
             <h3 class="category-heading">{category}</h3>
-            <ResultsTable data={modelData} {modelDefinitions} {dimensions} {theme} />
+            <ResultsTable data={modelData} {modelDefinitions} {theme} />
         {:else}
             <p class="no-results">No models match "{searchQuery}".</p>
         {/each}

@@ -1,8 +1,13 @@
 export type ResultValue = string | number;
 
-export type ModelResults = Map<string, ResultValue>;
+export type ADResults = Map<string, ResultValue>;
 
-export type CategoryData = Map<string, ModelResults>;
+export interface ModelData {
+    dim: number;
+    results: ADResults;
+}
+
+export type CategoryData = Map<string, ModelData>;
 
 export interface SortState {
     column: string | null;
