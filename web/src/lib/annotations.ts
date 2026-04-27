@@ -39,13 +39,12 @@ interface ValueOverride {
 }
 
 const VALUE_OVERRIDES: ValueOverride[] = [
-    // Example:
-    // {
-    //     value: "wrong",
-    //     affects: [
-    //         ["some_model", "EnzymeFwd"],
-    //     ],
-    // },
+    {
+        value: "wrong",
+        affects: [
+            ["control_flow", "ReverseDiffCompiled"],
+        ],
+    },
 ];
 
 // Build lookup maps
