@@ -1,4 +1,4 @@
-using DynamicPPL: DynamicPPL, VarInfo, LogDensityFunction
+using DynamicPPL: DynamicPPL, VarInfo, LogDensityFunction, getlogjoint_internal, LinkAll
 using DynamicPPL.TestUtils.AD: run_ad, ADResult, ADIncorrectException, WithBackend
 using LogDensityProblems: LogDensityProblems
 using ADTypes
@@ -146,15 +146,9 @@ if ARGS == ["--list-model-keys"]
     foreach(println, sort(collect(keys(MODELS))))
 elseif ARGS == ["--list-adtype-keys"]
     foreach(println, sort(collect(keys(ADTYPES))))
-elseif length(ARGS) == 2 && ARGS[1] == "--get-category"
-    println(MODELS[ARGS[2]][1])
-elseif length(ARGS) == 2 && ARGS[1] == "--get-dimension"
-    model = MODELS[ARGS[2]][2]
-    ldf = LogDensityFunction(model)
-    println(LogDensityProblems.dimension(ldf))
 elseif length(ARGS) == 2 && ARGS[1] == "--get-meta"
     category, model = MODELS[ARGS[2]]
-    ldf = LogDensityFunction(model)
+    ldf = LogDensityFunction(model, getlogjoint_internal, LinkAll())
     println(category)
     println(LogDensityProblems.dimension(ldf))
 elseif length(ARGS) == 3 && ARGS[1] == "--run"
@@ -171,38 +165,24 @@ elseif length(ARGS) == 3 && ARGS[1] == "--run"
     end
 
     try
-        if model_name == "control_flow"
-            # https://github.com/TuringLang/ADTests/issues/4
-            vi = DynamicPPL.unflatten!!(VarInfo(model), [0.5, -0.5])
-            params = [-0.5, 0.5]
-            result = run_ad(
-                model,
-                adtype;
-                varinfo = vi,
-                params = params,
-                test = WithBackend(ref_backend),
-                benchmark = true,
-            )
+        # Some models are more numerically sensitive
+        rtol = if model_name == "dppl_logistic_regression"
+            1e-1
+        elseif model_name == "lux_nn"
+            1e-2
+        elseif model_name == "ordinarydiffeq" || model_name == "delaydiffeq"
+            1e-3
         else
-            # Some models are more numerically sensitive
-            rtol = if model_name == "dppl_logistic_regression"
-                1e-1
-            elseif model_name == "lux_nn"
-                1e-2
-            elseif model_name == "ordinarydiffeq" || model_name == "delaydiffeq"
-                1e-3
-            else
-                sqrt(eps())
-            end
-            result = run_ad(
-                model,
-                adtype;
-                rng = Xoshiro(468),
-                test = WithBackend(ref_backend),
-                benchmark = true,
-                rtol = rtol,
-            )
+            sqrt(eps())
         end
+        result = run_ad(
+            model,
+            adtype;
+            rng = Xoshiro(468),
+            test = WithBackend(ref_backend),
+            benchmark = true,
+            rtol = rtol,
+        )
         # If reached here - nothing went wrong
         println(result.grad_time / result.primal_time)
     catch e
@@ -225,7 +205,5 @@ else
     println("Usage: julia main.jl --list-model-keys")
     println("       julia main.jl --list-adtype-keys")
     println("       julia main.jl --run <model> <adtype>")
-    println("       julia main.jl --get-category <model>")
-    println("       julia main.jl --get-dimension <model>")
     println("       julia main.jl --get-meta <model>")
 end
