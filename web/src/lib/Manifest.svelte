@@ -7,7 +7,8 @@
         manifest.set(packageName, version === "" ? null : version);
     }
 
-    import { getSortedEntries } from "./utils";
+    import { alphabetical } from "./utils";
+    const sorted = alphabetical(manifest);
 </script>
 
 <table>
@@ -18,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each getSortedEntries(manifest) as [packageName, version], i}
+        {#each sorted as [packageName, version], i}
             <tr class:alt={i % 2 === 1}>
                 <td>{packageName}</td>
                 <td class="version">{version === null ? "" : `v${version}`}</td>

@@ -3,24 +3,19 @@
     import Highlight from "svelte-highlight";
     import { julia } from "svelte-highlight/languages/julia";
     import "svelte-highlight/styles/atom-one-light.css";
-    import { getSortedEntries, compareADBackends } from "./utils";
+    import { getADTypes, sortedADResults, sortModelEntries } from "./utils";
     import { getHeatmapStyle } from "./heatmap";
     import { getKnownIssueUrl, getOverrideValue } from "./annotations";
-    import type { SortState, ResultValue } from "./types";
+    import type { SortState, ModelData } from "./types";
 
     interface Props {
-        data: Map<string, Map<string, ResultValue>>;
+        data: Map<string, ModelData>;
         modelDefinitions: Record<string, string>;
         theme: string;
     }
     const { data, modelDefinitions, theme }: Props = $props();
 
-    const models = $derived([...data.keys()]);
-    const adtypes = $derived(
-        data.size > 0
-            ? [...data.get(models[0])!.keys()].sort((a, b) => compareADBackends(a, b))
-            : []
-    );
+    const adtypes = $derived(getADTypes(data));
 
     let sortState = $state<SortState>({ column: null, direction: null });
     let expandedModel = $state<string | null>(null);
@@ -42,29 +37,7 @@
         }
     }
 
-    const sortedEntries = $derived.by(() => {
-        const entries = getSortedEntries(data);
-        if (!sortState.column || !sortState.direction) return entries;
-
-        const col = sortState.column;
-        const dir = sortState.direction;
-
-        return [...entries].sort(([, aResults], [, bResults]) => {
-            const a = aResults.get(col);
-            const b = bResults.get(col);
-            const aNum = typeof a === "number";
-            const bNum = typeof b === "number";
-
-            // Non-numeric values always sort to bottom
-            if (!aNum && !bNum) return 0;
-            if (!aNum) return 1;
-            if (!bNum) return -1;
-
-            return dir === "asc"
-                ? (a as number) - (b as number)
-                : (b as number) - (a as number);
-        });
-    });
+    const sortedEntries = $derived(sortModelEntries(data, sortState));
 </script>
 
 <div class="table-scroll">
@@ -72,6 +45,7 @@
     <thead>
         <tr>
             <th class="model-col-header">Model</th>
+            <th class="dim-col-header">Dim</th>
             {#each adtypes as adtype}
                 <th
                     class="sortable"
@@ -93,24 +67,26 @@
         </tr>
     </thead>
     <tbody>
-        {#each sortedEntries as [model_name, results], i}
+        {#each sortedEntries as [model_name, { dim, results }], i}
             <tr class:alt={i % 2 === 1}>
                 <ModelNameAndDefinition
                     name={model_name}
                     onToggle={() => expandedModel = expandedModel === model_name ? null : model_name}
                 />
-                {#each getSortedEntries(results) as [adtype, result]}
+                <td class="dim-cell">{dim}</td>
+                {#each sortedADResults(results) as [adtype, result]}
                     {@const displayValue = getOverrideValue(model_name, adtype) ?? result}
                     {#if typeof displayValue === "number"}
                         <td style={getHeatmapStyle(displayValue, results, theme)}>
                             {displayValue.toFixed(3)}
                         </td>
                     {:else}
+                        {@const issueUrl = getKnownIssueUrl(model_name, adtype)}
                         <td>
-                            {#if getKnownIssueUrl(model_name, adtype)}
+                            {#if issueUrl}
                                 <a
                                     class="issue"
-                                    href={getKnownIssueUrl(model_name, adtype)}
+                                    href={issueUrl}
                                     target="_blank">(?)</a
                                 >
                             {/if}
@@ -121,7 +97,7 @@
             </tr>
             {#if expandedModel === model_name}
                 <tr class="definition-row">
-                    <td colspan={adtypes.length + 1}>
+                    <td colspan={adtypes.length + 2}>
                         <div class="definition-content">
                             <div class="code-wrapper">
                                 <Highlight language={julia} code={modelDefinitions[model_name]} />
@@ -225,6 +201,18 @@
         a.issue:visited {
             color: var(--issue-color);
         }
+    }
+
+    th.dim-col-header {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    td.dim-cell {
+        font-family: "Fira Code", monospace;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-align: right;
     }
 
     th.sortable {

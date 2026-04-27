@@ -27,6 +27,8 @@
     for (const [model_name, results] of Object.entries(data)) {
         let category = results.__category__;
         delete results.__category__;
+        let dim = results.__dim__;
+        delete results.__dim__;
         let resultsMap = new Map<string, ResultValue>();
         for (const [adtype, result] of Object.entries(results)) {
             resultsMap.set(adtype, result);
@@ -34,7 +36,10 @@
         if (!unsortedCategorisedData.has(category)) {
             unsortedCategorisedData.set(category, new Map());
         }
-        unsortedCategorisedData.get(category)!.set(model_name, resultsMap);
+        unsortedCategorisedData.get(category)!.set(model_name, {
+            dim: dim as number,
+            results: resultsMap,
+        });
     }
     let categorisedData = new Map(
         [...unsortedCategorisedData.entries()].sort(),
