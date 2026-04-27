@@ -3,7 +3,8 @@ This is an example of using DifferentialEquations.jl with Turing to model a dela
 The model is adapted from the Turing documentation:
 https://turinglang.org/docs/tutorials/bayesian-differential-equations/ 
 =#
-using DelayDiffEq: DDEProblem, solve, MethodOfSteps, Tsit5
+using DelayDiffEq: DDEProblem, solve, MethodOfSteps
+using OrdinaryDiffEqTsit5: Tsit5
 
 # SciMLSensitivity is needed for reverse-mode AD on differential equations
 import SciMLSensitivity
