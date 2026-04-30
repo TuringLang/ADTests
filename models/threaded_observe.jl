@@ -1,7 +1,7 @@
 #=
 Note: this model is run with 4 threads
 =#
-t
+
 @model function threaded_observe(x)
     a ~ Normal()
     Threads.@threads for i in eachindex(x)
