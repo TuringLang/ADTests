@@ -6,7 +6,7 @@ Note: this example is run with 4 threads
     a = Vector{Float64}(undef, length(x))
     Threads.@threads for i in eachindex(x)
         a[i] ~ Normal()
-        x[i] ~ Normal(a)
+        x[i] ~ Normal(a[i])
     end
 end
 
