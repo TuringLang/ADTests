@@ -78,7 +78,7 @@ def run_ad(args):
 
     results = {}
 
-    if model_key == "multithreaded":
+    if model_key.startswith("threaded_"):
         RUN_JULIA_COMMAND = ["julia", "--threads=4", *JULIA_COMMAND[1:]]
     else:
         RUN_JULIA_COMMAND = JULIA_COMMAND
